@@ -1,0 +1,33 @@
+<resources>
+    <string name="my_app_id">patient_app-qjhgx</string>
+
+    <string name="app_name">Patient</string>
+    <string name="welcome_text">Welcome to Dr. Scout</string>
+    <string name="loginInputIdHint">Email or Phone No</string>
+    <string name="loginPassword">Password</string>
+    <string name="patient_login">Login As A Patient</string>
+    <string name="login_using">OR Login Using</string>
+    <string name="text_registration">Don\'t have Account?</string>
+    <string name="signUp">SignUp</string>
+    <string name="login">Login</string>
+    <string name="patient_registration">Register Yourself</string>
+    <string name="name">Name*</string>
+    <string name="email">Email</string>
+    <string name="phoneNo">Phone No.</string>
+    <string name="address">Address</string>
+    <string name="dob">Date Of Birth</string>
+    <string name="medical_history">Previous Disease</string>
+    <string name="weight">Weight(in Kg)</string>
+    <string name="text_login">Already have a Account?</string>
+    <string name="mendatory_field_text">* Mendatory Fields</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="welcome">Welcome</string>
+</resources>
