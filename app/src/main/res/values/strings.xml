@@ -4,7 +4,7 @@
     <string name="app_name">Patient</string>
     <string name="welcome_text">Welcome to Dr. Scout</string>
     <string name="loginInputIdHint">Email or Phone No</string>
-    <string name="loginPassword">Password</string>
+    <string name="loginPassword">Password*</string>
     <string name="patient_login">Login As A Patient</string>
     <string name="login_using">OR Login Using</string>
     <string name="text_registration">Don\'t have Account?</string>
@@ -12,8 +12,8 @@
     <string name="login">Login</string>
     <string name="patient_registration">Register Yourself</string>
     <string name="name">Name*</string>
-    <string name="email">Email</string>
-    <string name="phoneNo">Phone No.</string>
+    <string name="email">Email*</string>
+    <string name="phoneNo">Phone No.*</string>
     <string name="address">Address</string>
     <string name="dob">Date Of Birth</string>
     <string name="medical_history">Previous Disease</string>
@@ -30,4 +30,16 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="welcome">Welcome</string>
+    <string name="pref_for_user_data">Shared Preference For Loggedin User Data</string>
+    <string name="BASE_URL">\"https://webhooks.mongodb-stitch.com/api/client/v2.0/app/patient_app-qjhgx/service/\"</string>
+    <string name="startUp_name">Dr. Scout</string>
+    <string name="description">You can Select a Docyor whom you want to appoint or can just visit their profile</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="appointment">Appointments</string>
+    <string name="prescriptions">Prescriptions</string>
+    <string name="notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

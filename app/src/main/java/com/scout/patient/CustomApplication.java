@@ -1,7 +1,6 @@
 package com.scout.patient;
 
 import android.app.Application;
-
 import com.scout.patient.Dagger2.DaggerNetworkComponents;
 import com.scout.patient.Dagger2.NetworkComponents;
 import com.scout.patient.Dagger2.NetworksModule;

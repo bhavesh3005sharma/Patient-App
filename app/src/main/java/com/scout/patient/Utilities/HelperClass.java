@@ -5,8 +5,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.scout.patient.R;
+
 public class HelperClass {
-    public static String BASE_URL = "https://koobbox.herokuapp.com/";
+    public static String BASE_URL = String.valueOf(R.string.BASE_URL);
 
     public static void toast(Context context , String s) {
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();

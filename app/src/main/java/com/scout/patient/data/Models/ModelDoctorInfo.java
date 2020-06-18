@@ -1,4 +1,4 @@
-package com.scout.patient.Models;
+package com.scout.patient.data.Models;
 
 import com.google.gson.annotations.SerializedName;
 

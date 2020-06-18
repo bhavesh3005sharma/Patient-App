@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home"/>
+    <item
+        android:id="@+id/item_appointment"
+        android:enabled="true"
+        android:icon="@drawable/ic_clock"
+        android:title="@string/appointment"/>
+    <item
+        android:id="@+id/item_prescriptions"
+        android:enabled="true"
+        android:icon="@drawable/ic_medical"
+        android:title="@string/prescriptions"/>
+    <item
+        android:id="@+id/item_notifications"
+        android:enabled="true"
+        android:icon="@drawable/ic_notifications"
+        android:title="@string/notifications"/>
+    <item
+        android:id="@+id/item_profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_person"
+        android:title="@string/profile"/>
+
+</menu>
