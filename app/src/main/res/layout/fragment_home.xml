@@ -50,6 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_hospital"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="5dp"
@@ -59,10 +60,32 @@
             app:cardCornerRadius="10dp"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="211dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/hospital_icon"
+                    android:layout_margin="5dp"
+                    android:layout_above="@+id/text_hospital"/>
+
+                <TextView
+                    android:id="@+id/text_hospital"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hospital"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_doctor"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="5dp"
@@ -72,6 +95,27 @@
             app:cardCornerRadius="10dp"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="211dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/doctor_icon"
+                    android:layout_margin="5dp"
+                    android:layout_above="@+id/text_doctor"/>
+
+                <TextView
+                    android:id="@+id/text_doctor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/doctor"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -89,6 +133,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_appointment"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:elevation="20dp"
@@ -98,10 +143,32 @@
             app:cardCornerRadius="10dp"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="211dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/appointment"
+                    android:layout_margin="5dp"
+                    android:layout_above="@+id/text_bookAppointment"/>
+
+                <TextView
+                    android:id="@+id/text_bookAppointment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/appointment"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_ambulance"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:elevation="20dp"
@@ -112,45 +179,26 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="211dp">
 
-        </androidx.cardview.widget.CardView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ambulance"
+                    android:layout_margin="5dp"
+                    android:layout_above="@+id/text_bookAmbulance"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="200dp"
-        android:layout_margin="10dp"
-        android:alpha=".7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:elevation="20dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:alpha=".7"
-            app:cardCornerRadius="10dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="211dp">
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:elevation="20dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:alpha=".7"
-            app:cardCornerRadius="10dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="211dp">
+                <TextView
+                    android:id="@+id/text_bookAmbulance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/take_ambulance"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 

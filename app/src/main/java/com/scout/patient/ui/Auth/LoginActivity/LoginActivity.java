@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements Contract.View , 
         unbinder = ButterKnife.bind(this);
 
         presenter = new LoginPresenter(LoginActivity.this);
+        initRetrofit();
         btnLogin.setOnClickListener(this);
         btnRegistration.setOnClickListener(this);
     }
