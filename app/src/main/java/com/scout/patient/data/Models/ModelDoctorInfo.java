@@ -2,24 +2,51 @@ package com.scout.patient.data.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class ModelDoctorInfo {
     @SerializedName("_id")
-    String doctorId;
-    @SerializedName("username")
+    ModelRequestId doctorId;
+    @SerializedName("email")
     String userName;
     @SerializedName("name")
     String name;
     @SerializedName("specialization")
     String specialization;
-    @SerializedName("phone")
+    @SerializedName("phone_no")
     String phoneNo;
     @SerializedName("address")
     String address;
-    @SerializedName("salt")
-    String salt;
-    @SerializedName("hash")
-    String hash;
+    @SerializedName("working_places")
+    ArrayList<String> workingPlaces;
+    @SerializedName("career_history")
+    String careerHistory;
+    @SerializedName("learning_history")
+    String learningHistory;
 
+    public ArrayList<String> getWorkingPlaces() {
+        return workingPlaces;
+    }
+
+    public void setWorkingPlaces(ArrayList<String> workingPlaces) {
+        this.workingPlaces = workingPlaces;
+    }
+
+    public String getCareerHistory() {
+        return careerHistory;
+    }
+
+    public void setCareerHistory(String careerHistory) {
+        this.careerHistory = careerHistory;
+    }
+
+    public String getLearningHistory() {
+        return learningHistory;
+    }
+
+    public void setLearningHistory(String learningHistory) {
+        this.learningHistory = learningHistory;
+    }
 
     public String getUserName() {
         return userName;
@@ -29,11 +56,11 @@ public class ModelDoctorInfo {
         this.userName = userName;
     }
 
-    public String getDoctorId() {
+    public ModelRequestId getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(String doctorId) {
+    public void setDoctorId(ModelRequestId doctorId) {
         this.doctorId = doctorId;
     }
 
@@ -67,21 +94,5 @@ public class ModelDoctorInfo {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
     }
 }

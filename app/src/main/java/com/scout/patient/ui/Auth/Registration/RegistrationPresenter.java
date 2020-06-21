@@ -1,10 +1,12 @@
 package com.scout.patient.ui.Auth.Registration;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.scout.patient.Utilities.HelperClass;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,19 +19,23 @@ public class RegistrationPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void registerPatient(Context context, ProgressBar progressBar, Call<String> call) {
-        call.enqueue(new Callback<String>() {
+    public void registerPatient(Context context, ProgressBar progressBar, Call<ResponseBody> call) {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 HelperClass.hideProgressbar(progressBar);
-                if (response.isSuccessful())
-                    HelperClass.toast(context, response.body());
-                else
-                    HelperClass.toast(context,response.errorBody().toString());
+                if (response.isSuccessful()) {
+                    if (response.code()==200){
+                        //success
+                    }
+                }
+                else {
+                    HelperClass.toast(context, response.errorBody().toString());
+                }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 HelperClass.hideProgressbar(progressBar);
                 HelperClass.toast(context,t.getMessage());
             }

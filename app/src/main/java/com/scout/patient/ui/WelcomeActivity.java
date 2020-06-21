@@ -38,6 +38,9 @@ public class WelcomeActivity extends AppCompatActivity implements BottomNavigati
         unbinder = ButterKnife.bind(this);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        if (savedInstanceState==null)
+            loadFragment(new HomeFragment());
     }
 
     private void loadFragment(Fragment fragment) {
@@ -45,6 +48,11 @@ public class WelcomeActivity extends AppCompatActivity implements BottomNavigati
         transaction.replace(R.id.frag_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 
     @Override

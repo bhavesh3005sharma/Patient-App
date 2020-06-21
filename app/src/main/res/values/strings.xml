@@ -31,7 +31,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="welcome">Welcome</string>
     <string name="pref_for_user_data">Shared Preference For Loggedin User Data</string>
-    <string name="BASE_URL">\"https://webhooks.mongodb-stitch.com/api/client/v2.0/app/patient_app-qjhgx/service/\"</string>
+
     <string name="startUp_name">Dr. Scout</string>
     <string name="description">You can Select a Docyor whom you want to appoint or can just visit their profile</string>
     <string name="home">Home</string>
@@ -49,4 +49,14 @@
     <string name="pending">Pending</string>
     <string name="accepted">Accepted</string>
     <string name="rejected">Rejected</string>
+    <string name="appointment_for">Appointment For</string>
+    <string name="disease">Disease</string>
+    <string name="age">Age</string>
+    <string name="appointment_date_time">Appointment Date And Time</string>
+    <string name="select_date">Select Date</string>
+    <string name="appointment_doctor">Select Hospital/Doctor</string>
+    <string name="hospital_name">Hospital Name</string>
+    <string name="doctor_name">Doctor Name</string>
+    <string name="patient_name">Patient Name</string>
+    <string name="book_appointment">Book Appointment</string>
 </resources>

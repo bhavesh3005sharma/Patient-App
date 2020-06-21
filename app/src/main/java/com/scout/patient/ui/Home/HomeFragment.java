@@ -3,6 +3,7 @@ package com.scout.patient.ui.Home;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.scout.patient.R;
 import com.scout.patient.ui.BookAmbulanceActivity;
-import com.scout.patient.ui.BookAppointmentActivity;
+import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 
 import butterknife.BindView;
@@ -39,10 +40,10 @@ public class HomeFragment extends Fragment implements Contract.View, View.OnClic
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this,view);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
         presenter = new HomePresenter(HomeFragment.this);
         card_hospital.setOnClickListener(this);

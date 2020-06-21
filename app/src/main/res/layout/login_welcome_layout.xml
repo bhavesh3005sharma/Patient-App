@@ -27,11 +27,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputEmail"
+        android:id="@+id/textInputEmailLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="@string/loginInputIdHint"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,12 +50,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
         android:hint="@string/loginPassword"
         app:passwordToggleEnabled="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputEmail">
+        app:layout_constraintTop_toBottomOf="@id/textInputEmailLogin">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

@@ -23,7 +23,9 @@
         android:layout_margin="20dp"
         android:hint="@string/name"
         app:startIconDrawable="@drawable/ic_person"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,18 +33,19 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputEmail"
+        android:id="@+id/textInputEmailRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="@string/email"
         app:startIconDrawable="@drawable/email_ic"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputName">
@@ -59,11 +62,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="@string/phoneNo"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
         app:startIconDrawable="@drawable/ic_phone"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputEmail">
+        app:layout_constraintTop_toBottomOf="@id/textInputEmailRegister">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -77,9 +82,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="@string/loginPassword"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
         app:passwordToggleEnabled="true"
         app:startIconDrawable="@drawable/ic_lock"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputPhoneNo">
@@ -96,29 +103,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="@string/address"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
         app:startIconDrawable="@drawable/ic_address"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputPassword">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputDOB"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:hint="@string/dob"
-        app:startIconDrawable="@drawable/ic_calender"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputAddress">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -132,11 +123,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="@string/medical_history"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
         app:startIconDrawable="@drawable/ic_disease"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputDOB">
+        app:layout_constraintTop_toBottomOf="@id/textInputAddress">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -150,8 +143,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="@string/weight"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
         app:startIconDrawable="@drawable/ic_line_weight"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputMedicalHistory">
@@ -162,6 +157,22 @@
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/textInputDOB"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/pending_backgrounded"
+        android:padding="10dp"
+        app:errorTextColor="@android:color/holo_red_light"
+        app:errorIconTint="@android:color/holo_red_light"
+        android:drawableEnd="@drawable/ic_calender"
+        android:text="@string/dob"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputWeight"  />
+
     <Spinner
         android:id="@+id/bloodGrpSpinner"
         android:layout_width="match_parent"
@@ -171,7 +182,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputWeight" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputDOB" />
 
     <Button
         android:id="@+id/btnRegistration"

@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.scout.patient.R;
 
 public class HelperClass {
-    public static String BASE_URL = String.valueOf(R.string.BASE_URL);
+    public static String BASE_URL = "https://webhooks.mongodb-stitch.com/api/client/v2.0/app/patient_app-qjhgx/service/";
 
     public static void toast(Context context , String s) {
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();

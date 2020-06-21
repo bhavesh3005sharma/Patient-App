@@ -4,36 +4,74 @@ import com.google.gson.annotations.SerializedName;
 
 public class ModelPatientInfo {
     @SerializedName("_id")
-    String patientId;
-    @SerializedName("username")
-    String userName;
+    ModelRequestId patientId;
+    @SerializedName("email")
+    String email;
+    @SerializedName("weight")
+    String weight;
+
+    public ModelPatientInfo(String email, String weight, String name, String DOB, String phoneNo, String address, String bloodGroup, String medicalHistory) {
+        this.email = email;
+        this.weight = weight;
+        this.name = name;
+        this.DOB = DOB;
+        this.phoneNo = phoneNo;
+        this.address = address;
+        this.bloodGroup = bloodGroup;
+        MedicalHistory = medicalHistory;
+    }
+
     @SerializedName("name")
     String name;
     @SerializedName("dob")
     String DOB;
-    @SerializedName("phone")
+    @SerializedName("phone_no")
     String phoneNo;
     @SerializedName("address")
     String address;
-    @SerializedName("salt")
-    String salt;
-    @SerializedName("hash")
-    String hash;
+    @SerializedName("blood_group")
+    String bloodGroup;
+    @SerializedName("medical_history")
+    String MedicalHistory;
 
-    public String getPatientId() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getBloodGroup() {
+        return bloodGroup;
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
+    }
+
+    public String getMedicalHistory() {
+        return MedicalHistory;
+    }
+
+    public void setMedicalHistory(String medicalHistory) {
+        MedicalHistory = medicalHistory;
+    }
+
+    public ModelRequestId getPatientId() {
         return patientId;
     }
 
-    public void setPatientId(String patientId) {
+    public void setPatientId(ModelRequestId patientId) {
         this.patientId = patientId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getName() {
@@ -68,19 +106,4 @@ public class ModelPatientInfo {
         this.address = address;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
 }

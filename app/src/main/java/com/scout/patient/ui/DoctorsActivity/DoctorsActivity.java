@@ -1,35 +1,29 @@
 package com.scout.patient.ui.DoctorsActivity;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-
 import com.scout.patient.Adapters.DoctorsAdapter;
-import com.scout.patient.CustomApplication;
 import com.scout.patient.R;
 import com.scout.patient.data.Models.ModelDoctorInfo;
+import com.scout.patient.data.Remote.ApiService;
 import com.scout.patient.data.Remote.RetrofitNetworkApi;
-import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
-
 import java.util.ArrayList;
-
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 
 public class DoctorsActivity extends AppCompatActivity implements Contract.View{
-    @Inject
-    Retrofit retrofit;
     RetrofitNetworkApi networkApi;
     Call<ArrayList<ModelDoctorInfo>> call;
 
@@ -37,10 +31,6 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View{
     RecyclerView recyclerView;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @BindView(R.id.image_back)
-    ImageView back;
-    @BindView(R.id.image_search)
-    SearchView searchView;
 
     public static ArrayList<ModelDoctorInfo> list = new ArrayList<>();
     DoctorsAdapter adapter;
@@ -51,7 +41,6 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View{
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-        call.cancel();
     }
 
     @Override
@@ -59,24 +48,24 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctors);
         unbinder = ButterKnife.bind(this);
+        setToolbar();
 
-        initSearchView();
         presenter = new DoctorsActivityPresenter(DoctorsActivity.this);
-        initRetrofit();
+        initRetrofitApi();
         initRecyclerView(list);
-        call = networkApi.getDoctorsList();
         presenter.loadDoctorslist(this,call,progressBar);
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 
-    private void initSearchView() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_view_menu,menu);
+
+        MenuItem search = menu.findItem(R.id.search_bar);
+        SearchView searchView = (SearchView) search.getActionView();
         searchView.setQueryHint("Search Here!");
+        searchView.setBackgroundColor(Color.WHITE);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -89,6 +78,31 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View{
                 return true;
             }
         });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setToolbar() {
+//        if (toolbar!=null) {
+//            setSupportActionBar(toolbar);
+//            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_left));
+//            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //What to do on back clicked
+//                    onBackPressed();
+//                }
+//            });
+//        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Check Our Doctors");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void initRecyclerView(ArrayList<ModelDoctorInfo> list) {
@@ -98,9 +112,9 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View{
         recyclerView.setAdapter(adapter);
     }
 
-    private void initRetrofit() {
-        ((CustomApplication) getApplication()).getNetworkComponent().injectDoctorsActivity(DoctorsActivity.this);
-        networkApi = retrofit.create(RetrofitNetworkApi.class);
+    private void initRetrofitApi() {
+        networkApi = ApiService.getAPIService();
+        call = networkApi.getDoctorsList();
     }
 
     @Override

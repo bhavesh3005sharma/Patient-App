@@ -2,6 +2,7 @@ package com.scout.patient.ui.Notification;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ public class NotificationFragment extends Fragment implements Contract.View{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notfication, container, false);
         presenter = new NotificationPresenter(NotificationFragment.this);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Notifications");
 
         return view;
     }

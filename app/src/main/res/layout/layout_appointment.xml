@@ -50,10 +50,10 @@
         android:id="@+id/text_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/accepted"
+        android:text="@string/rejected"
         android:padding="5dp"
         android:textColor="@android:color/white"
-        android:background="@drawable/accepted_backgrounded"
+        android:background="@drawable/rejected_backgrounded"
         android:layout_margin="10dp"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/text_disease" />

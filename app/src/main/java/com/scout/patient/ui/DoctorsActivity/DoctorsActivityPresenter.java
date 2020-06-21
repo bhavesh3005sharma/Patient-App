@@ -22,13 +22,10 @@ public class DoctorsActivityPresenter implements Contract.Presenter {
             @Override
             public void onResponse(Call<ArrayList<ModelDoctorInfo>> call, Response<ArrayList<ModelDoctorInfo>> response) {
                 HelperClass.hideProgressbar(progressBar);
-                if (response.isSuccessful()){
+                if (response.isSuccessful() && response.body()!=null){
                     DoctorsActivity.list = response.body();
                     mainView.notifyAdapter();
                 }
-                else
-                    HelperClass.toast(context,response.errorBody().toString());
-
             }
 
             @Override

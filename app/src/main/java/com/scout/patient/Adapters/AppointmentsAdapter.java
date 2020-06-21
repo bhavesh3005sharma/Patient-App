@@ -1,7 +1,7 @@
 package com.scout.patient.Adapters;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,43 +10,51 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.scout.patient.R;
-import com.scout.patient.data.Models.ModelDoctorInfo;
-import com.squareup.picasso.Picasso;
-
+import com.scout.patient.data.Models.ModelAppointment;
 import java.util.ArrayList;
-
-import javax.xml.namespace.QName;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHolder> implements Filterable {
-    ArrayList<ModelDoctorInfo> list;
-    ArrayList<ModelDoctorInfo> filteredList;
+public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapter.viewHolder> implements Filterable {
     Context context;
+    ArrayList<ModelAppointment> list;
+    ArrayList<ModelAppointment> filteredList;
 
-    public DoctorsAdapter(ArrayList<ModelDoctorInfo> list, Context context) {
+    public AppointmentsAdapter(Context context, ArrayList<ModelAppointment> list) {
+        this.context = context;
         this.list = list;
         this.filteredList = list;
-        this.context = context;
     }
 
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_doctor, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_appointment, parent, false);
         return new viewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        ModelDoctorInfo doctorInfo = filteredList.get(position);
-        holder.name.setText(doctorInfo.getName());
-        holder.specialisation.setText(doctorInfo.getSpecialization());
-        holder.location.setText(doctorInfo.getAddress());
-        //Picasso.get().load(Uri.parse(doctorInfo.getUri())).placeholder(R.drawable.ic_person).into(holder.image);
+        ModelAppointment appointment = filteredList.get(position);
+        holder.date.setText(appointment.getAppointmentDate());
+        holder.disease.setText(appointment.getDisease());
+
+        if (appointment.getStatus().equals(R.string.accepted)){
+            holder.status.setText(R.string.accepted);
+            holder.status.setTextColor(Color.WHITE);
+            holder.status.setBackgroundResource(R.drawable.accepted_backgrounded);
+        }
+        if (appointment.getStatus().equals(R.string.rejected)){
+            holder.status.setText(R.string.rejected);
+            holder.status.setTextColor(Color.WHITE);
+            holder.status.setBackgroundResource(R.drawable.rejected_backgrounded);
+        }
+        if (appointment.getStatus().equals(R.string.pending)){
+            holder.status.setText(R.string.pending);
+            holder.status.setTextColor(Color.BLACK);
+            holder.status.setBackgroundResource(R.drawable.pending_backgrounded);
+        }
     }
 
     @Override
@@ -64,11 +72,11 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHold
                     filteredList = list;
                 } else {
                     filteredList.clear();
-                    for (ModelDoctorInfo row : list) {
+                    for (ModelAppointment row : list) {
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getSpecialization().toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.getAppointmentDate().toLowerCase().contains(charString.toLowerCase()) || row.getDisease().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
@@ -81,22 +89,19 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHold
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredList = (ArrayList<ModelDoctorInfo>) results.values;
+                filteredList = (ArrayList<ModelAppointment>) results.values;
                 notifyDataSetChanged();
             }
         };
     }
 
     public class viewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.text_doctor_name)
-        TextView name;
-        @BindView(R.id.text_specialization)
-        TextView specialisation;
-        @BindView(R.id.text_location)
-        TextView location;
-        @BindView(R.id.profileImage)
-        CircularImageView image;
-
+        @BindView(R.id.text_date)
+        TextView date;
+        @BindView(R.id.text_disease)
+        TextView disease;
+        @BindView(R.id.text_status)
+        TextView status;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
