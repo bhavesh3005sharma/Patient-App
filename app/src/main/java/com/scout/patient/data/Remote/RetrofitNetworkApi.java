@@ -1,6 +1,7 @@
 package com.scout.patient.data.Remote;
 
 import com.scout.patient.data.Models.ModelAppointment;
+import com.scout.patient.data.Models.ModelBookAppointment;
 import com.scout.patient.data.Models.ModelDoctorInfo;
 import com.scout.patient.data.Models.ModelPatientInfo;
 
@@ -28,5 +29,5 @@ public interface RetrofitNetworkApi {
     Call<ArrayList<ModelAppointment>> getAppointments(@Query("patient_id") String patientId);
 
     @POST("Patient/incoming_webhook/bookAppointment")
-    Call<ResponseBody> bookAppointment(@Body ModelAppointment appointment);
+    Call<ResponseBody> bookAppointment(@Body ModelBookAppointment appointment);
 }

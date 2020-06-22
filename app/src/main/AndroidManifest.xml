@@ -9,24 +9,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.BookAmbulanceActivity"/>
-        <activity android:name=".ui.AppointmentBooking.BookAppointmentActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.DoctorsActivity.DoctorsActivity"
-            android:label="@string/doctor"/>
-        <activity android:name=".ui.WelcomeActivity"
-            android:screenOrientation="portrait"
-           />
+        <activity android:name=".ui.DoctorsProfile.DoctorsProfileActivity"></activity>
+        <activity android:name=".ui.BookAmbulanceActivity" />
+        <activity
+            android:name=".ui.AppointmentBooking.BookAppointmentActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.DoctorsActivity.DoctorsActivity"
+            android:label="@string/doctor" />
+        <activity
+            android:name=".ui.WelcomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.Auth.Registration.RegistrationActivity"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.Auth.LoginActivity.LoginActivity"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

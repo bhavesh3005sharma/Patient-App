@@ -2,7 +2,9 @@ package com.scout.patient.data.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ModelRequestId {
+import java.io.Serializable;
+
+public class ModelRequestId implements Serializable {
 
     @SerializedName("$oid")
     String id;

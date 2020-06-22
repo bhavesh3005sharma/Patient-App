@@ -44,6 +44,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
         android:hint="@string/patient_name"
+        app:errorEnabled="true"
         app:errorTextColor="@android:color/holo_red_light"
         app:errorIconTint="@android:color/holo_red_light"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,6 +65,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
         android:hint="@string/disease"
+        app:errorEnabled="true"
         app:errorTextColor="@android:color/holo_red_light"
         app:errorIconTint="@android:color/holo_red_light"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,6 +86,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
         android:hint="@string/age"
+        app:errorEnabled="true"
         app:errorTextColor="@android:color/holo_red_light"
         app:errorIconTint="@android:color/holo_red_light"
         app:layout_constraintEnd_toEndOf="parent"
@@ -135,57 +138,123 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewSelectDate" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputHospitalName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textViewSelectDoctor"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
-        android:hint="@string/hospital_name"
+        android:background="@drawable/pending_backgrounded"
+        android:padding="10dp"
+        android:text="@string/select_doctor"
         app:errorTextColor="@android:color/holo_red_light"
         app:errorIconTint="@android:color/holo_red_light"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textVw">
+        app:layout_constraintTop_toBottomOf="@id/textVw"  />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputDoctorName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDoctorInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="20dp"
-        android:hint="@string/doctor_name"
-        app:errorTextColor="@android:color/holo_red_light"
-        app:errorIconTint="@android:color/holo_red_light"
+        app:cardCornerRadius="10dp"
+        android:elevation="20dp"
+        android:layout_margin="10dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputHospitalName">
+        app:layout_constraintTop_toBottomOf="@+id/textViewSelectDoctor">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:id="@+id/textViw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/doctor_info"
+            android:textColor="@android:color/tab_indicator_text"
+            android:textSize="20sp"
+            android:layout_margin="10dp"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/doctor_name"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/text_doctor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/doctor_name"
+                android:layout_weight="1"
+                android:textSize="15sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/specialists"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/text_specialization"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/doctor_name"
+                android:layout_weight="1"
+                android:textSize="15sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/phoneNo"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/textPhoneNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/doctor_name"
+                android:layout_weight="1"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/buttonBookAppointment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/book_appointment"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="30dp"
+        android:text="@string/book_appointment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputDoctorName" />
+        app:layout_constraintTop_toBottomOf="@+id/cardDoctorInfo" />
 
     <ProgressBar
         android:id="@+id/progressBar"

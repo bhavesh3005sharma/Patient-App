@@ -1,7 +1,9 @@
 package com.scout.patient.ui.AppointmentBooking;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,12 +15,12 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.google.android.material.textfield.TextInputLayout;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
-import com.scout.patient.data.Models.ModelAppointment;
-import com.scout.patient.data.Models.ModelRequestId;
+import com.scout.patient.data.Models.ModelBookAppointment;
+import com.scout.patient.data.Models.ModelDoctorInfo;
 import com.scout.patient.data.Prefs.SharedPref;
 import com.scout.patient.data.Remote.ApiService;
-import com.scout.patient.data.Remote.RetrofitClient;
 import com.scout.patient.data.Remote.RetrofitNetworkApi;
+import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,10 +31,16 @@ import retrofit2.Call;
 public class BookAppointmentActivity extends AppCompatActivity implements View.OnClickListener ,Contract.View{
     @BindView(R.id.textInputPatientName)
     TextInputLayout textInputPatientName;
-    @BindView(R.id.textInputDoctorName)
-    TextInputLayout textInputDoctorName;
-    @BindView(R.id.textInputHospitalName)
-    TextInputLayout textInputHospitalName;
+    @BindView(R.id.cardDoctorInfo)
+    CardView cardDoctorInfo;
+    @BindView(R.id.text_doctor_name)
+    TextView textInputDoctorName;
+    @BindView(R.id.text_specialization)
+    TextView textSpecialisation;
+    @BindView(R.id.textPhoneNo)
+    TextView textPhoneNo;
+    @BindView(R.id.textViewSelectDoctor)
+    TextView textViewSelectDoctor;
     @BindView(R.id.textInputDisease)
     TextInputLayout textInputDisease;
     @BindView(R.id.textInputAge)
@@ -49,6 +57,8 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     RetrofitNetworkApi networkApi;
     Unbinder unbinder;
     BookAppointmentPresenter presenter;
+    ModelBookAppointment modelBookAppointment;
+    ModelDoctorInfo doctorInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +70,15 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         presenter = new BookAppointmentPresenter(BookAppointmentActivity.this);
-        textInputPatientName.getEditText().setText(SharedPref.getLoginUserData(this).getName());
+
+        modelBookAppointment = (ModelBookAppointment) getIntent().getSerializableExtra("modelBookAppointment");
+        doctorInfo = (ModelDoctorInfo) getIntent().getSerializableExtra("doctorInfo");
+        setUpUi();
+
         initRetrofitApi();
         buttonBookAppointment.setOnClickListener(this);
         textViewSelectDate.setOnClickListener(this);
+        textViewSelectDoctor.setOnClickListener(this);
 
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
         builder.setTitleText("Select Appointment Date");
@@ -75,6 +90,25 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                 textViewSelectDate.setText(datePicker.getHeaderText());
             }
         });
+    }
+
+    private void setUpUi() {
+        if (modelBookAppointment!=null) {
+            textInputPatientName.getEditText().setText(modelBookAppointment.getPatientName());
+            textInputDisease.getEditText().setText(modelBookAppointment.getDisease());
+            textInputAge.getEditText().setText(modelBookAppointment.getAge());
+            textViewSelectDate.setText(modelBookAppointment.getAppointmentDate());
+        }else
+            textInputPatientName.getEditText().setText(SharedPref.getLoginUserData(this).getName());
+
+        if(doctorInfo!=null){
+            cardDoctorInfo.setVisibility(View.VISIBLE);
+            textInputDoctorName.setText(doctorInfo.getName());
+            textSpecialisation.setText(doctorInfo.getSpecialization());
+            textPhoneNo.setText(doctorInfo.getPhoneNo());
+            textViewSelectDoctor.setText("Change Doctor");
+        }else
+            cardDoctorInfo.setVisibility(View.GONE);
     }
 
     @Override
@@ -92,8 +126,8 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         switch (v.getId()) {
             case R.id.buttonBookAppointment :
                 String patientName = textInputPatientName.getEditText().getText().toString().trim();
-                String doctorName = textInputDoctorName.getEditText().getText().toString().trim();
-                String hospitalName = textInputHospitalName.getEditText().getText().toString().trim();
+                String doctorName = textInputDoctorName.getText().toString().trim();
+                String hospitalName = null;
                 String disease = textInputDisease.getEditText().getText().toString().trim();
                 String age = textInputAge.getEditText().getText().toString().trim();
                 String date = textViewSelectDate.getText().toString().trim();
@@ -102,40 +136,31 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                     textInputPatientName.setError("Name is Mandatory");
                     textInputPatientName.requestFocus();
                     return;
-                }
+                }else textInputPatientName.setError(null);
+
                 if (disease.isEmpty()) {
                     textInputDisease.setError("Please Specify Problem");
                     textInputDisease.requestFocus();
                     return;
-                }
+                }else textInputDisease.setError(null);
+
                 if (age.isEmpty()) {
                     textInputAge.setError("Age is Mandatory");
                     textInputAge.requestFocus();
                     return;
-                }
-                if (date.isEmpty()) {
-                    textViewSelectDate.setError("Please Select Date");
-                    textViewSelectDate.requestFocus();
-                    return;
-                }
-                if (hospitalName.isEmpty()) {
-                    textInputHospitalName.setError("Hospital Name is Mandatory");
-                    textInputHospitalName.requestFocus();
-                    return;
-                }
-                if (doctorName.isEmpty()) {
-                    textInputDoctorName.setError("Doctor Name is Mandatory");
-                    textInputDoctorName.requestFocus();
+                } else textInputAge.setError(null);
+
+                if (date.equals(getString(R.string.select_date))) {
+                    HelperClass.toast(this,"Please Select Date");
                     return;
                 }
 
                 HelperClass.showProgressbar(progressBar);
-                ModelRequestId patientId = SharedPref.getLoginUserData(BookAppointmentActivity.this).getPatientId();
-                ModelRequestId doctorId = new ModelRequestId();
-                doctorId.setId("5eeefa85186559d3e9e20301");
+                String patientId = SharedPref.getLoginUserData(BookAppointmentActivity.this).getPatientId().getId();
+                String doctorId = doctorInfo.getDoctorId().getId();
 
-                ModelAppointment appointment = new ModelAppointment(patientName, doctorName, hospitalName, disease, age, date,
-                        getString(R.string.pending), null, patientId, doctorId, null);
+                ModelBookAppointment appointment = new ModelBookAppointment(patientName, doctorName, hospitalName, disease, age, date,
+                        getString(R.string.pending), "", patientId, doctorId, null);
 
                 call = networkApi.bookAppointment(appointment);
                 presenter.bookAppointment(call, this, progressBar);
@@ -143,6 +168,39 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
 
             case R.id.textViewSelectDate :
                 datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+                break;
+            case R.id.textViewSelectDoctor :
+                String patientName1 = textInputPatientName.getEditText().getText().toString().trim();
+                String disease1 = textInputDisease.getEditText().getText().toString().trim();
+                String age1 = textInputAge.getEditText().getText().toString().trim();
+                String date1 = textViewSelectDate.getText().toString().trim();
+
+                if (patientName1.isEmpty()) {
+                    textInputPatientName.setError("Name is Mandatory");
+                    textInputPatientName.requestFocus();
+                    return;
+                }else textInputPatientName.setError(null);
+
+                if (disease1.isEmpty()) {
+                    textInputDisease.setError("Please Specify Problem");
+                    textInputDisease.requestFocus();
+                    return;
+                }else textInputDisease.setError(null);
+
+                if (age1.isEmpty()) {
+                    textInputAge.setError("Age is Mandatory");
+                    textInputAge.requestFocus();
+                    return;
+                } else textInputAge.setError(null);
+
+                if (date1.equals(getString(R.string.select_date))) {
+                    HelperClass.toast(this,"Please Select Date");
+                    return;
+                }
+
+                ModelBookAppointment modelBookAppointment = new ModelBookAppointment(patientName1,disease1,age1,date1);
+                startActivity(new Intent(BookAppointmentActivity.this, DoctorsActivity.class).putExtra("modelBookAppointment",modelBookAppointment));
+                finish();
                 break;
         }
     }

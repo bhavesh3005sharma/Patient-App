@@ -1,5 +1,6 @@
 package com.scout.patient.ui.AppointmentBooking;
 
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.scout.patient.Utilities.HelperClass;
@@ -21,14 +22,17 @@ public class BookAppointmentPresenter implements Contract.Presenter {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful() && response.code()==200){
+                HelperClass.hideProgressbar(progressBar);
+                if (response.isSuccessful() && response.code()==200)
                     HelperClass.toast(bookAppointmentActivity,"Appointment Saved Successfully\n You will be notified soon.");
-                }
+                else
+                    HelperClass.toast(bookAppointmentActivity,response.errorBody().toString());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 HelperClass.toast( bookAppointmentActivity,t.getMessage());
+                HelperClass.hideProgressbar(progressBar);
             }
         });
     }

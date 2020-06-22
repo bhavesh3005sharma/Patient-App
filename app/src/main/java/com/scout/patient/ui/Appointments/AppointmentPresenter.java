@@ -1,12 +1,13 @@
 package com.scout.patient.ui.Appointments;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.data.Models.ModelAppointment;
-import com.scout.patient.ui.Appointments.Contract;
+import com.scout.patient.data.Models.ModelBookAppointment;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,13 @@ public class AppointmentPresenter implements Contract.Presenter {
                 HelperClass.hideProgressbar(progressBar);
                 if (response.isSuccessful() && response.body()!=null){
                     AppointmentFragment.list = response.body();
-                    mainView.notifyAdapter();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mainView.notifyAdapter();
+                        }
+                    },1000);
+
                 }
                 Log.d("appointments",response.body()+"" +
                         response.isSuccessful());

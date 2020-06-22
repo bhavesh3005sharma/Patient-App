@@ -2,7 +2,9 @@ package com.scout.patient.data.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ModelAppointment {
+import java.io.Serializable;
+
+public class ModelBookAppointment implements Serializable {
     @SerializedName("_id")
     ModelRequestId AppointmentId;
     @SerializedName("appointment_date")
@@ -22,13 +24,13 @@ public class ModelAppointment {
     @SerializedName("serial_no")
     String SerialNumber;
     @SerializedName("patient_id")
-    ModelRequestId PatientId;
+    String PatientId;
     @SerializedName("doctor_id")
-    ModelRequestId DoctorId;
+    String DoctorId;
     @SerializedName("prescription_id")
-    ModelRequestId PrescriptionId;
+    String PrescriptionId;
 
-    public ModelAppointment(String patientName, String doctorName, String hospitalName, String disease, String age, String date , String status, String serialNumber, ModelRequestId patientId, ModelRequestId doctorId, ModelRequestId prescriptionId) {
+    public ModelBookAppointment(String patientName, String doctorName, String hospitalName, String disease, String age, String date , String status, String serialNumber, String patientId, String doctorId, String prescriptionId) {
         this.AppointmentDate = date;
         this.patientName = patientName;
         this.hospitalName = hospitalName;
@@ -40,6 +42,13 @@ public class ModelAppointment {
         this.PatientId = patientId;
         this.DoctorId = doctorId;
         this.PrescriptionId = prescriptionId;
+    }
+
+    public ModelBookAppointment(String patientName, String disease, String age, String date) {
+        this.AppointmentDate = date;
+        this.patientName = patientName;
+        this.Age = age;
+        this.Disease = disease;
     }
 
     public ModelRequestId getAppointmentId() {
@@ -82,27 +91,27 @@ public class ModelAppointment {
         Age = age;
     }
 
-    public ModelRequestId getPatientId() {
+    public String getPatientId() {
         return PatientId;
     }
 
-    public void setPatientId(ModelRequestId patientId) {
+    public void setPatientId(String patientId) {
         PatientId = patientId;
     }
 
-    public ModelRequestId getDoctorId() {
+    public String getDoctorId() {
         return DoctorId;
     }
 
-    public void setDoctorId(ModelRequestId doctorId) {
+    public void setDoctorId(String doctorId) {
         DoctorId = doctorId;
     }
 
-    public ModelRequestId getPrescriptionId() {
+    public String getPrescriptionId() {
         return PrescriptionId;
     }
 
-    public void setPrescriptionId(ModelRequestId prescriptionId) {
+    public void setPrescriptionId(String prescriptionId) {
         PrescriptionId = prescriptionId;
     }
 

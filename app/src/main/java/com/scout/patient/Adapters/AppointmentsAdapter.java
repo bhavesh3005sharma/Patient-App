@@ -2,6 +2,7 @@ package com.scout.patient.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.scout.patient.R;
 import com.scout.patient.data.Models.ModelAppointment;
+import com.scout.patient.data.Models.ModelBookAppointment;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,18 +41,19 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         ModelAppointment appointment = filteredList.get(position);
         holder.date.setText(appointment.getAppointmentDate());
         holder.disease.setText(appointment.getDisease());
+        Log.d("AdapterAppoi",appointment.getDisease()+"*"+appointment.getStatus());
 
-        if (appointment.getStatus().equals(R.string.accepted)){
+        if (appointment.getStatus().equals(context.getString(R.string.accepted))){
             holder.status.setText(R.string.accepted);
             holder.status.setTextColor(Color.WHITE);
             holder.status.setBackgroundResource(R.drawable.accepted_backgrounded);
         }
-        if (appointment.getStatus().equals(R.string.rejected)){
+        if (appointment.getStatus().equals(context.getString(R.string.rejected))){
             holder.status.setText(R.string.rejected);
             holder.status.setTextColor(Color.WHITE);
             holder.status.setBackgroundResource(R.drawable.rejected_backgrounded);
         }
-        if (appointment.getStatus().equals(R.string.pending)){
+        if (appointment.getStatus().equals(context.getString(R.string.pending))){
             holder.status.setText(R.string.pending);
             holder.status.setTextColor(Color.BLACK);
             holder.status.setBackgroundResource(R.drawable.pending_backgrounded);

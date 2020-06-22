@@ -2,9 +2,10 @@ package com.scout.patient.data.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ModelDoctorInfo {
+public class ModelDoctorInfo implements Serializable {
     @SerializedName("_id")
     ModelRequestId doctorId;
     @SerializedName("email")

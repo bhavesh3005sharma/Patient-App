@@ -1,6 +1,7 @@
 package com.scout.patient.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.scout.patient.R;
 import com.scout.patient.data.Models.ModelDoctorInfo;
+import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,6 +28,11 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHold
     ArrayList<ModelDoctorInfo> list;
     ArrayList<ModelDoctorInfo> filteredList;
     Context context;
+    interfaceClickListener mListener;
+
+    public void  setUpOnClickListener(interfaceClickListener mListener) {
+        this.mListener = mListener;
+    }
 
     public DoctorsAdapter(ArrayList<ModelDoctorInfo> list, Context context) {
         this.list = list;
@@ -100,6 +107,17 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHold
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.holderClick(getAdapterPosition());
+                }
+            });
         }
+    }
+
+    public interface interfaceClickListener{
+        void holderClick(int position);
     }
 }
