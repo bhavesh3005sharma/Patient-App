@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment implements Contract.View, View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this,view);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.startUp_name));
 
         presenter = new HomePresenter(HomeFragment.this);
         card_hospital.setOnClickListener(this);

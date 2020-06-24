@@ -32,6 +32,7 @@ import retrofit2.Call;
 public class DoctorsActivity extends AppCompatActivity implements Contract.View,DoctorsAdapter.interfaceClickListener,SwipeRefreshLayout.OnRefreshListener{
     RetrofitNetworkApi networkApi;
     Call<ArrayList<ModelDoctorInfo>> call;
+    public static boolean isCallRunning = false;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -75,7 +76,6 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         MenuItem search = menu.findItem(R.id.search_bar);
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setQueryHint("Search Here!");
-        searchView.setBackgroundColor(Color.WHITE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -151,8 +151,11 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
 
     @Override
     public void onRefresh() {
-        if (call==null)
-        presenter.loadDoctorslist(this,call,progressBar);
+        Call<ArrayList<ModelDoctorInfo>> call = null;
+        if (!isCallRunning) {
+            call = networkApi.getDoctorsList();
+            presenter.loadDoctorslist(this,call,progressBar);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 }

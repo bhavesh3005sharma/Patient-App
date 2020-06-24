@@ -74,15 +74,16 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
                 if (charString.isEmpty()) {
                     filteredList = list;
                 } else {
-                    filteredList.clear();
+                    ArrayList<ModelAppointment> listFilterByQuery = new ArrayList<>();
                     for (ModelAppointment row : list) {
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
                         if (row.getAppointmentDate().toLowerCase().contains(charString.toLowerCase()) || row.getDisease().toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
+                            listFilterByQuery.add(row);
                         }
                     }
+                    filteredList = listFilterByQuery;
                 }
 
                 FilterResults filterResults = new FilterResults();

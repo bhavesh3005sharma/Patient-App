@@ -65,4 +65,8 @@
     <string name="contact_info">Contact Info</string>
     <string name="select_doctor">Select Doctor</string>
     <string name="doctor_info">Doctor Info</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="logout">Logout</string>
+    <string name="appointments">Appointments</string>
 </resources>

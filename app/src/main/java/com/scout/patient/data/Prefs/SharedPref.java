@@ -28,4 +28,11 @@ public class SharedPref {
         ModelPatientInfo patientInfo = gson.fromJson(json, type);
         return  patientInfo;
     }
+
+    public static void deleteLoginUserData(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(String.valueOf(R.string.pref_for_user_data),context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
 }

@@ -2,21 +2,33 @@ package com.scout.patient.ui.Auth.Registration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.data.Models.ModelPatientInfo;
 import com.scout.patient.data.Remote.ApiService;
 import com.scout.patient.data.Remote.RetrofitNetworkApi;
 import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
+
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -40,6 +52,7 @@ public class RegistrationActivity extends AppCompatActivity implements Contract.
     @BindView(R.id.bloodGrpSpinner) Spinner bloodGrpSpinner;
     @BindView(R.id.progressBar) ProgressBar progressBar;
 
+    private FirebaseAuth mAuth;
     MaterialDatePicker datePicker;
     Unbinder unbinder;
     RegistrationPresenter presenter;
@@ -49,6 +62,7 @@ public class RegistrationActivity extends AppCompatActivity implements Contract.
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        mAuth=null;
     }
 
     @Override
@@ -57,6 +71,7 @@ public class RegistrationActivity extends AppCompatActivity implements Contract.
         setContentView(R.layout.activity_registeration);
         unbinder = ButterKnife.bind(this);
 
+        mAuth = FirebaseAuth.getInstance();
         presenter = new RegistrationPresenter(RegistrationActivity.this);
         btnLogin.setOnClickListener(this);
         btnRegistration.setOnClickListener(this);
@@ -97,35 +112,69 @@ public class RegistrationActivity extends AppCompatActivity implements Contract.
                     textInputEmailRegister.setError("Email is Required");
                     textInputEmailRegister.requestFocus();
                     return;
-                }
+                }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    textInputEmailRegister.setError("Please Enter The Valid Email.");
+                    textInputEmailRegister.requestFocus();
+                    return;
+                }else textInputEmailRegister.setError(null);
+
+                if (password.isEmpty() || password.length() < 6) {
+                    textInputPassword.setError("At least 6 Character Password is Required.");
+                    textInputPassword.requestFocus();
+                    return;
+                }else textInputPassword.setError(null);
+
                 if (name.isEmpty()){
                     textInputName.setError("Name is Required");
                     textInputName.requestFocus();
                     return;
-                }
-                if (password.isEmpty()){
-                    textInputPassword.setError("Password is Required");
-                    textInputPassword.requestFocus();
-                    return;
-                }
+                }else textInputName.setError(null);
+
                 if (phoneNo.isEmpty()){
                     textInputPhoneNo.setError("Phone No. is Required");
                     textInputPhoneNo.requestFocus();
                     return;
-                }
+                }else textInputPhoneNo.setError(null);
 
                 ModelPatientInfo patientInfo = new ModelPatientInfo(email,weight,name,dob,phoneNo,address,bloodGrp,previousDisease);
-                HelperClass.showProgressbar(progressBar);
-                call = networkApi.registerPatient(patientInfo);
-                presenter.registerPatient(this,progressBar,call);
+                registerUser(email,password,patientInfo);
 
                 break;
             case R.id.btnLogin :
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
                 break;
             case R.id.textInputDOB :
+                if (!datePicker.isAdded())
                 datePicker.show(getSupportFragmentManager(),"DATE_PICKER");
                 break;
         }
+    }
+
+    private void registerUser(String email, String password, ModelPatientInfo patientInfo){
+        HelperClass.showProgressbar(progressBar);
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener( new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> it) {
+                                    if (it.isSuccessful()) {
+                                        call = networkApi.registerPatient(patientInfo);
+                                        presenter.registerPatient(RegistrationActivity.this,progressBar,call);
+                                        mAuth.signOut();
+                                    } else {
+                                        HelperClass.hideProgressbar(progressBar);
+                                        HelperClass.toast(RegistrationActivity.this,it.getException().getMessage());
+                                    }
+                                }
+                            });
+                        } else {
+                            HelperClass.hideProgressbar(progressBar);
+                            HelperClass.toast(RegistrationActivity.this,task.getException().getMessage());
+                        }
+                    }
+                });
     }
 }

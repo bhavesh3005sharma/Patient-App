@@ -24,26 +24,24 @@ public class AppointmentPresenter implements Contract.Presenter {
 
     @Override
     public void loadAppointments(Context context, Call<ArrayList<ModelAppointment>> call, ProgressBar progressBar) {
+        AppointmentFragment.isCallRunning = true;
         call.enqueue(new Callback<ArrayList<ModelAppointment>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelAppointment>> call, Response<ArrayList<ModelAppointment>> response) {
+                AppointmentFragment.isCallRunning = false;
                 HelperClass.hideProgressbar(progressBar);
+                AppointmentFragment.list.clear();
                 if (response.isSuccessful() && response.body()!=null){
-                    AppointmentFragment.list = response.body();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mainView.notifyAdapter();
-                        }
-                    },1000);
-
+                    for(ModelAppointment appointment : response.body())
+                        AppointmentFragment.list.add(appointment);
+                    mainView.notifyAdapter();
+                    Log.d("AppointmentPresenter","Call executed");
                 }
-                Log.d("appointments",response.body()+"" +
-                        response.isSuccessful());
             }
 
             @Override
             public void onFailure(Call<ArrayList<ModelAppointment>> call, Throwable t) {
+                AppointmentFragment.isCallRunning = false;
                 HelperClass.hideProgressbar(progressBar);
                 HelperClass.toast(context,t.getMessage());
             }

@@ -27,6 +27,7 @@ public class RegistrationPresenter implements Contract.Presenter {
                 if (response.isSuccessful()) {
                     if (response.code()==200){
                         //success
+                        HelperClass.toast(context,"Registered Successfully Verification Email Sent Please Verify First");
                     }
                 }
                 else {

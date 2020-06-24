@@ -10,7 +10,7 @@
         android:id="@+id/item_appointment"
         android:enabled="true"
         android:icon="@drawable/ic_clock"
-        android:title="@string/appointment"/>
+        android:title="@string/appointments"/>
     <item
         android:id="@+id/item_prescriptions"
         android:enabled="true"

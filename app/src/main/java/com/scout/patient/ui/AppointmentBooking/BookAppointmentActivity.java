@@ -127,7 +127,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
             case R.id.buttonBookAppointment :
                 String patientName = textInputPatientName.getEditText().getText().toString().trim();
                 String doctorName = textInputDoctorName.getText().toString().trim();
-                String hospitalName = null;
+                //String hospitalName = null;
                 String disease = textInputDisease.getEditText().getText().toString().trim();
                 String age = textInputAge.getEditText().getText().toString().trim();
                 String date = textViewSelectDate.getText().toString().trim();
@@ -159,7 +159,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                 String patientId = SharedPref.getLoginUserData(BookAppointmentActivity.this).getPatientId().getId();
                 String doctorId = doctorInfo.getDoctorId().getId();
 
-                ModelBookAppointment appointment = new ModelBookAppointment(patientName, doctorName, hospitalName, disease, age, date,
+                ModelBookAppointment appointment = new ModelBookAppointment(patientName, doctorName, "", disease, age, date,
                         getString(R.string.pending), "", patientId, doctorId, null);
 
                 call = networkApi.bookAppointment(appointment);
@@ -167,6 +167,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                 break;
 
             case R.id.textViewSelectDate :
+                if (!datePicker.isAdded())
                 datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
                 break;
             case R.id.textViewSelectDoctor :

@@ -3,6 +3,8 @@ package com.scout.patient.ui.Auth.LoginActivity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ProgressBar;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.scout.patient.PasswordClass;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.data.Models.ModelPatientInfo;
@@ -29,8 +31,6 @@ public class LoginPresenter implements Contract.Presenter {
                         ModelPatientInfo patientInfo = response.body();
                         SharedPref.saveLoginUserData(context,patientInfo);
                         mainView.openHomeActivity();
-                    }else{
-                        HelperClass.toast(context,"Wrong Email\n Please try Again");
                     }
                 }
             }

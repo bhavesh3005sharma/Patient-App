@@ -70,15 +70,16 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHold
                 if (charString.isEmpty()) {
                     filteredList = list;
                 } else {
-                    filteredList.clear();
+                    ArrayList<ModelDoctorInfo> listFilterByQuery = new ArrayList<>();
                     for (ModelDoctorInfo row : list) {
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
                         if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getSpecialization().toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
+                            listFilterByQuery.add(row);
                         }
                     }
+                    filteredList = listFilterByQuery;
                 }
 
                 FilterResults filterResults = new FilterResults();

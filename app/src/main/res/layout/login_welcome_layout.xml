@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:hint="@string/loginInputIdHint"
+        android:hint="@string/email"
         app:errorTextColor="@android:color/holo_red_light"
         app:errorIconTint="@android:color/holo_red_light"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -160,6 +160,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forgot_password"
+        android:layout_margin="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputPassword"
+        app:layout_constraintTop_toBottomOf="@+id/textInputPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -1,16 +1,27 @@
 package com.scout.patient.ui.Profile;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.scout.patient.R;
 import com.scout.patient.data.Models.ModelPatientInfo;
 import com.scout.patient.data.Prefs.SharedPref;
+import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +50,12 @@ public class ProfileFragment extends Fragment implements Contract.View{
     Unbinder unbinder;
     ProfilePresenter presenter;
     ModelPatientInfo patientInfo;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,5 +87,22 @@ public class ProfileFragment extends Fragment implements Contract.View{
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.profile_frag_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()==R.id.logout){
+            SharedPref.deleteLoginUserData(getContext());
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            getActivity().finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
