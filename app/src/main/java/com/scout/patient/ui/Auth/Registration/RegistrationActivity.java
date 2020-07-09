@@ -8,11 +8,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -26,9 +23,6 @@ import com.scout.patient.data.Models.ModelPatientInfo;
 import com.scout.patient.data.Remote.ApiService;
 import com.scout.patient.data.Remote.RetrofitNetworkApi;
 import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
-
-import java.util.regex.Pattern;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

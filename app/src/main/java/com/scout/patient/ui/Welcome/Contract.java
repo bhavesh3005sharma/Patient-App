@@ -1,4 +1,4 @@
-package com.scout.patient.ui.Home;
+package com.scout.patient.ui.Welcome;
 
 public class Contract {
     interface  View{

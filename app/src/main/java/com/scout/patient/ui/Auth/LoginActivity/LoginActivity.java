@@ -21,7 +21,7 @@ import com.scout.patient.data.Remote.ApiService;
 import com.scout.patient.data.Remote.RetrofitNetworkApi;
 import com.scout.patient.ui.Auth.ForgotPasswordActivity;
 import com.scout.patient.ui.Auth.Registration.RegistrationActivity;
-import com.scout.patient.ui.WelcomeActivity;
+import com.scout.patient.ui.Welcome.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

@@ -13,6 +13,9 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.DoctorsProfile.DoctorsProfileActivity" />
+        <activity android:name=".ui.Notification.NotificationActivity" />
+        <activity android:name=".ui.Profile.ProfileActivity"/>
+        <activity android:name=".ui.Appointments.AppointmentActivity"/>
         <activity android:name=".ui.BookAmbulanceActivity" />
         <activity
             android:name=".ui.AppointmentBooking.BookAppointmentActivity"
@@ -21,7 +24,7 @@
             android:name=".ui.DoctorsActivity.DoctorsActivity"
             android:label="@string/doctor" />
         <activity
-            android:name=".ui.WelcomeActivity"
+            android:name=".ui.Welcome.WelcomeActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity

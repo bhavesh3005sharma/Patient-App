@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_notification"
+        android:title="@string/notifications"
+        android:icon="@drawable/ic_notifications"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
+    <item
+        android:id="@+id/menu_profile"
+        android:title="@string/profile"
+        android:icon="@drawable/ic_account_circle"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
+</menu>

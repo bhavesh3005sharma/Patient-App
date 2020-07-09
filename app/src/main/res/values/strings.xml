@@ -69,4 +69,5 @@
     <string name="reset_password">Reset Password</string>
     <string name="logout">Logout</string>
     <string name="appointments">Appointments</string>
+    <string name="search">Search</string>
 </resources>

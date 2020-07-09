@@ -3,9 +3,7 @@ package com.scout.patient.ui.DoctorsActivity;
 import android.content.Context;
 import android.widget.ProgressBar;
 import com.scout.patient.Utilities.HelperClass;
-import com.scout.patient.data.Models.ModelAppointment;
 import com.scout.patient.data.Models.ModelDoctorInfo;
-import com.scout.patient.ui.Appointments.AppointmentFragment;
 
 import java.util.ArrayList;
 import retrofit2.Call;

@@ -1,33 +1,23 @@
 package com.scout.patient.ui.Profile;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.scout.patient.R;
 import com.scout.patient.data.Models.ModelPatientInfo;
 import com.scout.patient.data.Prefs.SharedPref;
 import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ProfileFragment extends Fragment implements Contract.View{
+public class ProfileActivity extends AppCompatActivity implements Contract.View{
     @BindView(R.id.textId)
     TextView textId;
     @BindView(R.id.textName)
@@ -54,21 +44,13 @@ public class ProfileFragment extends Fragment implements Contract.View{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        unbinder = ButterKnife.bind(this,view);
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Your Profile");
-        presenter = new ProfilePresenter( ProfileFragment.this);
-        patientInfo = SharedPref.getLoginUserData(getContext());
+        setContentView(R.layout.activity_profile);
+        unbinder = ButterKnife.bind(this);
+        
+        getSupportActionBar().setTitle("Your Profile");
+        presenter = new ProfilePresenter( ProfileActivity.this);
+        patientInfo = SharedPref.getLoginUserData(this);
         setUpView();
-
-        return view;
     }
 
     private void setUpView() {
@@ -84,24 +66,24 @@ public class ProfileFragment extends Fragment implements Contract.View{
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         unbinder.unbind();
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.profile_frag_menu,menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_frag_menu,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()==R.id.logout){
-            SharedPref.deleteLoginUserData(getContext());
+            SharedPref.deleteLoginUserData(this);
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(getContext(), LoginActivity.class));
-            getActivity().finish();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
