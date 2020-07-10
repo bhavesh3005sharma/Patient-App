@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.scout.patient.R;
-import com.scout.patient.data.Models.ModelAppointment;
-import com.scout.patient.data.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelAppointment;
+
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;

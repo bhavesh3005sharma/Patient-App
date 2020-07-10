@@ -1,12 +1,11 @@
-package com.scout.patient.data.Remote;
+package com.scout.patient.Repository.Remote;
 
-import com.scout.patient.data.Models.ModelAppointment;
-import com.scout.patient.data.Models.ModelBookAppointment;
-import com.scout.patient.data.Models.ModelDoctorInfo;
-import com.scout.patient.data.Models.ModelPatientInfo;
+import com.scout.patient.Models.ModelAppointment;
+import com.scout.patient.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelDoctorInfo;
+import com.scout.patient.Models.ModelPatientInfo;
 
 import java.util.ArrayList;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;

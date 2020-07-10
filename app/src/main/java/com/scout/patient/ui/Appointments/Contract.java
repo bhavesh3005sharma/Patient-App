@@ -3,8 +3,7 @@ package com.scout.patient.ui.Appointments;
 import android.content.Context;
 import android.widget.ProgressBar;
 
-import com.scout.patient.data.Models.ModelAppointment;
-import com.scout.patient.data.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelAppointment;
 
 import java.util.ArrayList;
 

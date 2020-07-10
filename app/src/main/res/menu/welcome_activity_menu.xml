@@ -14,4 +14,9 @@
         android:icon="@drawable/ic_account_circle"
         app:showAsAction="ifRoom|collapseActionView"/>
 
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"
+        app:showAsAction="collapseActionView"/>
+
 </menu>

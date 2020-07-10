@@ -1,14 +1,11 @@
 package com.scout.patient.ui.Auth.LoginActivity;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ProgressBar;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.scout.patient.PasswordClass;
 import com.scout.patient.Utilities.HelperClass;
-import com.scout.patient.data.Models.ModelPatientInfo;
-import com.scout.patient.data.Prefs.SharedPref;
+import com.scout.patient.Models.ModelPatientInfo;
+import com.scout.patient.Repository.Prefs.SharedPref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

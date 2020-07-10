@@ -22,7 +22,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.DoctorsActivity.DoctorsActivity"
-            android:label="@string/doctor" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/specialists"/>
         <activity
             android:name=".ui.Welcome.WelcomeActivity"
             android:windowSoftInputMode="adjustPan"

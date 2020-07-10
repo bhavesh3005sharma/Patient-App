@@ -2,26 +2,23 @@ package com.scout.patient.ui.AppointmentBooking;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.scout.patient.R;
+import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
 import com.scout.patient.Utilities.HelperClass;
-import com.scout.patient.data.Models.ModelBookAppointment;
-import com.scout.patient.data.Models.ModelDoctorInfo;
-import com.scout.patient.data.Prefs.SharedPref;
-import com.scout.patient.data.Remote.ApiService;
-import com.scout.patient.data.Remote.RetrofitNetworkApi;
+import com.scout.patient.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelDoctorInfo;
+import com.scout.patient.Repository.Prefs.*;
+import com.scout.patient.Retrofit.*;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -104,8 +101,8 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         if(doctorInfo!=null){
             cardDoctorInfo.setVisibility(View.VISIBLE);
             textInputDoctorName.setText(doctorInfo.getName());
-            textSpecialisation.setText(doctorInfo.getSpecialization());
-            textPhoneNo.setText(doctorInfo.getPhoneNo());
+            textSpecialisation.setText(doctorInfo.getDepartment());
+            textPhoneNo.setText(doctorInfo.getPhone_no());
             textViewSelectDoctor.setText("Change Doctor");
         }else
             cardDoctorInfo.setVisibility(View.GONE);

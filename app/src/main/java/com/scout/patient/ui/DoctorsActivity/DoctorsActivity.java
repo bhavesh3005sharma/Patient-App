@@ -15,31 +15,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.scout.patient.Adapters.DoctorsAdapter;
 import com.scout.patient.R;
-import com.scout.patient.data.Models.ModelBookAppointment;
-import com.scout.patient.data.Models.ModelDoctorInfo;
-import com.scout.patient.data.Remote.ApiService;
-import com.scout.patient.data.Remote.RetrofitNetworkApi;
+import com.scout.patient.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelDoctorInfo;
+import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
-
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
 
-public class DoctorsActivity extends AppCompatActivity implements Contract.View,DoctorsAdapter.interfaceClickListener,SwipeRefreshLayout.OnRefreshListener{
-    RetrofitNetworkApi networkApi;
-    Call<ArrayList<ModelDoctorInfo>> call;
-    public static boolean isCallRunning = false;
-
+public class DoctorsActivity extends AppCompatActivity implements Contract.View,DoctorsAdapter.interfaceClickListener{//,SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @BindView(R.id.swipe_container)
-    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     public static ArrayList<ModelDoctorInfo> list = new ArrayList<>();
     DoctorsAdapter adapter;
@@ -60,12 +59,10 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         unbinder = ButterKnife.bind(this);
         setToolbar();
 
-        swipeRefreshLayout.setOnRefreshListener(this);
         modelBookAppointment = (ModelBookAppointment) getIntent().getSerializableExtra("modelBookAppointment");
         presenter = new DoctorsActivityPresenter(DoctorsActivity.this);
-        initRetrofitApi();
         initRecyclerView();
-        presenter.loadDoctorslist(this,call,progressBar);
+        presenter.loadDoctorsList();
     }
 
     @Override
@@ -76,6 +73,7 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         MenuItem search = menu.findItem(R.id.search_bar);
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setQueryHint("Search Here!");
+        searchView.setBackgroundColor(Color.WHITE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -94,26 +92,18 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     }
 
     private void setToolbar() {
-//        if (toolbar!=null) {
-//            setSupportActionBar(toolbar);
-//            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_left));
-//            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //What to do on back clicked
-//                    onBackPressed();
-//                }
-//            });
-//        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Check Our Doctors");
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        if (toolbar!=null) {
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_left));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //What to do on back clicked
+                    onBackPressed();
+                }
+            });
+        }
+        collapsingToolbar.setTitleEnabled(false);
     }
 
     private void initRecyclerView() {
@@ -124,14 +114,30 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         recyclerView.setAdapter(adapter);
     }
 
-    private void initRetrofitApi() {
-        networkApi = ApiService.getAPIService();
-        call = networkApi.getDoctorsList();
-    }
-
     @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setErrorUi(String message) {
+        HelperClass.hideProgressbar(progressBar);
+        HelperClass.toast(this,message);
+    }
+
+    @Override
+    public void updateSuccessUi(ArrayList<ModelDoctorInfo> data) {
+        if (progressBar!=null)
+        HelperClass.hideProgressbar(progressBar);
+        list.clear();
+        list.addAll(data);
+        list.addAll(data);
+        list.addAll(data);
+        list.addAll(data);
+        list.addAll(data);
+        list.addAll(data);
+        list.addAll(data);
+        notifyAdapter();
     }
 
     @Override
@@ -147,15 +153,5 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         startActivity(intent);
         if (modelBookAppointment!=null)
             finish();
-    }
-
-    @Override
-    public void onRefresh() {
-        Call<ArrayList<ModelDoctorInfo>> call = null;
-        if (!isCallRunning) {
-            call = networkApi.getDoctorsList();
-            presenter.loadDoctorslist(this,call,progressBar);
-        }
-        swipeRefreshLayout.setRefreshing(false);
     }
 }

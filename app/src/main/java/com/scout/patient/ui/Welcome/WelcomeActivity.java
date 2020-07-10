@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.view.Menu;
@@ -14,12 +15,13 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.scout.patient.R;
-import com.scout.patient.data.Prefs.SharedPref;
+import com.scout.patient.Repository.Prefs.SharedPref;
 import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
 import com.scout.patient.ui.BookAmbulanceActivity;
 import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 import com.scout.patient.ui.Notification.NotificationActivity;
+import com.scout.patient.ui.Profile.ProfileActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,8 +85,19 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()==R.id.menu_notification){
-            startActivity(new Intent(this, NotificationActivity.class));
+        switch (item.getItemId()){
+            case R.id.logout:
+                SharedPref.deleteLoginUserData(this);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+            case R.id.menu_notification:
+                startActivity(new Intent(this, NotificationActivity.class));
+                break;
+            case R.id.menu_profile:
+                startActivity(new Intent(this, ProfileActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

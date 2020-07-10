@@ -70,4 +70,10 @@
     <string name="logout">Logout</string>
     <string name="appointments">Appointments</string>
     <string name="search">Search</string>
+    <string name="availability_type">Availability Type</string>
+    <string name="availability_time">Availability Time</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="checkup_time">"Average CheckUp Time (in min.) : "</string>
+    <string name="doctor_activity_title">Check Our Doctors</string>
 </resources>

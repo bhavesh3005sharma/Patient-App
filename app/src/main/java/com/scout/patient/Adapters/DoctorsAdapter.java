@@ -1,8 +1,6 @@
 package com.scout.patient.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.scout.patient.R;
-import com.scout.patient.data.Models.ModelDoctorInfo;
-import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
-import com.squareup.picasso.Picasso;
+import com.scout.patient.Models.ModelDoctorInfo;
 
 import java.util.ArrayList;
-
-import javax.xml.namespace.QName;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +45,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHold
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         ModelDoctorInfo doctorInfo = filteredList.get(position);
         holder.name.setText(doctorInfo.getName());
-        holder.specialisation.setText(doctorInfo.getSpecialization());
+        holder.specialisation.setText(doctorInfo.getDepartment());
         holder.location.setText(doctorInfo.getAddress());
         //Picasso.get().load(Uri.parse(doctorInfo.getUri())).placeholder(R.drawable.ic_person).into(holder.image);
     }
@@ -75,7 +69,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHold
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getSpecialization().toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getDepartment().toLowerCase().contains(charString.toLowerCase())) {
                             listFilterByQuery.add(row);
                         }
                     }

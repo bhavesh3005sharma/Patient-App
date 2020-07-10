@@ -1,4 +1,4 @@
-package com.scout.patient.data.Remote;
+package com.scout.patient.Retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

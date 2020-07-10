@@ -1,5 +1,6 @@
-package com.scout.patient.data.Remote;
+package com.scout.patient.Retrofit;
 
+import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
 import com.scout.patient.Utilities.HelperClass;
 
 public class ApiService {

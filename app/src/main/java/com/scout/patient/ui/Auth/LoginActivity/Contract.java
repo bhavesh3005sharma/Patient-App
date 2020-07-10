@@ -3,7 +3,7 @@ package com.scout.patient.ui.Auth.LoginActivity;
 import android.content.Context;
 import android.widget.ProgressBar;
 
-import com.scout.patient.data.Models.ModelPatientInfo;
+import com.scout.patient.Models.ModelPatientInfo;
 
 import retrofit2.Call;
 

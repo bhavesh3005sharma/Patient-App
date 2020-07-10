@@ -1,4 +1,4 @@
-package com.scout.patient.data.Prefs;
+package com.scout.patient.Repository.Prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scout.patient.R;
-import com.scout.patient.data.Models.ModelPatientInfo;
+import com.scout.patient.Models.ModelPatientInfo;
 import java.lang.reflect.Type;
 
 public class SharedPref {
