@@ -9,25 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.Auth.ForgotPasswordActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.Hospital.HospitalActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ui.Auth.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.DoctorsProfile.DoctorsProfileActivity" />
         <activity android:name=".ui.Notification.NotificationActivity" />
-        <activity android:name=".ui.Profile.ProfileActivity"/>
-        <activity android:name=".ui.Appointments.AppointmentActivity"/>
+        <activity android:name=".ui.Profile.ProfileActivity" />
+        <activity android:name=".ui.Appointments.AppointmentActivity" />
         <activity android:name=".ui.BookAmbulanceActivity" />
         <activity
             android:name=".ui.AppointmentBooking.BookAppointmentActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.DoctorsActivity.DoctorsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/specialists"/>
+            android:label="@string/specialists"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.Welcome.WelcomeActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.Auth.Registration.RegistrationActivity"
             android:screenOrientation="portrait"

@@ -3,6 +3,7 @@ package com.scout.patient.Repository.Remote;
 import com.scout.patient.Models.ModelAppointment;
 import com.scout.patient.Models.ModelBookAppointment;
 import com.scout.patient.Models.ModelDoctorInfo;
+import com.scout.patient.Models.ModelHospitalInfo;
 import com.scout.patient.Models.ModelPatientInfo;
 
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public interface RetrofitNetworkApi {
 
     @GET("Doctor/incoming_webhook/getAllDoctors")
     Call<ArrayList<ModelDoctorInfo>> getDoctorsList();
+
+    @GET("Hospital/incoming_webhook/getAllHospitals")
+    Call<ArrayList<ModelHospitalInfo>> getHospitalsList();
 
     @GET("Patient/incoming_webhook/getAppointments")
     Call<ArrayList<ModelAppointment>> getAppointments(@Query("patient_id") String patientId);

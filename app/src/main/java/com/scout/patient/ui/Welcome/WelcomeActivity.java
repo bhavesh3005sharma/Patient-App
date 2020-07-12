@@ -20,6 +20,7 @@ import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
 import com.scout.patient.ui.BookAmbulanceActivity;
 import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
+import com.scout.patient.ui.Hospital.HospitalActivity;
 import com.scout.patient.ui.Notification.NotificationActivity;
 import com.scout.patient.ui.Profile.ProfileActivity;
 
@@ -64,6 +65,7 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.card_hospital:
+                startActivity(new Intent(this, HospitalActivity.class));
                 break;
             case R.id.card_doctor:
                 startActivity(new Intent(this, DoctorsActivity.class));

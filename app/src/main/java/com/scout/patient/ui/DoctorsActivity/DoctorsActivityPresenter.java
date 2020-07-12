@@ -1,8 +1,5 @@
 package com.scout.patient.ui.DoctorsActivity;
 
-import android.content.Context;
-import android.widget.ProgressBar;
-
 import com.scout.patient.Models.ModelDoctorInfo;
 
 import java.util.ArrayList;

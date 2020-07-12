@@ -1,6 +1,11 @@
-package com.scout.patient.ui.DoctorsActivity;
+package com.scout.patient.ui.Hospital;
 
-import android.content.Intent;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,43 +13,34 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.scout.patient.Adapters.ChipsAdapter;
 import com.scout.patient.Adapters.DoctorsAdapter;
+import com.scout.patient.Adapters.HospitalsAdapter;
+import com.scout.patient.Models.ModelHospitalInfo;
 import com.scout.patient.R;
-import com.scout.patient.Models.ModelBookAppointment;
-import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Utilities.HelperClass;
-import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
+import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class DoctorsActivity extends AppCompatActivity implements Contract.View,DoctorsAdapter.interfaceClickListener{//,SwipeRefreshLayout.OnRefreshListener{
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-    @BindView(R.id.collapsingToolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+public class HospitalActivity extends AppCompatActivity implements Contract.View,HospitalsAdapter.interfaceClickListener, ChipsAdapter.interfaceClickListener {
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbar;
+    @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    public static ArrayList<ModelDoctorInfo> list = new ArrayList<>();
-    DoctorsAdapter adapter;
+    public static ArrayList<ModelHospitalInfo> list = new ArrayList<>();
+    HospitalsAdapter adapter;
     Unbinder unbinder;
-    DoctorsActivityPresenter presenter;
-    ModelBookAppointment modelBookAppointment;
+    HospitalsPresenter presenter;
 
     @Override
     protected void onDestroy() {
@@ -55,14 +51,13 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctors);
+        setContentView(R.layout.activity_hospital);
         unbinder = ButterKnife.bind(this);
         setToolbar();
 
-        modelBookAppointment = (ModelBookAppointment) getIntent().getSerializableExtra("modelBookAppointment");
-        presenter = new DoctorsActivityPresenter(DoctorsActivity.this);
+        presenter = new HospitalsPresenter(HospitalActivity.this);
         initRecyclerView();
-        presenter.loadDoctorsList();
+        presenter.getHospitalsList();
     }
 
     @Override
@@ -107,11 +102,16 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(DoctorsActivity.this,LinearLayoutManager.VERTICAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(HospitalActivity.this,LinearLayoutManager.VERTICAL,false));
         recyclerView.hasFixedSize();
-        adapter = new DoctorsAdapter(list,DoctorsActivity.this);
-        adapter.setUpOnClickListener(DoctorsActivity.this);
+        adapter = new HospitalsAdapter(list,HospitalActivity.this);
+        adapter.setUpOnClickListener(HospitalActivity.this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void holderClick(int position) {
+
     }
 
     @Override
@@ -126,21 +126,11 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     }
 
     @Override
-    public void updateSuccessUi(ArrayList<ModelDoctorInfo> data) {
+    public void updateSuccessUi(ArrayList<ModelHospitalInfo> data) {
         if (progressBar!=null)
-        HelperClass.hideProgressbar(progressBar);
+            HelperClass.hideProgressbar(progressBar);
         list.clear();
         list.addAll(data);
         notifyAdapter();
-    }
-
-    @Override
-    public void holderClick(int position) {
-        Intent intent = new Intent(this, DoctorsProfileActivity.class);
-        intent.putExtra("ProfileModel",list.get(position));
-        intent.putExtra("modelBookAppointment",modelBookAppointment);
-        startActivity(intent);
-        if (modelBookAppointment!=null)
-            finish();
     }
 }
