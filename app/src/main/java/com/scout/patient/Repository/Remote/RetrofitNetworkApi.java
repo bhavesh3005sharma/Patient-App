@@ -25,6 +25,9 @@ public interface RetrofitNetworkApi {
     @GET("Doctor/incoming_webhook/getAllDoctors")
     Call<ArrayList<ModelDoctorInfo>> getDoctorsList();
 
+    @GET("Doctor/incoming_webhook/getDoctorInfo")
+    Call<ModelDoctorInfo> getDoctorInfo(@Query("email") String email, @Query("doctor_id") String id);
+
     @GET("Hospital/incoming_webhook/getAllHospitals")
     Call<ArrayList<ModelHospitalInfo>> getHospitalsList();
 

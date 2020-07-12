@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import com.scout.patient.Adapters.ChipsAdapter;
 import com.scout.patient.Adapters.DoctorsAdapter;
 import com.scout.patient.Adapters.HospitalsAdapter;
 import com.scout.patient.Models.ModelHospitalInfo;
+import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
@@ -111,7 +113,10 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
 
     @Override
     public void holderClick(int position) {
-
+        Intent intent = new Intent(this,DoctorsActivity.class);
+        ModelIntent modelIntent = new ModelIntent(null,null,list.get(position).getHospitalDoctors(),true);
+        intent.putExtra("modelIntent",modelIntent);
+        startActivity(intent);
     }
 
     @Override

@@ -25,6 +25,7 @@ import android.widget.TimePicker;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.Models.ModelBookAppointment;
@@ -53,12 +54,11 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
     @BindView(R.id.profileLayout) ConstraintLayout profileLayout;
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.buttonBookAppointment) Button buttonBookAppointment;
-    ProgressBar progressBarDialogue;
 
     Unbinder unbinder;
     ModelDoctorInfo doctorInfo;
     DoctorsProfilePresenter presenter;
-    ModelBookAppointment modelBookAppointment;
+    ModelIntent modelIntent;
 
     @Override
     protected void onDestroy() {
@@ -73,8 +73,9 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
         unbinder = ButterKnife.bind(this);
 
         presenter = new DoctorsProfilePresenter(DoctorsProfileActivity.this);
-        doctorInfo = (ModelDoctorInfo) getIntent().getSerializableExtra("ProfileModel");
-        modelBookAppointment = (ModelBookAppointment) getIntent().getSerializableExtra("modelBookAppointment");
+        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
+        doctorInfo = modelIntent.getDoctorProfileInfo();
+
         setToolbar(doctorInfo.getName());
 
         buttonBookAppointment.setOnClickListener(this);
@@ -92,8 +93,7 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
         switch (v.getId()){
             case R.id.buttonBookAppointment :
                 Intent intent = new Intent(DoctorsProfileActivity.this, BookAppointmentActivity.class);
-                intent.putExtra("doctorInfo",doctorInfo);
-                intent.putExtra("modelBookAppointment",modelBookAppointment);
+                intent.putExtra("modelIntent",modelIntent);
                 startActivity(intent);
                 finish();
                 break;

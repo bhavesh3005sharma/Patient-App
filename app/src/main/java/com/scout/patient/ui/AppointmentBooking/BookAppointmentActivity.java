@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
 import com.scout.patient.Utilities.HelperClass;
@@ -54,8 +55,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     RetrofitNetworkApi networkApi;
     Unbinder unbinder;
     BookAppointmentPresenter presenter;
-    ModelBookAppointment modelBookAppointment;
-    ModelDoctorInfo doctorInfo;
+    ModelIntent modelIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         presenter = new BookAppointmentPresenter(BookAppointmentActivity.this);
 
-        modelBookAppointment = (ModelBookAppointment) getIntent().getSerializableExtra("modelBookAppointment");
-        doctorInfo = (ModelDoctorInfo) getIntent().getSerializableExtra("doctorInfo");
+        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
         setUpUi();
 
         initRetrofitApi();
@@ -90,19 +89,19 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     }
 
     private void setUpUi() {
-        if (modelBookAppointment!=null) {
-            textInputPatientName.getEditText().setText(modelBookAppointment.getPatientName());
-            textInputDisease.getEditText().setText(modelBookAppointment.getDisease());
-            textInputAge.getEditText().setText(modelBookAppointment.getAge());
-            textViewSelectDate.setText(modelBookAppointment.getAppointmentDate());
+        if (modelIntent.getBookAppointmentData()!=null) {
+            textInputPatientName.getEditText().setText(modelIntent.getBookAppointmentData().getPatientName());
+            textInputDisease.getEditText().setText(modelIntent.getBookAppointmentData().getDisease());
+            textInputAge.getEditText().setText(modelIntent.getBookAppointmentData().getAge());
+            textViewSelectDate.setText(modelIntent.getBookAppointmentData().getAppointmentDate());
         }else
             textInputPatientName.getEditText().setText(SharedPref.getLoginUserData(this).getName());
 
-        if(doctorInfo!=null){
+        if(modelIntent.getDoctorProfileInfo()!=null){
             cardDoctorInfo.setVisibility(View.VISIBLE);
-            textInputDoctorName.setText(doctorInfo.getName());
-            textSpecialisation.setText(doctorInfo.getDepartment());
-            textPhoneNo.setText(doctorInfo.getPhone_no());
+            textInputDoctorName.setText(modelIntent.getDoctorProfileInfo().getName());
+            textSpecialisation.setText(modelIntent.getDoctorProfileInfo().getDepartment());
+            textPhoneNo.setText(modelIntent.getDoctorProfileInfo().getPhone_no());
             textViewSelectDoctor.setText("Change Doctor");
         }else
             cardDoctorInfo.setVisibility(View.GONE);
@@ -154,7 +153,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
 
                 HelperClass.showProgressbar(progressBar);
                 String patientId = SharedPref.getLoginUserData(BookAppointmentActivity.this).getPatientId().getId();
-                String doctorId = doctorInfo.getDoctorId().getId();
+                String doctorId = modelIntent.getDoctorProfileInfo().getDoctorId().getId();
 
                 ModelBookAppointment appointment = new ModelBookAppointment(patientName, doctorName, "", disease, age, date,
                         getString(R.string.pending), "", patientId, doctorId, null);
@@ -197,7 +196,9 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                 }
 
                 ModelBookAppointment modelBookAppointment = new ModelBookAppointment(patientName1,disease1,age1,date1);
-                startActivity(new Intent(BookAppointmentActivity.this, DoctorsActivity.class).putExtra("modelBookAppointment",modelBookAppointment));
+                modelIntent.setBookAppointmentData(modelBookAppointment);
+                modelIntent.setIntentFromHospital(false);
+                startActivity(new Intent(BookAppointmentActivity.this, DoctorsActivity.class).putExtra("modelIntent",modelIntent));
                 finish();
                 break;
         }

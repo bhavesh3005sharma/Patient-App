@@ -18,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.scout.patient.Adapters.DoctorsAdapter;
+import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Models.ModelBookAppointment;
 import com.scout.patient.Models.ModelDoctorInfo;
@@ -44,7 +45,7 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     DoctorsAdapter adapter;
     Unbinder unbinder;
     DoctorsActivityPresenter presenter;
-    ModelBookAppointment modelBookAppointment;
+    ModelIntent modelIntent;
 
     @Override
     protected void onDestroy() {
@@ -59,10 +60,13 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         unbinder = ButterKnife.bind(this);
         setToolbar();
 
-        modelBookAppointment = (ModelBookAppointment) getIntent().getSerializableExtra("modelBookAppointment");
+        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
         presenter = new DoctorsActivityPresenter(DoctorsActivity.this);
         initRecyclerView();
-        presenter.loadDoctorsList();
+        if (modelIntent.isIntentFromHospital())
+            presenter.loadDoctorsList(modelIntent.getListOfDoctors());
+        else
+            presenter.loadDoctorsList();
     }
 
     @Override
@@ -137,10 +141,10 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     @Override
     public void holderClick(int position) {
         Intent intent = new Intent(this, DoctorsProfileActivity.class);
-        intent.putExtra("ProfileModel",list.get(position));
-        intent.putExtra("modelBookAppointment",modelBookAppointment);
+        modelIntent.setDoctorProfileInfo(list.get(position));
+        intent.putExtra("modelIntent",modelIntent);
         startActivity(intent);
-        if (modelBookAppointment!=null)
+        if (modelIntent.getBookAppointmentData()!=null)
             finish();
     }
 }
