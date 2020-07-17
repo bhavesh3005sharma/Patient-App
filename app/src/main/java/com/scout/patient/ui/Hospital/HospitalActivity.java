@@ -43,6 +43,7 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
     HospitalsAdapter adapter;
     Unbinder unbinder;
     HospitalsPresenter presenter;
+    ModelIntent modelIntent;
 
     @Override
     protected void onDestroy() {
@@ -57,6 +58,7 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
         unbinder = ButterKnife.bind(this);
         setToolbar();
 
+        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
         presenter = new HospitalsPresenter(HospitalActivity.this);
         initRecyclerView();
         presenter.getHospitalsList();
@@ -114,7 +116,8 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
     @Override
     public void holderClick(int position) {
         Intent intent = new Intent(this,DoctorsActivity.class);
-        ModelIntent modelIntent = new ModelIntent(null,null,list.get(position).getHospitalDoctors(),true);
+        modelIntent.setIntentFromHospital(true);
+        modelIntent.setListOfDoctors(list.get(position).getHospitalDoctors());
         intent.putExtra("modelIntent",modelIntent);
         startActivity(intent);
     }

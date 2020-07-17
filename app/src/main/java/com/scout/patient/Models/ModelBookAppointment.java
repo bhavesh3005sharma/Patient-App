@@ -27,10 +27,13 @@ public class ModelBookAppointment implements Serializable {
     String PatientId;
     @SerializedName("doctor_id")
     String DoctorId;
-    @SerializedName("prescription_id")
-    String PrescriptionId;
+    @SerializedName("hospital_id")
+    String HospitalId;
+    @SerializedName("appointment_time")
+    String selectedTime;
 
-    public ModelBookAppointment(String patientName, String doctorName, String hospitalName, String disease, String age, String date , String status, String serialNumber, String patientId, String doctorId, String prescriptionId) {
+
+    public ModelBookAppointment(String patientName, String doctorName, String hospitalName, String disease, String age, String date , String status, String serialNumber, String patientId, String doctorId, String hospitalId, String selectedTime) {
         this.AppointmentDate = date;
         this.patientName = patientName;
         this.hospitalName = hospitalName;
@@ -41,15 +44,17 @@ public class ModelBookAppointment implements Serializable {
         this.SerialNumber = serialNumber;
         this.PatientId = patientId;
         this.DoctorId = doctorId;
-        this.PrescriptionId = prescriptionId;
+        this.HospitalId = hospitalId;
+        this.selectedTime = selectedTime;
     }
 
-    public ModelBookAppointment(String patientName, String disease, String age, String date) {
-        this.AppointmentDate = date;
+    public ModelBookAppointment(String patientName, String disease, String age) {
         this.patientName = patientName;
         this.Age = age;
         this.Disease = disease;
     }
+
+    public String getSelectedTime() { return selectedTime; }
 
     public ModelRequestId getAppointmentId() {
         return AppointmentId;
@@ -107,13 +112,9 @@ public class ModelBookAppointment implements Serializable {
         DoctorId = doctorId;
     }
 
-    public String getPrescriptionId() {
-        return PrescriptionId;
-    }
+    public String getHospitalId() { return HospitalId; }
 
-    public void setPrescriptionId(String prescriptionId) {
-        PrescriptionId = prescriptionId;
-    }
+    public void setHospitalId(String hospitalId) { HospitalId = hospitalId; }
 
     public String getAppointmentDate() {
         return AppointmentDate;

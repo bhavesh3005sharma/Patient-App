@@ -100,34 +100,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/appointment_date_time"
-        android:textColor="@android:color/tab_indicator_text"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputAge" />
-
-    <TextView
-        android:id="@+id/textViewSelectDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/pending_backgrounded"
-        android:padding="10dp"
-        android:drawableRight="@drawable/ic_calender"
-        android:text="@string/select_date"
-        app:errorTextColor="@android:color/holo_red_light"
-        app:errorIconTint="@android:color/holo_red_light"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView"  />
-
-    <TextView
         android:id="@+id/textVw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,23 +108,49 @@
         android:textSize="20sp"
         android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewSelectDate" />
+        app:layout_constraintTop_toBottomOf="@id/textInputAge" />
 
-    <TextView
-        android:id="@+id/textViewSelectDoctor"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
-        android:background="@drawable/pending_backgrounded"
-        android:padding="10dp"
-        android:text="@string/select_doctor"
-        app:errorTextColor="@android:color/holo_red_light"
-        app:errorIconTint="@android:color/holo_red_light"
-        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textVw"  />
+        app:layout_constraintTop_toBottomOf="@id/textVw">
+
+        <TextView
+            android:id="@+id/textViewSelectDoctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:background="@drawable/accepted_backgrounded"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="@string/select_doctor"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="OR"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewSelectHospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:background="@drawable/accepted_backgrounded"
+            android:padding="10dp"
+            android:text="@string/select_hospital"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardDoctorInfo"
@@ -164,7 +162,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSelectDoctor">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -175,11 +173,31 @@
             android:id="@+id/textViw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/doctor_info"
+            android:text="@string/hospital_doctor_info"
             android:textColor="@android:color/tab_indicator_text"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hospital_name"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/text_hospital_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/doctor_name"
+                android:layout_weight="1"
+                android:textSize="15sp"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -244,6 +262,48 @@
     </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/textViewInfoSelectDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/appointment_date_time"
+        android:textColor="@android:color/tab_indicator_text"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardDoctorInfo" />
+
+    <TextView
+        android:id="@+id/textViewSelectDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/pending_backgrounded"
+        android:padding="10dp"
+        android:textColor="@android:color/secondary_text_light"
+        android:drawableEnd="@drawable/ic_calender"
+        android:text="@string/select_date"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewInfoSelectDate"  />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/choice_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSelectDate"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        app:singleSelection="true"/>
+
     <Button
         android:id="@+id/buttonBookAppointment"
         android:layout_width="0dp"
@@ -254,7 +314,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardDoctorInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/choice_chip_group" />
 
     <ProgressBar
         android:id="@+id/progressBar"

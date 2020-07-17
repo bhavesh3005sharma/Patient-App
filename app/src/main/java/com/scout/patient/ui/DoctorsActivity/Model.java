@@ -43,7 +43,7 @@ public class Model implements Contract.Model {
         final Boolean[] isError = {false};
         networkApi = ApiService.getAPIService();
 
-        if (listOfDoctorsIds.isEmpty())
+        if (listOfDoctorsIds==null || listOfDoctorsIds.isEmpty())
             presenter.onSuccess(new ArrayList<>());
         else
             for (ModelRequestId id : listOfDoctorsIds){

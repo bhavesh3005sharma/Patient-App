@@ -139,7 +139,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_appointment"
+            android:id="@+id/card_book_appointment"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:elevation="20dp"
@@ -176,7 +176,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_ambulance"
+            android:id="@+id/card_appointment"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:elevation="20dp"

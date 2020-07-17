@@ -19,9 +19,9 @@
         <activity android:name=".ui.Notification.NotificationActivity" />
         <activity android:name=".ui.Profile.ProfileActivity" />
         <activity android:name=".ui.Appointments.AppointmentActivity" />
-        <activity android:name=".ui.BookAmbulanceActivity" />
         <activity
             android:name=".ui.AppointmentBooking.BookAppointmentActivity"
+            android:configChanges="keyboard|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.DoctorsActivity.DoctorsActivity"

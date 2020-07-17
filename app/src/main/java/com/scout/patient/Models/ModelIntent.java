@@ -9,13 +9,6 @@ public class ModelIntent implements Serializable {
     ArrayList<ModelRequestId> listOfDoctors;
     Boolean isIntentFromHospital;
 
-    public ModelIntent(ModelBookAppointment bookAppointmentData, ModelDoctorInfo doctorProfileInfo, ArrayList<ModelRequestId> listOfDoctors, Boolean isIntentFromHospital) {
-        this.bookAppointmentData = bookAppointmentData;
-        this.doctorProfileInfo = doctorProfileInfo;
-        this.listOfDoctors = listOfDoctors;
-        this.isIntentFromHospital = isIntentFromHospital;
-    }
-
     public ModelBookAppointment getBookAppointmentData() {
         return bookAppointmentData;
     }

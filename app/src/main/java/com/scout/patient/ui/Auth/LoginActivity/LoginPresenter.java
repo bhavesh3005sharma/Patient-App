@@ -22,6 +22,7 @@ public class LoginPresenter implements Contract.Presenter {
         call.enqueue(new Callback<ModelPatientInfo>() {
             @Override
             public void onResponse(Call<ModelPatientInfo> call, Response<ModelPatientInfo> response) {
+                if (progressBar!=null)
                 HelperClass.hideProgressbar(progressBar);
                 if (response.isSuccessful()){
                     if (response.body()!=null) {

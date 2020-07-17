@@ -63,7 +63,7 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
         presenter = new DoctorsActivityPresenter(DoctorsActivity.this);
         initRecyclerView();
-        if (modelIntent.isIntentFromHospital())
+        if (modelIntent!=null && modelIntent.isIntentFromHospital())
             presenter.loadDoctorsList(modelIntent.getListOfDoctors());
         else
             presenter.loadDoctorsList();
@@ -141,6 +141,8 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     @Override
     public void holderClick(int position) {
         Intent intent = new Intent(this, DoctorsProfileActivity.class);
+        if (modelIntent==null)
+            modelIntent = new ModelIntent();
         modelIntent.setDoctorProfileInfo(list.get(position));
         intent.putExtra("modelIntent",modelIntent);
         startActivity(intent);

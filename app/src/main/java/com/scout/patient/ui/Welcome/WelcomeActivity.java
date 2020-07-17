@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.view.Menu;
@@ -16,8 +15,8 @@ import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
+import com.scout.patient.ui.Appointments.AppointmentActivity;
 import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
-import com.scout.patient.ui.BookAmbulanceActivity;
 import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 import com.scout.patient.ui.Hospital.HospitalActivity;
@@ -33,9 +32,9 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
     CardView card_hospital;
     @BindView(R.id.card_doctor)
     CardView card_doctor;
-    @BindView(R.id.card_appointment)
+    @BindView(R.id.card_book_appointment)
     CardView card_appointment;
-    @BindView(R.id.card_ambulance)
+    @BindView(R.id.card_appointment)
     CardView card_ambulance;
 
     Unbinder unbinder;
@@ -70,11 +69,11 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
             case R.id.card_doctor:
                 startActivity(new Intent(this, DoctorsActivity.class));
                 break;
-            case R.id.card_appointment:
+            case R.id.card_book_appointment:
                 startActivity(new Intent(this, BookAppointmentActivity.class));
                 break;
-            case R.id.card_ambulance:
-                startActivity(new Intent(this, BookAmbulanceActivity.class));
+            case R.id.card_appointment:
+                startActivity(new Intent(this, AppointmentActivity.class));
                 break;
         }
     }

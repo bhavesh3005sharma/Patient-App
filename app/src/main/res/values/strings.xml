@@ -76,4 +76,6 @@
     <string name="monthly">Monthly</string>
     <string name="checkup_time">"Average CheckUp Time (in min.) : "</string>
     <string name="doctor_activity_title">Check Our Doctors</string>
+    <string name="select_hospital">Select Hospital</string>
+    <string name="hospital_doctor_info">Hospital/Doctor Information</string>
 </resources>

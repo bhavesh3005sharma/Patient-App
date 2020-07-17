@@ -71,4 +71,7 @@ dependencies {
 
     //GoogleMaps dependency
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    //Date and Time Picker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 }

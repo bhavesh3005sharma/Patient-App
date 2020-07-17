@@ -1,61 +1,62 @@
 package com.scout.patient.ui.AppointmentBooking;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
+import com.scout.patient.Models.ModelBookAppointment;
 import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
+import com.scout.patient.Repository.Prefs.SharedPref;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
+import com.scout.patient.Retrofit.ApiService;
 import com.scout.patient.Utilities.HelperClass;
-import com.scout.patient.Models.ModelBookAppointment;
-import com.scout.patient.Models.ModelDoctorInfo;
-import com.scout.patient.Repository.Prefs.*;
-import com.scout.patient.Retrofit.*;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
+import com.scout.patient.ui.Hospital.HospitalActivity;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
-public class BookAppointmentActivity extends AppCompatActivity implements View.OnClickListener ,Contract.View{
-    @BindView(R.id.textInputPatientName)
-    TextInputLayout textInputPatientName;
-    @BindView(R.id.cardDoctorInfo)
-    CardView cardDoctorInfo;
-    @BindView(R.id.text_doctor_name)
-    TextView textInputDoctorName;
-    @BindView(R.id.text_specialization)
-    TextView textSpecialisation;
-    @BindView(R.id.textPhoneNo)
-    TextView textPhoneNo;
-    @BindView(R.id.textViewSelectDoctor)
-    TextView textViewSelectDoctor;
-    @BindView(R.id.textInputDisease)
-    TextInputLayout textInputDisease;
-    @BindView(R.id.textInputAge)
-    TextInputLayout textInputAge;
-    @BindView(R.id.textViewSelectDate)
-    TextView textViewSelectDate;
-    @BindView(R.id.buttonBookAppointment)
-    Button buttonBookAppointment;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+public class BookAppointmentActivity extends AppCompatActivity implements View.OnClickListener ,Contract.View, DatePickerDialog.OnDateSetListener, ChipGroup.OnCheckedChangeListener{
+    @BindView(R.id.textInputPatientName) TextInputLayout textInputPatientName;
+    @BindView(R.id.cardDoctorInfo) CardView cardDoctorInfo;
+    @BindView(R.id.text_doctor_name) TextView textInputDoctorName;
+    @BindView(R.id.text_hospital_name) TextView textInputHospitalName;
+    @BindView(R.id.text_specialization) TextView textSpecialisation;
+    @BindView(R.id.textPhoneNo) TextView textPhoneNo;
+    @BindView(R.id.textViewSelectDoctor) TextView textViewSelectDoctor;
+    @BindView(R.id.textViewSelectHospital) TextView textViewSelectHospital;
+    @BindView(R.id.textInputDisease) TextInputLayout textInputDisease;
+    @BindView(R.id.textInputAge) TextInputLayout textInputAge;
+    @BindView(R.id.textViewSelectDate) TextView textViewSelectDate;
+    @BindView(R.id.textViewInfoSelectDate) TextView textViewInfoSelectDate;
+    @BindView(R.id.buttonBookAppointment) Button buttonBookAppointment;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.choice_chip_group) ChipGroup chipGroup;
 
-    MaterialDatePicker datePicker;
     Call<ResponseBody> call;
     RetrofitNetworkApi networkApi;
     Unbinder unbinder;
     BookAppointmentPresenter presenter;
     ModelIntent modelIntent;
+    String selectedTime = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,27 +70,40 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         presenter = new BookAppointmentPresenter(BookAppointmentActivity.this);
 
         modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
+        if (modelIntent==null)
+            modelIntent = new ModelIntent();
         setUpUi();
+        chipGroup.setOnCheckedChangeListener(this);
 
         initRetrofitApi();
         buttonBookAppointment.setOnClickListener(this);
         textViewSelectDate.setOnClickListener(this);
         textViewSelectDoctor.setOnClickListener(this);
+        textViewSelectHospital.setOnClickListener(this);
+    }
 
-        MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
-        builder.setTitleText("Select Appointment Date");
-        datePicker = builder.build();
+    public void openDatePicker(){
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                BookAppointmentActivity.this,
+                now.get(Calendar.YEAR), // Initial year selection
+                now.get(Calendar.MONTH), // Initial month selection
+                now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+        );
 
-        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Object selection) {
-                textViewSelectDate.setText(datePicker.getHeaderText());
-            }
-        });
+        datePickerDialog.setSelectableDays(presenter.getAvailabilityDates(modelIntent.getDoctorProfileInfo()));
+        datePickerDialog.setMinDate(now);
+        now.add(Calendar.MONTH,2);
+        datePickerDialog.setMaxDate(now);
+
+        datePickerDialog.setAccentColor(getColor(R.color.colorPrimary));
+        datePickerDialog.setOkColor(Color.WHITE);
+        datePickerDialog.setCancelColor(Color.WHITE);
+        datePickerDialog.show(getSupportFragmentManager(),"DATE_PICKER");
     }
 
     private void setUpUi() {
-        if (modelIntent.getBookAppointmentData()!=null) {
+        if (modelIntent!=null && modelIntent.getBookAppointmentData()!=null) {
             textInputPatientName.getEditText().setText(modelIntent.getBookAppointmentData().getPatientName());
             textInputDisease.getEditText().setText(modelIntent.getBookAppointmentData().getDisease());
             textInputAge.getEditText().setText(modelIntent.getBookAppointmentData().getAge());
@@ -97,14 +111,22 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         }else
             textInputPatientName.getEditText().setText(SharedPref.getLoginUserData(this).getName());
 
-        if(modelIntent.getDoctorProfileInfo()!=null){
+        if(modelIntent!=null && modelIntent.getDoctorProfileInfo()!=null){
             cardDoctorInfo.setVisibility(View.VISIBLE);
+            textViewSelectDate.setVisibility(View.VISIBLE);
+            textViewInfoSelectDate.setVisibility(View.VISIBLE);
+            textViewSelectDate.setText(getString(R.string.select_date));
+            textInputHospitalName.setText(modelIntent.getDoctorProfileInfo().getHospitalName());
             textInputDoctorName.setText(modelIntent.getDoctorProfileInfo().getName());
             textSpecialisation.setText(modelIntent.getDoctorProfileInfo().getDepartment());
             textPhoneNo.setText(modelIntent.getDoctorProfileInfo().getPhone_no());
-            textViewSelectDoctor.setText("Change Doctor");
-        }else
+            //textViewSelectDoctor.setText("Change Doctor");
+        }else {
             cardDoctorInfo.setVisibility(View.GONE);
+            textViewSelectDate.setVisibility(View.GONE);
+            textViewInfoSelectDate.setVisibility(View.GONE);
+            chipGroup.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -123,84 +145,116 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
             case R.id.buttonBookAppointment :
                 String patientName = textInputPatientName.getEditText().getText().toString().trim();
                 String doctorName = textInputDoctorName.getText().toString().trim();
-                //String hospitalName = null;
                 String disease = textInputDisease.getEditText().getText().toString().trim();
                 String age = textInputAge.getEditText().getText().toString().trim();
                 String date = textViewSelectDate.getText().toString().trim();
 
-                if (patientName.isEmpty()) {
-                    textInputPatientName.setError("Name is Mandatory");
-                    textInputPatientName.requestFocus();
-                    return;
-                }else textInputPatientName.setError(null);
+                if (isValidData(patientName,disease,age)){
+                    if(modelIntent.getDoctorProfileInfo()==null){
+                        HelperClass.toast(this, "Select Doctor for Appointment.");
+                        return;
+                    }
+                    if (date.equals(getString(R.string.select_date)) || selectedTime==null) {
+                        HelperClass.toast(this, "Select Date and Time.");
+                        return;
+                    }
+                    HelperClass.showProgressbar(progressBar);
+                    String patientId = SharedPref.getLoginUserData(BookAppointmentActivity.this).getPatientId().getId();
+                    String doctorId = modelIntent.getDoctorProfileInfo().getDoctorId().getId();
+                    String hospitalId = modelIntent.getDoctorProfileInfo().getHospitalObjectId().getId();
+                    String hospitalName = modelIntent.getDoctorProfileInfo().getHospitalName();
 
-                if (disease.isEmpty()) {
-                    textInputDisease.setError("Please Specify Problem");
-                    textInputDisease.requestFocus();
-                    return;
-                }else textInputDisease.setError(null);
+                    ModelBookAppointment appointment = new ModelBookAppointment(patientName, doctorName, hospitalName, disease, age, date,
+                            getString(R.string.pending), "", patientId, doctorId, hospitalId,selectedTime);
 
-                if (age.isEmpty()) {
-                    textInputAge.setError("Age is Mandatory");
-                    textInputAge.requestFocus();
-                    return;
-                } else textInputAge.setError(null);
-
-                if (date.equals(getString(R.string.select_date))) {
-                    HelperClass.toast(this,"Please Select Date");
-                    return;
+                    call = networkApi.bookAppointment(appointment);
+                    presenter.bookAppointment(call, this, progressBar);
                 }
-
-                HelperClass.showProgressbar(progressBar);
-                String patientId = SharedPref.getLoginUserData(BookAppointmentActivity.this).getPatientId().getId();
-                String doctorId = modelIntent.getDoctorProfileInfo().getDoctorId().getId();
-
-                ModelBookAppointment appointment = new ModelBookAppointment(patientName, doctorName, "", disease, age, date,
-                        getString(R.string.pending), "", patientId, doctorId, null);
-
-                call = networkApi.bookAppointment(appointment);
-                presenter.bookAppointment(call, this, progressBar);
                 break;
 
             case R.id.textViewSelectDate :
-                if (!datePicker.isAdded())
-                datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+                openDatePicker();
                 break;
             case R.id.textViewSelectDoctor :
                 String patientName1 = textInputPatientName.getEditText().getText().toString().trim();
                 String disease1 = textInputDisease.getEditText().getText().toString().trim();
                 String age1 = textInputAge.getEditText().getText().toString().trim();
-                String date1 = textViewSelectDate.getText().toString().trim();
 
-                if (patientName1.isEmpty()) {
-                    textInputPatientName.setError("Name is Mandatory");
-                    textInputPatientName.requestFocus();
-                    return;
-                }else textInputPatientName.setError(null);
+                if (isValidData(patientName1,disease1,age1)){
+                    ModelBookAppointment modelBookAppointment = new ModelBookAppointment(patientName1,disease1,age1);
 
-                if (disease1.isEmpty()) {
-                    textInputDisease.setError("Please Specify Problem");
-                    textInputDisease.requestFocus();
-                    return;
-                }else textInputDisease.setError(null);
-
-                if (age1.isEmpty()) {
-                    textInputAge.setError("Age is Mandatory");
-                    textInputAge.requestFocus();
-                    return;
-                } else textInputAge.setError(null);
-
-                if (date1.equals(getString(R.string.select_date))) {
-                    HelperClass.toast(this,"Please Select Date");
-                    return;
+                    modelIntent.setBookAppointmentData(modelBookAppointment);
+                    modelIntent.setIntentFromHospital(false);
+                    startActivity(new Intent(BookAppointmentActivity.this, DoctorsActivity.class).putExtra("modelIntent",modelIntent));
+                    finish();
                 }
+                break;
+            case R.id.textViewSelectHospital :
+                String patientName2 = textInputPatientName.getEditText().getText().toString().trim();
+                String disease2 = textInputDisease.getEditText().getText().toString().trim();
+                String age2 = textInputAge.getEditText().getText().toString().trim();
 
-                ModelBookAppointment modelBookAppointment = new ModelBookAppointment(patientName1,disease1,age1,date1);
-                modelIntent.setBookAppointmentData(modelBookAppointment);
-                modelIntent.setIntentFromHospital(false);
-                startActivity(new Intent(BookAppointmentActivity.this, DoctorsActivity.class).putExtra("modelIntent",modelIntent));
-                finish();
+                if (isValidData(patientName2,disease2,age2)){
+                    ModelBookAppointment modelBookAppointment1 = new ModelBookAppointment(patientName2,disease2,age2);
+
+                    modelIntent.setBookAppointmentData(modelBookAppointment1);
+                    modelIntent.setIntentFromHospital(true);
+                    startActivity(new Intent(BookAppointmentActivity.this, HospitalActivity.class).putExtra("modelIntent",modelIntent));
+                    finish();
+                }
                 break;
         }
+    }
+
+    private boolean isValidData(String patientName, String disease, String age) {
+        if (patientName.isEmpty()) {
+            textInputPatientName.setError("Name is Mandatory");
+            textInputPatientName.requestFocus();
+            return false;
+        }else textInputPatientName.setError(null);
+
+        if (disease.isEmpty()) {
+            textInputDisease.setError("Please Specify Problem");
+            textInputDisease.requestFocus();
+            return false;
+        }else textInputDisease.setError(null);
+
+        if (age.isEmpty()) {
+            textInputAge.setError("Age is Mandatory");
+            textInputAge.requestFocus();
+            return false;
+        } else textInputAge.setError(null);
+        return true;
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String date = dayOfMonth+"/"+monthOfYear+"/"+year;
+        textViewSelectDate.setText(date);
+        setChipGroup();
+    }
+
+    private void setChipGroup() {
+        chipGroup.setVisibility(View.VISIBLE);
+        ArrayList<String> timeList = modelIntent.getDoctorProfileInfo().getDoctorAvailabilityTime();
+        for (String time : timeList){
+            Chip chip = new Chip(BookAppointmentActivity.this);
+            chip.setText(time);
+            chip.setCheckedIconResource(R.drawable.ic_check);
+            chip.setChipBackgroundColorResource(R.color.colorPrimary);
+            chip.setTextColor(Color.WHITE);
+            chip.setCheckable(true);
+            chipGroup.addView(chip);
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(ChipGroup group, int checkedId) {
+        if (checkedId==-1) {
+            selectedTime = null;
+            return;
+        }
+        Chip chip = findViewById(checkedId);
+        selectedTime = chip.getText().toString().trim();
     }
 }
