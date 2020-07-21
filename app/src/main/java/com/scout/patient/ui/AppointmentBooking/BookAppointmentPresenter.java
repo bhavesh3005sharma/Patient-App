@@ -1,10 +1,10 @@
 package com.scout.patient.ui.AppointmentBooking;
 
 import android.util.Log;
-import android.widget.ProgressBar;
 
+import com.scout.patient.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelDateTime;
 import com.scout.patient.Models.ModelDoctorInfo;
-import com.scout.patient.Utilities.HelperClass;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,43 +13,31 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class BookAppointmentPresenter implements Contract.Presenter {
     Contract.View mainView;
+    Model model;
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-    List<Calendar> dates = new ArrayList<>();
+    List<Calendar> availabilityDates = new ArrayList<>();
+    List<Calendar> unAvailabilityDates = new ArrayList<>();
 
     public BookAppointmentPresenter(Contract.View mainView) {
         this.mainView = mainView;
+        this.model = new Model(BookAppointmentPresenter.this);
     }
 
     @Override
-    public void bookAppointment(Call<ResponseBody> call, BookAppointmentActivity bookAppointmentActivity, ProgressBar progressBar) {
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                HelperClass.hideProgressbar(progressBar);
-                if (response.isSuccessful() && response.code()==200)
-                    HelperClass.toast(bookAppointmentActivity,"Appointment Saved Successfully\n You will be notified soon.");
-                else
-                    HelperClass.toast(bookAppointmentActivity,response.errorBody().toString());
-            }
+    public void bookAppointment(ModelBookAppointment appointment) {
+        model.bookAppointment(appointment);
+    }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                HelperClass.toast( bookAppointmentActivity,t.getMessage());
-                HelperClass.hideProgressbar(progressBar);
-            }
-        });
+    @Override
+    public void OnResponse(String message) {
+        mainView.OnResponse(message);
     }
 
     @Override
     public Calendar[] getAvailabilityDates(ModelDoctorInfo doctorProfileInfo) {
-        dates.clear();
+        availabilityDates.clear();
         if (doctorProfileInfo.getAvailabilityType().equals("Monthly")) {
             Calendar calendar = Calendar.getInstance();
             int numberOfMonths = 0;
@@ -66,7 +54,7 @@ public class BookAppointmentPresenter implements Contract.Presenter {
                         month = "0"+ month;
 
                     String a = day + "-" + month + "-"+calendar.get(Calendar.YEAR);
-                    addDateToList(a);
+                    addDateToList(true,a);
                 }
                 Log.d("Year",""+calendar.get(Calendar.YEAR)+" Month : "+calendar.get(Calendar.MONTH));
                 numberOfMonths++;
@@ -77,7 +65,6 @@ public class BookAppointmentPresenter implements Contract.Presenter {
 
         if (doctorProfileInfo.getAvailabilityType().equals("Weekly")) {
             Calendar calendar = Calendar.getInstance();
-
             calendar.add(Calendar.MONTH,2);
             Date endDate = calendar.getTime();
             calendar = Calendar.getInstance();
@@ -96,7 +83,7 @@ public class BookAppointmentPresenter implements Contract.Presenter {
 
                         String a = day + "-" + month + "-"+calendar.get(Calendar.YEAR);
 
-                        addDateToList(a);
+                        addDateToList(true, a);
                     }
                 }
                 calendar.add(Calendar.DAY_OF_YEAR,1);
@@ -104,10 +91,58 @@ public class BookAppointmentPresenter implements Contract.Presenter {
             }
         }
 
-        return dates.toArray(new Calendar[dates.size()]);
+        return availabilityDates.toArray(new Calendar[availabilityDates.size()]);
     }
 
-    private void addDateToList(String a) {
+    @Override
+    public Calendar[] getCompletelySlotUnavailableDates(ArrayList<ModelDateTime> completelyUnavailableDates) {
+        unAvailabilityDates.clear();
+        for(ModelDateTime dateTime : completelyUnavailableDates){
+            addDateToList(false,dateTime.getDate());
+        }
+        return unAvailabilityDates.toArray(new Calendar[unAvailabilityDates.size()]);
+    }
+
+    @Override
+    public void getAppointmentDates(ModelDoctorInfo doctorProfileInfo) {
+        model.getUnavailableDates(doctorProfileInfo);
+    }
+
+    @Override
+    public void setUpDatePicker(ArrayList<ModelDateTime> unavailableDates, ArrayList<ModelDateTime> completelyUnavailableDates, ArrayList<ModelDateTime> partiallyUnavailableDates, ModelDoctorInfo doctorProfileInfo) {
+        mainView.setUpDatePicker(getAvailabilityDates(doctorProfileInfo),getCompletelySlotUnavailableDates(unavailableDates),partiallyUnavailableDates);
+    }
+
+    @Override
+    public int getThresholdLimit(String time, String checkUpTime) {
+        int timeDifference = getTimeDifference(time);
+        int avgCheckupTime = Integer.valueOf(checkUpTime);
+        return timeDifference/avgCheckupTime;
+    }
+
+    private int getTimeDifference(String s) {
+        String[] result,time1,time2;
+        result = s.split("-");
+        time1 = result[0].split(":");
+        time2 = result[1].split(":");
+        time1[0] = time1[0].replaceAll("\\s+", "");
+        time2[0] = time2[0].replaceAll("\\s+", "");
+        time1[1] = time1[1].replaceAll("\\s+", "");
+        time2[1] = time2[1].replaceAll("\\s+", "");
+        int h1,h2,m1,m2;
+        h1 = Integer.valueOf(time1[0]);
+        h2 = Integer.valueOf(time2[0]);
+        m1 = Integer.valueOf(time1[1]);
+        m2 = Integer.valueOf(time2[1]);
+
+        if(h2>h1 && m2<m1){
+            h2--;
+            m2+=60;
+        }
+        return ((h2-h1)*60)+(m2-m1);
+    }
+
+    private void addDateToList(Boolean isAvailabilityDate, String a) {
         java.util.Date date = null;
 
         boolean status = false;
@@ -122,9 +157,12 @@ public class BookAppointmentPresenter implements Contract.Presenter {
         if (status) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            dates.add(cal);
+            if (isAvailabilityDate)
+             availabilityDates.add(cal);
+            else
+                unAvailabilityDates.add(cal);
         }
-        Log.d("WeekDays","DateAdded : "+a);
+        Log.d("WeekDays","DateAdded : "+sdf.format(date));
     }
 
     private int getDayOfWeek(String dayOfWeek) {

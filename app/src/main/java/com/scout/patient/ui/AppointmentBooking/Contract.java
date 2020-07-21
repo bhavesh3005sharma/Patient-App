@@ -2,21 +2,40 @@ package com.scout.patient.ui.AppointmentBooking;
 
 import android.widget.ProgressBar;
 
+import com.scout.patient.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelDateTime;
 import com.scout.patient.Models.ModelDoctorInfo;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 
 public class Contract {
     interface  View{
 
+        void setUpDatePicker(Calendar[] availabilityDates, Calendar[] unAvailabilityDates, ArrayList<ModelDateTime> partiallyUnavailableDates);
+
+        void OnResponse(String message);
     }
     interface  Presenter{
 
-        void bookAppointment(Call<ResponseBody> call, BookAppointmentActivity bookAppointmentActivity, ProgressBar progressBar);
+        int getThresholdLimit(String time, String checkUpTime);
 
         Calendar[] getAvailabilityDates(ModelDoctorInfo doctorProfileInfo);
+
+        Calendar[] getCompletelySlotUnavailableDates(ArrayList<ModelDateTime> completelyUnavailableDates);
+
+        void getAppointmentDates(ModelDoctorInfo doctorProfileInfo);
+
+        void setUpDatePicker(ArrayList<ModelDateTime> unavailableDates, ArrayList<ModelDateTime> completelyUnavailableDates, ArrayList<ModelDateTime> partiallyUnavailableDates, ModelDoctorInfo doctorProfileInfo);
+
+        void bookAppointment(ModelBookAppointment appointment);
+
+        void OnResponse(String message);
+    }
+    interface  Model{
+
+        void getUnavailableDates(ModelDoctorInfo doctorProfileInfo);
+
+        void bookAppointment(ModelBookAppointment appointment);
     }
 }

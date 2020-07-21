@@ -3,7 +3,6 @@ package com.scout.patient.ui.AppointmentBooking;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -15,6 +14,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.scout.patient.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelDateTime;
 import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
@@ -51,12 +51,12 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.choice_chip_group) ChipGroup chipGroup;
 
-    Call<ResponseBody> call;
-    RetrofitNetworkApi networkApi;
     Unbinder unbinder;
     BookAppointmentPresenter presenter;
     ModelIntent modelIntent;
     String selectedTime = null;
+    DatePickerDialog datePickerDialog;
+    ArrayList<ModelDateTime> partiallyUnavailableDates = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,6 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         setUpUi();
         chipGroup.setOnCheckedChangeListener(this);
 
-        initRetrofitApi();
         buttonBookAppointment.setOnClickListener(this);
         textViewSelectDate.setOnClickListener(this);
         textViewSelectDoctor.setOnClickListener(this);
@@ -84,22 +83,14 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
 
     public void openDatePicker(){
         Calendar now = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+         datePickerDialog = DatePickerDialog.newInstance(
                 BookAppointmentActivity.this,
                 now.get(Calendar.YEAR), // Initial year selection
                 now.get(Calendar.MONTH), // Initial month selection
                 now.get(Calendar.DAY_OF_MONTH) // Inital day selection
         );
-
-        datePickerDialog.setSelectableDays(presenter.getAvailabilityDates(modelIntent.getDoctorProfileInfo()));
-        datePickerDialog.setMinDate(now);
-        now.add(Calendar.MONTH,2);
-        datePickerDialog.setMaxDate(now);
-
-        datePickerDialog.setAccentColor(getColor(R.color.colorPrimary));
-        datePickerDialog.setOkColor(Color.WHITE);
-        datePickerDialog.setCancelColor(Color.WHITE);
-        datePickerDialog.show(getSupportFragmentManager(),"DATE_PICKER");
+         HelperClass.showProgressbar(progressBar);
+         presenter.getAppointmentDates(modelIntent.getDoctorProfileInfo());
     }
 
     private void setUpUi() {
@@ -135,10 +126,6 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         return true;
     }
 
-    private void initRetrofitApi() {
-        networkApi = ApiService.getAPIService();
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -163,12 +150,12 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                     String doctorId = modelIntent.getDoctorProfileInfo().getDoctorId().getId();
                     String hospitalId = modelIntent.getDoctorProfileInfo().getHospitalObjectId().getId();
                     String hospitalName = modelIntent.getDoctorProfileInfo().getHospitalName();
+                    String avgCheckupTime = modelIntent.getDoctorProfileInfo().getAvgCheckupTime();
 
                     ModelBookAppointment appointment = new ModelBookAppointment(patientName, doctorName, hospitalName, disease, age, date,
-                            getString(R.string.pending), "", patientId, doctorId, hospitalId,selectedTime);
+                            getString(R.string.pending), "", patientId, doctorId, hospitalId,selectedTime,presenter.getThresholdLimit(selectedTime,avgCheckupTime));
 
-                    call = networkApi.bookAppointment(appointment);
-                    presenter.bookAppointment(call, this, progressBar);
+                    presenter.bookAppointment( appointment);
                 }
                 break;
 
@@ -231,12 +218,28 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         String date = dayOfMonth+"/"+monthOfYear+"/"+year;
         textViewSelectDate.setText(date);
-        setChipGroup();
+        ArrayList CompleteTime = modelIntent.getDoctorProfileInfo().getDoctorAvailabilityTime();
+        ArrayList AvailableTimes = new ArrayList();
+        for(ModelDateTime dateTime : partiallyUnavailableDates){
+            if(dateTime.getDate().equals(date)){
+                ArrayList unAvailableTimes = dateTime.getUnavailableTimes();
+                for(int i=0;i<CompleteTime.size();i++){
+                    for(int j=0;j<unAvailableTimes.size();j++){
+                        if(CompleteTime.get(i).equals(unAvailableTimes.get(j)))
+                            break;
+                        if(j==unAvailableTimes.size()-1)
+                            AvailableTimes.add(CompleteTime.get(i));
+                    }
+                }
+            }
+        }
+        setChipGroup(AvailableTimes);
     }
 
-    private void setChipGroup() {
+    private void setChipGroup(ArrayList<String> timeList) {
         chipGroup.setVisibility(View.VISIBLE);
-        ArrayList<String> timeList = modelIntent.getDoctorProfileInfo().getDoctorAvailabilityTime();
+        chipGroup.removeAllViews();
+
         for (String time : timeList){
             Chip chip = new Chip(BookAppointmentActivity.this);
             chip.setText(time);
@@ -256,5 +259,30 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         }
         Chip chip = findViewById(checkedId);
         selectedTime = chip.getText().toString().trim();
+    }
+
+    @Override
+    public void setUpDatePicker(Calendar[] availabilityDates, Calendar[] unAvailabilityDates, ArrayList<ModelDateTime> partiallyUnavailableDatesList) {
+        Calendar now = Calendar.getInstance();
+        datePickerDialog.setSelectableDays(availabilityDates);
+        datePickerDialog.setDisabledDays(unAvailabilityDates);
+        datePickerDialog.setMinDate(now);
+        now.add(Calendar.MONTH,2);
+        datePickerDialog.setMaxDate(now);
+
+        datePickerDialog.setAccentColor(getColor(R.color.colorPrimary));
+        datePickerDialog.setOkColor(Color.WHITE);
+        datePickerDialog.setCancelColor(Color.WHITE);
+        datePickerDialog.show(getSupportFragmentManager(),"DATE_PICKER");
+        HelperClass.hideProgressbar(progressBar);
+
+        partiallyUnavailableDates.clear();
+        partiallyUnavailableDates.addAll(partiallyUnavailableDatesList);
+    }
+
+    @Override
+    public void OnResponse(String message) {
+        HelperClass.hideProgressbar(progressBar);
+        HelperClass.toast(this,message);
     }
 }

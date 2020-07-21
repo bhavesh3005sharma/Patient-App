@@ -59,6 +59,8 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
         setToolbar();
 
         modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
+        if (modelIntent==null)
+            modelIntent = new ModelIntent();
         presenter = new HospitalsPresenter(HospitalActivity.this);
         initRecyclerView();
         presenter.getHospitalsList();
