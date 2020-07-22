@@ -32,10 +32,10 @@ public class ModelBookAppointment implements Serializable {
     @SerializedName("appointment_time")
     String selectedTime;
     @SerializedName("thresholdLimit")
-    int thresholdLimit;
+    long thresholdLimit;
 
 
-    public ModelBookAppointment(String patientName, String doctorName, String hospitalName, String disease, String age, String date , String status, String serialNumber, String patientId, String doctorId, String hospitalId, String selectedTime, int thresholdLimit) {
+    public ModelBookAppointment(String patientName, String doctorName, String hospitalName, String disease, String age, String date , String status, String serialNumber, String patientId, String doctorId, String hospitalId, String selectedTime, long thresholdLimit) {
         this.AppointmentDate = date;
         this.patientName = patientName;
         this.hospitalName = hospitalName;

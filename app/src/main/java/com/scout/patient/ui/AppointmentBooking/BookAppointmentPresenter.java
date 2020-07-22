@@ -110,14 +110,15 @@ public class BookAppointmentPresenter implements Contract.Presenter {
 
     @Override
     public void setUpDatePicker(ArrayList<ModelDateTime> unavailableDates, ArrayList<ModelDateTime> completelyUnavailableDates, ArrayList<ModelDateTime> partiallyUnavailableDates, ModelDoctorInfo doctorProfileInfo) {
-        mainView.setUpDatePicker(getAvailabilityDates(doctorProfileInfo),getCompletelySlotUnavailableDates(unavailableDates),partiallyUnavailableDates);
+        mainView.setUpDatePicker(getAvailabilityDates(doctorProfileInfo),getCompletelySlotUnavailableDates(completelyUnavailableDates),partiallyUnavailableDates);
     }
 
     @Override
-    public int getThresholdLimit(String time, String checkUpTime) {
+    public long getThresholdLimit(String time, String checkUpTime) {
         int timeDifference = getTimeDifference(time);
         int avgCheckupTime = Integer.valueOf(checkUpTime);
-        return timeDifference/avgCheckupTime;
+        Log.d("getThresholdLimit",timeDifference+"*"+avgCheckupTime+"*"+timeDifference/avgCheckupTime);
+        return (long) timeDifference/avgCheckupTime;
     }
 
     private int getTimeDifference(String s) {
@@ -143,7 +144,7 @@ public class BookAppointmentPresenter implements Contract.Presenter {
     }
 
     private void addDateToList(Boolean isAvailabilityDate, String a) {
-        java.util.Date date = null;
+        java.util.Date date = new Date();
 
         boolean status = false;
         sdf.setLenient(false);
@@ -162,7 +163,6 @@ public class BookAppointmentPresenter implements Contract.Presenter {
             else
                 unAvailabilityDates.add(cal);
         }
-        Log.d("WeekDays","DateAdded : "+sdf.format(date));
     }
 
     private int getDayOfWeek(String dayOfWeek) {

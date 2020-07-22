@@ -36,6 +36,8 @@ public class ModelDoctorInfo implements Serializable {
     ModelRequestId hospitalObjectId;
     @SerializedName("hospital_string_id")
     String hospitalStringId;
+    @SerializedName("unAvailableDates")
+    ArrayList<ModelDateTime> unAvailableDates;
 
     public ModelDoctorInfo(String name, String email, String phone_no, String address, String department, String careerHistory, String learningHistory, String avgCheckupTime, String availabilityType, ArrayList<String> doctorAvailability, ArrayList<String> doctorAvailabilityTime, String hospitalId) {
         this.name = name;
@@ -51,6 +53,8 @@ public class ModelDoctorInfo implements Serializable {
         DoctorAvailabilityTime = doctorAvailabilityTime;
         this.hospitalStringId = hospitalId;
     }
+
+    public ArrayList<ModelDateTime> getUnAvailableDates() { return unAvailableDates; }
 
     public ModelDoctorInfo(String name, String email, String phone_no, String address, String department, String careerHistory, String learningHistory, String avgCheckupTime, String availabilityType, ArrayList<String> doctorAvailability, ArrayList<String> doctorAvailabilityTime) {
         this.name = name;

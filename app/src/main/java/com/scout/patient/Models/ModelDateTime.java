@@ -1,9 +1,14 @@
 package com.scout.patient.Models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ModelDateTime {
+public class ModelDateTime implements Serializable {
+    @SerializedName("date")
     String date;
+    @SerializedName("unavailableTimes")
     ArrayList<String> unavailableTimes;
 
     public ModelDateTime(String date, ArrayList<String> unavailableTimes) {

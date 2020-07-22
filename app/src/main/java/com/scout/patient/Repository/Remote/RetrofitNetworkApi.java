@@ -6,6 +6,7 @@ import com.scout.patient.Models.ModelDateTime;
 import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Models.ModelHospitalInfo;
 import com.scout.patient.Models.ModelPatientInfo;
+import com.scout.patient.Models.ResponseMessage;
 
 import java.util.ArrayList;
 import okhttp3.ResponseBody;
@@ -30,7 +31,7 @@ public interface RetrofitNetworkApi {
     Call<ModelDoctorInfo> getDoctorInfo(@Query("email") String email, @Query("doctor_id") String id);
 
     @GET("Doctor/incoming_webhook/unavailableDates")
-    Call<ArrayList<ModelDateTime>> getUnavailableDates(@Query("doctor_id") String id);
+    Call<ModelDoctorInfo> getUnavailableDates(@Query("doctor_id") String id);
 
     @GET("Hospital/incoming_webhook/getAllHospitals")
     Call<ArrayList<ModelHospitalInfo>> getHospitalsList();
@@ -39,5 +40,5 @@ public interface RetrofitNetworkApi {
     Call<ArrayList<ModelAppointment>> getAppointments(@Query("patient_id") String patientId);
 
     @POST("Patient/incoming_webhook/bookAppointment")
-    Call<ResponseBody> bookAppointment(@Body ModelBookAppointment appointment);
+    Call<ResponseMessage> bookAppointment(@Body ModelBookAppointment appointment);
 }

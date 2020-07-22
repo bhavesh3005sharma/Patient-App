@@ -18,7 +18,7 @@ public class Contract {
     }
     interface  Presenter{
 
-        int getThresholdLimit(String time, String checkUpTime);
+        long getThresholdLimit(String time, String checkUpTime);
 
         Calendar[] getAvailabilityDates(ModelDoctorInfo doctorProfileInfo);
 

@@ -2,6 +2,7 @@ package com.scout.patient.ui.AppointmentBooking;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -151,9 +152,10 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                     String hospitalId = modelIntent.getDoctorProfileInfo().getHospitalObjectId().getId();
                     String hospitalName = modelIntent.getDoctorProfileInfo().getHospitalName();
                     String avgCheckupTime = modelIntent.getDoctorProfileInfo().getAvgCheckupTime();
+                    long thresholdLimit = presenter.getThresholdLimit(selectedTime,avgCheckupTime);
 
                     ModelBookAppointment appointment = new ModelBookAppointment(patientName, doctorName, hospitalName, disease, age, date,
-                            getString(R.string.pending), "", patientId, doctorId, hospitalId,selectedTime,presenter.getThresholdLimit(selectedTime,avgCheckupTime));
+                            getString(R.string.pending), "", patientId, doctorId, hospitalId,selectedTime,thresholdLimit);
 
                     presenter.bookAppointment( appointment);
                 }
@@ -215,11 +217,26 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = dayOfMonth+"/"+monthOfYear+"/"+year;
+    public void onDateSet(DatePickerDialog view, int year, int month, int day) {
+        month++;
+        String dayOfMonth = ""+day;
+        String monthOfYear = ""+month;
+        if (dayOfMonth.length() == 1)
+            dayOfMonth = "0" + dayOfMonth;
+
+        if (monthOfYear.length()==1)
+            monthOfYear = "0"+ month;
+        String date = dayOfMonth+"-"+monthOfYear+"-"+year;
         textViewSelectDate.setText(date);
+
+        setTime(date);
+    }
+
+    private void setTime(String date) {
         ArrayList CompleteTime = modelIntent.getDoctorProfileInfo().getDoctorAvailabilityTime();
         ArrayList AvailableTimes = new ArrayList();
+        if (partiallyUnavailableDates.size()==0)
+            AvailableTimes.addAll(CompleteTime);
         for(ModelDateTime dateTime : partiallyUnavailableDates){
             if(dateTime.getDate().equals(date)){
                 ArrayList unAvailableTimes = dateTime.getUnavailableTimes();
@@ -233,7 +250,10 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                 }
             }
         }
-        setChipGroup(AvailableTimes);
+        if (AvailableTimes.size()==0)
+            setChipGroup(CompleteTime);
+        else
+            setChipGroup(AvailableTimes);
     }
 
     private void setChipGroup(ArrayList<String> timeList) {
@@ -270,7 +290,9 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         now.add(Calendar.MONTH,2);
         datePickerDialog.setMaxDate(now);
 
-        datePickerDialog.setAccentColor(getColor(R.color.colorPrimary));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            datePickerDialog.setAccentColor(getColor(R.color.colorPrimary));
+        }
         datePickerDialog.setOkColor(Color.WHITE);
         datePickerDialog.setCancelColor(Color.WHITE);
         datePickerDialog.show(getSupportFragmentManager(),"DATE_PICKER");
