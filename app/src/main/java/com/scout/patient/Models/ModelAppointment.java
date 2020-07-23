@@ -7,6 +7,8 @@ public class ModelAppointment {
     ModelRequestId AppointmentId;
     @SerializedName("appointment_date")
     String AppointmentDate;
+    @SerializedName("appointment_time")
+    String AppointmentTime;
     @SerializedName("patient_name")
     String patientName;
     @SerializedName("hospital_name")
@@ -25,116 +27,58 @@ public class ModelAppointment {
     ModelRequestId PatientId;
     @SerializedName("doctor_id")
     ModelRequestId DoctorId;
-    @SerializedName("prescription_id")
-    ModelRequestId PrescriptionId;
-
-    public ModelAppointment(String patientName, String doctorName, String hospitalName, String disease, String age, String date , String status, String serialNumber, ModelRequestId patientId, ModelRequestId doctorId, ModelRequestId prescriptionId) {
-        this.AppointmentDate = date;
-        this.patientName = patientName;
-        this.hospitalName = hospitalName;
-        this.doctorName = doctorName;
-        this.Age = age;
-        this.Disease = disease;
-        this.Status = status;
-        this.SerialNumber = serialNumber;
-        this.PatientId = patientId;
-        this.DoctorId = doctorId;
-        this.PrescriptionId = prescriptionId;
-    }
+    @SerializedName("hospital_id")
+    ModelRequestId HospitalId;
 
     public ModelRequestId getAppointmentId() {
         return AppointmentId;
-    }
-
-    public void setAppointmentId(ModelRequestId appointmentId) {
-        AppointmentId = appointmentId;
-    }
-
-    public String getPatientName() {
-        return patientName;
-    }
-
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
-
-    public String getHospitalName() {
-        return hospitalName;
-    }
-
-    public void setHospitalName(String hospitalName) {
-        this.hospitalName = hospitalName;
-    }
-
-    public String getDoctorName() {
-        return doctorName;
-    }
-
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
-
-    public String getAge() {
-        return Age;
-    }
-
-    public void setAge(String age) {
-        Age = age;
-    }
-
-    public ModelRequestId getPatientId() {
-        return PatientId;
-    }
-
-    public void setPatientId(ModelRequestId patientId) {
-        PatientId = patientId;
-    }
-
-    public ModelRequestId getDoctorId() {
-        return DoctorId;
-    }
-
-    public void setDoctorId(ModelRequestId doctorId) {
-        DoctorId = doctorId;
-    }
-
-    public ModelRequestId getPrescriptionId() {
-        return PrescriptionId;
-    }
-
-    public void setPrescriptionId(ModelRequestId prescriptionId) {
-        PrescriptionId = prescriptionId;
     }
 
     public String getAppointmentDate() {
         return AppointmentDate;
     }
 
-    public void setAppointmentDate(String appointmentDate) {
-        AppointmentDate = appointmentDate;
+    public String getAppointmentTime() {
+        return AppointmentTime;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public String getAge() {
+        return Age;
     }
 
     public String getDisease() {
         return Disease;
     }
 
-    public void setDisease(String disease) {
-        Disease = disease;
-    }
-
     public String getStatus() {
         return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
     }
 
     public String getSerialNumber() {
         return SerialNumber;
     }
 
-    public void setSerialNumber(String serialNumber) {
-        SerialNumber = serialNumber;
+    public ModelRequestId getPatientId() {
+        return PatientId;
+    }
+
+    public ModelRequestId getDoctorId() {
+        return DoctorId;
+    }
+
+    public ModelRequestId getHospitalId() {
+        return HospitalId;
     }
 }

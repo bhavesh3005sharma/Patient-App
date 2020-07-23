@@ -19,8 +19,6 @@ import com.scout.patient.Models.ModelDateTime;
 import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
-import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
-import com.scout.patient.Retrofit.ApiService;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 import com.scout.patient.ui.Hospital.HospitalActivity;
@@ -32,8 +30,6 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 
 public class BookAppointmentActivity extends AppCompatActivity implements View.OnClickListener ,Contract.View, DatePickerDialog.OnDateSetListener, ChipGroup.OnCheckedChangeListener{
     @BindView(R.id.textInputPatientName) TextInputLayout textInputPatientName;

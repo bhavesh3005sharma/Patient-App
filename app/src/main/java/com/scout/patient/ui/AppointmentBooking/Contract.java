@@ -1,7 +1,5 @@
 package com.scout.patient.ui.AppointmentBooking;
 
-import android.widget.ProgressBar;
-
 import com.scout.patient.Models.ModelBookAppointment;
 import com.scout.patient.Models.ModelDateTime;
 import com.scout.patient.Models.ModelDoctorInfo;

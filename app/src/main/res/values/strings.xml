@@ -78,4 +78,11 @@
     <string name="doctor_activity_title">Check Our Doctors</string>
     <string name="select_hospital">Select Hospital</string>
     <string name="hospital_doctor_info">Hospital/Doctor Information</string>
+    <string name="consultation_with">Consultation With</string>
+    <string name="your_serial_number">Your Serial Number :</string>
+    <string name="book_another_appointment">Book Another Appointment</string>
+    <string name="completed">Completed</string>
+    <string name="title_appointments">Your Appointments</string>
+    <string name="filter_menu_title">FILTER</string>
+    <string name="no_filter">No Filter</string>
 </resources>

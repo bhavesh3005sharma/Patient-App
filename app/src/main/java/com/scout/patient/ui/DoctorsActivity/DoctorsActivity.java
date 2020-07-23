@@ -13,14 +13,12 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.scout.patient.Adapters.DoctorsAdapter;
 import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
-import com.scout.patient.Models.ModelBookAppointment;
 import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;

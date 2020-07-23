@@ -1,48 +1,43 @@
 package com.scout.patient.ui.Appointments;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.ProgressBar;
-
-import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.Models.ModelAppointment;
-
+import com.scout.patient.Models.ModelRequestId;
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AppointmentPresenter implements Contract.Presenter {
     Contract.View mainView;
+    Contract.Model model;
+    ArrayList<ModelRequestId> appointmentsIdsList = new ArrayList<>();
 
     public AppointmentPresenter(Contract.View mainView) {
         this.mainView = mainView;
+        model = new Model(AppointmentPresenter.this);
     }
 
     @Override
-    public void loadAppointments(Context context, Call<ArrayList<ModelAppointment>> call, ProgressBar progressBar) {
-        AppointmentActivity.isCallRunning = true;
-        call.enqueue(new Callback<ArrayList<ModelAppointment>>() {
-            @Override
-            public void onResponse(Call<ArrayList<ModelAppointment>> call, Response<ArrayList<ModelAppointment>> response) {
-                AppointmentActivity.isCallRunning = false;
-                HelperClass.hideProgressbar(progressBar);
-                AppointmentActivity.list.clear();
-                if (response.isSuccessful() && response.body()!=null){
-                    for(ModelAppointment appointment : response.body())
-                        AppointmentActivity.list.add(appointment);
-                    mainView.notifyAdapter();
-                    Log.d("AppointmentPresenter","Call executed");
-                }
-            }
+    public void loadAppointments(int startingIndex) {
+        model.getAppointmentsList(appointmentsIdsList,startingIndex);
+    }
 
-            @Override
-            public void onFailure(Call<ArrayList<ModelAppointment>> call, Throwable t) {
-                AppointmentActivity.isCallRunning = false;
-                HelperClass.hideProgressbar(progressBar);
-                HelperClass.toast(context,t.getMessage());
-            }
-        });
+    @Override
+    public void loadAppointmentsIdsList(Context context) {
+        model.getAppointmentsIdsList(context);
+    }
+
+    @Override
+    public void onError(String message) {
+        mainView.onError(message);
+    }
+
+    @Override
+    public void onSuccessIdsList(ArrayList<ModelRequestId> IdsList) {
+        appointmentsIdsList = IdsList;
+        model.getAppointmentsList(appointmentsIdsList,0);
+    }
+
+    @Override
+    public void onSuccessAppointmentsList(ArrayList<ModelAppointment> appointmentArrayList, int newStartingIndex) {
+        mainView.addDataToList(appointmentArrayList,newStartingIndex);
     }
 }

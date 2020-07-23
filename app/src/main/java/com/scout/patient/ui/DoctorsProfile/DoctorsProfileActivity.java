@@ -1,40 +1,21 @@
 package com.scout.patient.ui.DoctorsProfile;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.textfield.TextInputLayout;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
-import com.scout.patient.Models.ModelBookAppointment;
 import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

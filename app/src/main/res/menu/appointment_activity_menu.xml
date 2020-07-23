@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/search_bar"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/filter_menu"
+        android:title="@string/filter_menu_title"
+        android:icon="@drawable/ic_filter_list"
+        app:showAsAction="ifRoom">
+        <menu
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            tools:context=".MainActivity">
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/no_filter"
+                    android:checked="true"
+                    android:title="@string/no_filter"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/pending"
+                    android:title="@string/pending"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/accepted"
+                    android:title="@string/accepted"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/rejected"
+                    android:title="@string/rejected"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/completed"
+                    android:title="@string/completed"
+                    app:showAsAction="never" />
+            </group>
+        </menu>
+    </item>
+</menu>
