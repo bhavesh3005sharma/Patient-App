@@ -9,9 +9,7 @@ import com.scout.patient.Models.ModelRequestId;
 import com.scout.patient.Repository.Prefs.SharedPref;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
 import com.scout.patient.Retrofit.ApiService;
-
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +52,9 @@ public class Model implements Contract.Model {
         final int[] maxIndex = {10 + startingIndex};
         if(appointmentsIdsList.size()< maxIndex[0])
             maxIndex[0] = appointmentsIdsList.size();
+
+        if(appointmentsIdsList.size()==0)
+            presenter.onError("");
 
         for(int i = startingIndex; i< maxIndex[0]; i++){
             int finalI = i;

@@ -10,8 +10,6 @@ import java.util.ArrayList;
 public class Contract {
     interface  View{
 
-        void notifyAdapter();
-
         void onError(String message);
 
         void addDataToList(ArrayList<ModelAppointment> appointmentArrayList, int newStartingIndex);

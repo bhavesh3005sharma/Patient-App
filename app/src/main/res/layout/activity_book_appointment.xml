@@ -112,47 +112,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputAge" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <Spinner
+        android:id="@+id/selectionSpinner"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/black_border_background"
+        android:entries="@array/doctor_hospital_array"
+        android:padding="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textVw">
-
-        <TextView
-            android:id="@+id/textViewSelectDoctor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@android:color/white"
-            android:background="@drawable/accepted_backgrounded"
-            android:padding="10dp"
-            android:gravity="center"
-            android:text="@string/select_doctor"
-            android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="OR"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textViewSelectHospital"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:background="@drawable/accepted_backgrounded"
-            android:padding="10dp"
-            android:text="@string/select_hospital"
-            android:textSize="15sp" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/textVw" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardDoctorInfo"
@@ -164,7 +136,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+        app:layout_constraintTop_toBottomOf="@+id/selectionSpinner">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

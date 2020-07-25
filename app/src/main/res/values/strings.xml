@@ -42,13 +42,17 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+<!--     Appointment Status-->
+    <string name="pending">Pending</string>
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
+    <string name="completed">Completed</string>
+    <string name="not_attempted">Not Attempted</string>
+
     <string name="hospital">Hospital</string>
     <string name="doctor">Doctor</string>
     <string name="take_ambulance">Ambulance</string>
     <string name="specialists">Specialists</string>
-    <string name="pending">Pending</string>
-    <string name="accepted">Accepted</string>
-    <string name="rejected">Rejected</string>
     <string name="appointment_for">Appointment For</string>
     <string name="disease">Disease</string>
     <string name="age">Age</string>
@@ -81,7 +85,6 @@
     <string name="consultation_with">Consultation With</string>
     <string name="your_serial_number">Your Serial Number :</string>
     <string name="book_another_appointment">Book Another Appointment</string>
-    <string name="completed">Completed</string>
     <string name="title_appointments">Your Appointments</string>
     <string name="filter_menu_title">FILTER</string>
     <string name="no_filter">No Filter</string>

@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -38,8 +41,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     @BindView(R.id.text_hospital_name) TextView textInputHospitalName;
     @BindView(R.id.text_specialization) TextView textSpecialisation;
     @BindView(R.id.textPhoneNo) TextView textPhoneNo;
-    @BindView(R.id.textViewSelectDoctor) TextView textViewSelectDoctor;
-    @BindView(R.id.textViewSelectHospital) TextView textViewSelectHospital;
+    @BindView(R.id.selectionSpinner) Spinner spinner;
     @BindView(R.id.textInputDisease) TextInputLayout textInputDisease;
     @BindView(R.id.textInputAge) TextInputLayout textInputAge;
     @BindView(R.id.textViewSelectDate) TextView textViewSelectDate;
@@ -49,6 +51,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     @BindView(R.id.choice_chip_group) ChipGroup chipGroup;
 
     Unbinder unbinder;
+    int check=0;
     BookAppointmentPresenter presenter;
     ModelIntent modelIntent;
     String selectedTime = null;
@@ -74,8 +77,54 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
 
         buttonBookAppointment.setOnClickListener(this);
         textViewSelectDate.setOnClickListener(this);
-        textViewSelectDoctor.setOnClickListener(this);
-        textViewSelectHospital.setOnClickListener(this);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (++check>1) {
+                    if (position == 1)
+                        onDoctorSelected();
+                    if (position == 2)
+                        onHospitalSelected();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.d("onNothingSelected","");
+            }
+        });
+    }
+
+    private void onHospitalSelected() {
+        String patientName2 = textInputPatientName.getEditText().getText().toString().trim();
+                String disease2 = textInputDisease.getEditText().getText().toString().trim();
+                String age2 = textInputAge.getEditText().getText().toString().trim();
+
+        if (isValidData(patientName2,disease2,age2)){
+            ModelBookAppointment modelBookAppointment1 = new ModelBookAppointment(patientName2,disease2,age2);
+
+            modelIntent.setBookAppointmentData(modelBookAppointment1);
+            modelIntent.setIntentFromHospital(true);
+            startActivity(new Intent(BookAppointmentActivity.this, HospitalActivity.class).putExtra("modelIntent",modelIntent));
+            finish();
+        }else
+            spinner.setSelection(0);
+    }
+
+    private void onDoctorSelected() {
+        String patientName1 = textInputPatientName.getEditText().getText().toString().trim();
+        String disease1 = textInputDisease.getEditText().getText().toString().trim();
+        String age1 = textInputAge.getEditText().getText().toString().trim();
+
+        if (isValidData(patientName1,disease1,age1)){
+            ModelBookAppointment modelBookAppointment = new ModelBookAppointment(patientName1,disease1,age1);
+
+            modelIntent.setBookAppointmentData(modelBookAppointment);
+            modelIntent.setIntentFromHospital(false);
+            startActivity(new Intent(BookAppointmentActivity.this, DoctorsActivity.class).putExtra("modelIntent",modelIntent));
+            finish();
+        }else
+            spinner.setSelection(0);
     }
 
     public void openDatePicker(){
@@ -108,7 +157,9 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
             textInputDoctorName.setText(modelIntent.getDoctorProfileInfo().getName());
             textSpecialisation.setText(modelIntent.getDoctorProfileInfo().getDepartment());
             textPhoneNo.setText(modelIntent.getDoctorProfileInfo().getPhone_no());
-            //textViewSelectDoctor.setText("Change Doctor");
+            if (modelIntent.isIntentFromHospital())
+                spinner.setSelection(2);
+            else spinner.setSelection(1);
         }else {
             cardDoctorInfo.setVisibility(View.GONE);
             textViewSelectDate.setVisibility(View.GONE);
@@ -159,34 +210,6 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
 
             case R.id.textViewSelectDate :
                 openDatePicker();
-                break;
-            case R.id.textViewSelectDoctor :
-                String patientName1 = textInputPatientName.getEditText().getText().toString().trim();
-                String disease1 = textInputDisease.getEditText().getText().toString().trim();
-                String age1 = textInputAge.getEditText().getText().toString().trim();
-
-                if (isValidData(patientName1,disease1,age1)){
-                    ModelBookAppointment modelBookAppointment = new ModelBookAppointment(patientName1,disease1,age1);
-
-                    modelIntent.setBookAppointmentData(modelBookAppointment);
-                    modelIntent.setIntentFromHospital(false);
-                    startActivity(new Intent(BookAppointmentActivity.this, DoctorsActivity.class).putExtra("modelIntent",modelIntent));
-                    finish();
-                }
-                break;
-            case R.id.textViewSelectHospital :
-                String patientName2 = textInputPatientName.getEditText().getText().toString().trim();
-                String disease2 = textInputDisease.getEditText().getText().toString().trim();
-                String age2 = textInputAge.getEditText().getText().toString().trim();
-
-                if (isValidData(patientName2,disease2,age2)){
-                    ModelBookAppointment modelBookAppointment1 = new ModelBookAppointment(patientName2,disease2,age2);
-
-                    modelIntent.setBookAppointmentData(modelBookAppointment1);
-                    modelIntent.setIntentFromHospital(true);
-                    startActivity(new Intent(BookAppointmentActivity.this, HospitalActivity.class).putExtra("modelIntent",modelIntent));
-                    finish();
-                }
                 break;
         }
     }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="doctor_hospital_array" >
+        <item>@string/appointment_doctor</item>
+        <item>@string/doctor</item>
+        <item>@string/hospital</item>
+    </string-array>
+    <string name="select">Select ..</string>
+</resources>

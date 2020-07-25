@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ModelIntent implements Serializable {
-    ModelBookAppointment bookAppointmentData;
-    ModelDoctorInfo doctorProfileInfo;
-    ArrayList<ModelRequestId> listOfDoctors;
-    Boolean isIntentFromHospital;
+    private ModelBookAppointment bookAppointmentData;
+    private ModelDoctorInfo doctorProfileInfo;
+    private ArrayList<ModelRequestId> listOfDoctors;
+    private Boolean isIntentFromHospital;
 
     public ModelBookAppointment getBookAppointmentData() {
         return bookAppointmentData;

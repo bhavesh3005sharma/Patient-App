@@ -3,6 +3,7 @@ package com.scout.patient.ui.Appointments;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +45,7 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
     AppointmentsAdapter adapter;
     Unbinder unbinder;
     AppointmentPresenter presenter;
-    Boolean isScrolling = false;
+    Boolean isScrolling = false, isLoading = false;
     int currentItems, totalItems, scrollOutItems, startingIndex=-1;
 
     @Override
@@ -64,6 +65,7 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         initRecyclerView();
         list.clear();
         shimmerLayout.startShimmer();
+        isLoading = true;
         presenter.loadAppointmentsIdsList(this);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
@@ -104,8 +106,9 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
                 totalItems = manager.getItemCount();
                 scrollOutItems = manager.findFirstVisibleItemPosition();
 
-                if(isScrolling && (currentItems + scrollOutItems == totalItems) && startingIndex!=-1)
+                if(isScrolling && (currentItems + scrollOutItems == totalItems) && startingIndex!=-1 && !isLoading)
                 {
+                    isLoading = true;
                     isScrolling = false;
                     HelperClass.showProgressbar(progressBar);
                     presenter.loadAppointments(startingIndex);
@@ -115,20 +118,16 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
     }
 
     @Override
-    public void notifyAdapter() {
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
     public void onError(String message) {
         if (progressBar!=null)
         HelperClass.hideProgressbar(progressBar);
         HelperClass.toast(this,message);
+        isLoading = false;
     }
 
     @Override
     public void addDataToList(ArrayList<ModelAppointment> appointmentArrayList, int newStartingIndex) {
-        if (list!=null)
+        if (list!=null && appointmentArrayList!=null)
             list.addAll(appointmentArrayList);
         adapter.notifyDataSetChanged();
         startingIndex = newStartingIndex;
@@ -138,14 +137,19 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         }
         if (progressBar!=null)
          HelperClass.hideProgressbar(progressBar);
+        isLoading = false;
     }
 
     @Override
     public void onRefresh() {
-        list.clear();
-        shimmerLayout.setVisibility(View.VISIBLE);
-        shimmerLayout.startShimmer();
-        presenter.loadAppointmentsIdsList(this);
+        if (!isLoading) {
+            adapter.getFilter().filter("");
+            list.clear();
+            adapter.notifyDataSetChanged();
+            shimmerLayout.setVisibility(View.VISIBLE);
+            shimmerLayout.startShimmer();
+            presenter.loadAppointmentsIdsList(this);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -231,7 +235,7 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         textViewAge.setText(appointment.getAge());
         textViewDisease.setText(appointment.getDisease());
         if(appointment.getSerialNumber()!=null && !appointment.getSerialNumber().equals("")){
-            textViewSerialNo.setText(appointment.getSerialNumber());
+            textViewSerialNo.setText(getString(R.string.your_serial_number)+appointment.getSerialNumber());
             textViewSerialNo.setVisibility(View.VISIBLE);
         }
 

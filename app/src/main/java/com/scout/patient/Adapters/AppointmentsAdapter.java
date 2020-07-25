@@ -50,18 +50,18 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         holder.disease.setText(appointment.getDisease());
         holder.doctorName.setText(appointment.getDoctorName()+" (Doctor Name)");
 
-        if (appointment.getStatus().equals(context.getString(R.string.accepted))){
-            holder.status.setText(R.string.accepted);
+        if (appointment.getStatus().equals(context.getString(R.string.accepted)) || appointment.getStatus().equals(context.getString(R.string.completed))){
+            holder.status.setText(appointment.getStatus());
             holder.status.setTextColor(Color.WHITE);
             holder.status.setBackgroundResource(R.drawable.accepted_backgrounded);
         }
         if (appointment.getStatus().equals(context.getString(R.string.rejected))){
-            holder.status.setText(R.string.rejected);
+            holder.status.setText(appointment.getStatus());
             holder.status.setTextColor(Color.WHITE);
             holder.status.setBackgroundResource(R.drawable.rejected_backgrounded);
         }
-        if (appointment.getStatus().equals(context.getString(R.string.pending))){
-            holder.status.setText(R.string.pending);
+        if (appointment.getStatus().equals(context.getString(R.string.pending)) || appointment.getStatus().equals(context.getString(R.string.not_attempted))){
+            holder.status.setText(appointment.getStatus());
             holder.status.setTextColor(Color.BLACK);
             holder.status.setBackgroundResource(R.drawable.pending_backgrounded);
         }
