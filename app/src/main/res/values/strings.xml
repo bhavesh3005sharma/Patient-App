@@ -54,7 +54,7 @@
     <string name="take_ambulance">Ambulance</string>
     <string name="specialists">Specialists</string>
     <string name="appointment_for">Appointment For</string>
-    <string name="disease">Disease</string>
+    <string name="symptoms">Symptoms</string>
     <string name="age">Age</string>
     <string name="appointment_date_time">Appointment Date And Time</string>
     <string name="select_date">Select Date</string>
@@ -83,7 +83,7 @@
     <string name="select_hospital">Select Hospital</string>
     <string name="hospital_doctor_info">Hospital/Doctor Information</string>
     <string name="consultation_with">Consultation With</string>
-    <string name="your_serial_number">Your Serial Number :</string>
+    <string name="your_serial_number">Your Serial Number :  </string>
     <string name="book_another_appointment">Book Another Appointment</string>
     <string name="title_appointments">Your Appointments</string>
     <string name="filter_menu_title">FILTER</string>

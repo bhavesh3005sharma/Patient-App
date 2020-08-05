@@ -24,11 +24,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.scout.patient.Adapters.AppointmentsAdapter;
 import com.scout.patient.Models.ModelAppointment;
+import com.scout.patient.Models.ModelBookAppointment;
+import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
-import com.scout.patient.ui.AppointmentBooking.BookAppointmentPresenter;
 
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -47,6 +48,8 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
     AppointmentPresenter presenter;
     Boolean isScrolling = false, isLoading = false;
     int currentItems, totalItems, scrollOutItems, startingIndex=-1;
+    int checkedMenuItemId = R.id.no_filter;
+    LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
     @Override
     public void onDestroy() {
@@ -62,10 +65,11 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         unbinder = ButterKnife.bind(this);
         setToolbar();
 
-        initRecyclerView();
         list.clear();
+        initRecyclerView();
         shimmerLayout.startShimmer();
         isLoading = true;
+        Log.d("getApp","loadAppointmentsIdsList");
         presenter.loadAppointmentsIdsList(this);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
@@ -83,7 +87,6 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
     }
 
     private void initRecyclerView() {
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.hasFixedSize();
         adapter = new AppointmentsAdapter(this, list);
@@ -93,28 +96,21 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
-                {
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     isScrolling = true;
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                currentItems = manager.getChildCount();
-                totalItems = manager.getItemCount();
-                scrollOutItems = manager.findFirstVisibleItemPosition();
-
-                if(isScrolling && (currentItems + scrollOutItems == totalItems) && startingIndex!=-1 && !isLoading)
-                {
-                    isLoading = true;
-                    isScrolling = false;
-                    HelperClass.showProgressbar(progressBar);
-                    presenter.loadAppointments(startingIndex);
+                        check_loadMoreData();
                 }
             }
         });
+    }
+
+    public void check_loadMoreData() {
+        currentItems = manager.getChildCount();
+        totalItems = manager.getItemCount();
+        scrollOutItems = manager.findFirstVisibleItemPosition();
+
+        if (isScrolling && ((currentItems + scrollOutItems == totalItems) || scrollOutItems == -1) )
+            loadMoreData();
     }
 
     @Override
@@ -129,7 +125,7 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
     public void addDataToList(ArrayList<ModelAppointment> appointmentArrayList, int newStartingIndex) {
         if (list!=null && appointmentArrayList!=null)
             list.addAll(appointmentArrayList);
-        adapter.notifyDataSetChanged();
+
         startingIndex = newStartingIndex;
         if (shimmerLayout!=null) {
             shimmerLayout.setVisibility(View.GONE);
@@ -138,13 +134,44 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         if (progressBar!=null)
          HelperClass.hideProgressbar(progressBar);
         isLoading = false;
+        Log.d("getApp",list.size()+"");
+        switch (checkedMenuItemId){
+            case R.id.pending :
+                adapter.getFilter().filter(getString(R.string.pending));
+                break;
+            case R.id.completed :
+                adapter.getFilter().filter(getString(R.string.completed));
+                break;
+            case R.id.accepted :
+                adapter.getFilter().filter(getString(R.string.accepted));
+                break;
+            case R.id.rejected :
+                adapter.getFilter().filter(getString(R.string.rejected));
+                break;
+            case R.id.no_filter :
+                adapter.getFilter().filter("");
+                break;
+            case R.id.not_attempted :
+                adapter.getFilter().filter(getString(R.string.not_attempted));
+                break;
+        }
+    }
+
+    @Override
+    public void updateDoctorDetails(ModelDoctorInfo doctorInfo, ModelAppointment appointment) {
+        ModelIntent modelIntent = new ModelIntent();
+        modelIntent.setDoctorProfileInfo(doctorInfo);
+        modelIntent.setBookAppointmentData(new ModelBookAppointment(appointment.getPatientName(),appointment.getDisease(),appointment.getAge()));
+        Intent intent = new Intent(AppointmentActivity.this, BookAppointmentActivity.class);
+        intent.putExtra("modelIntent",modelIntent);
+        startActivity(intent);
     }
 
     @Override
     public void onRefresh() {
         if (!isLoading) {
-            adapter.getFilter().filter("");
             list.clear();
+            isLoading= true;
             adapter.notifyDataSetChanged();
             shimmerLayout.setVisibility(View.VISIBLE);
             shimmerLayout.startShimmer();
@@ -156,6 +183,7 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
+        checkedMenuItemId = item.getItemId();
         switch (item.getItemId()){
             case R.id.pending :
                  adapter.getFilter().filter(getString(R.string.pending));
@@ -172,6 +200,9 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
             case R.id.no_filter :
                 adapter.getFilter().filter("");
                 break;
+            case R.id.not_attempted :
+                adapter.getFilter().filter(getString(R.string.not_attempted));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -181,10 +212,6 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         getMenuInflater().inflate(R.menu.appointment_activity_menu,menu);
         
         MenuItem search = menu.findItem(R.id.search_bar);
-        MenuItem pending = menu.findItem(R.id.pending);
-        MenuItem accepted = menu.findItem(R.id.accepted);
-        MenuItem rejected = menu.findItem(R.id.rejected);
-        MenuItem completed = menu.findItem(R.id.completed);
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setQueryHint("Search Here!");
 
@@ -205,11 +232,22 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
     }
 
     @Override
-    public void holderClick(int position) {
-        openAppointmentDetails(position);
+    public void holderClick(ModelAppointment appointment) {
+        openAppointmentDetails(appointment);
     }
 
-    private void openAppointmentDetails(int position) {
+    @Override
+    public void loadMoreData() {
+        if ( startingIndex != -1 && !isLoading) {
+            Log.d("getAppointmentsList","loading Data..");
+            isLoading = true;
+            isScrolling = false;
+            HelperClass.showProgressbar(progressBar);
+            presenter.loadAppointments(startingIndex);
+        }
+    }
+
+    private void openAppointmentDetails(ModelAppointment appointment) {
         AlertDialog.Builder builder = new AlertDialog.Builder( this );
         View view = LayoutInflater.from(this).inflate(R.layout.dialogue_appointment_details, null, false);
         builder.setView(view);
@@ -227,7 +265,6 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         TextView textViewStatus = view.findViewById(R.id.textViewStatus);
         TextView buttonBookAppointment = view.findViewById(R.id.buttonBookAppointment);
 
-        ModelAppointment appointment = list.get(position);
         doctorHospitalName.setText(appointment.getDoctorName()+"\n("+appointment.getHospitalName()+")");
         patientName.setText(appointment.getPatientName());
         textViewDate.setText(appointment.getAppointmentDate());
@@ -235,32 +272,32 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         textViewAge.setText(appointment.getAge());
         textViewDisease.setText(appointment.getDisease());
         if(appointment.getSerialNumber()!=null && !appointment.getSerialNumber().equals("")){
-            textViewSerialNo.setText(getString(R.string.your_serial_number)+appointment.getSerialNumber());
+            textViewSerialNo.setText(getString(R.string.your_serial_number)+" "+appointment.getSerialNumber());
             textViewSerialNo.setVisibility(View.VISIBLE);
         }
 
-        if (appointment.getStatus().equals(getString(R.string.accepted))){
-            textViewStatus.setText(R.string.accepted);
+        if (appointment.getStatus().equals(getString(R.string.accepted)) || appointment.getStatus().equals(getString(R.string.completed))){
+            textViewStatus.setText(appointment.getStatus());
             textViewStatus.setTextColor(Color.WHITE);
             textViewStatus.setBackgroundResource(R.drawable.accepted_backgrounded);
         }
         if (appointment.getStatus().equals(getString(R.string.rejected))){
-            textViewStatus.setText(R.string.rejected);
+            textViewStatus.setText(appointment.getStatus());
             textViewStatus.setTextColor(Color.WHITE);
             textViewStatus.setBackgroundResource(R.drawable.rejected_backgrounded);
         }
-        if (appointment.getStatus().equals(getString(R.string.pending))){
-            textViewStatus.setText(R.string.pending);
+        if (appointment.getStatus().equals(getString(R.string.pending)) || appointment.getStatus().equals(getString(R.string.not_attempted))){
+            textViewStatus.setText(appointment.getStatus());
             textViewStatus.setTextColor(Color.BLACK);
             textViewStatus.setBackgroundResource(R.drawable.pending_backgrounded);
         }
 
-        if (appointment.getStatus().equals(getString(R.string.completed))){
+        if (!appointment.getStatus().equals(getString(R.string.accepted)) && !appointment.getStatus().equals(getString(R.string.pending))){
             buttonBookAppointment.setVisibility(View.VISIBLE);
             buttonBookAppointment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(AppointmentActivity.this, BookAppointmentActivity.class));
+                    presenter.getDoctorProfileData(appointment.getDoctorId().getId(),appointment);
                 }
             });
         }

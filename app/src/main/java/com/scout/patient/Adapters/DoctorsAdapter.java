@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -97,7 +98,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.viewHold
         @BindView(R.id.text_location)
         TextView location;
         @BindView(R.id.profileImage)
-        CircularImageView image;
+        ImageView image;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);

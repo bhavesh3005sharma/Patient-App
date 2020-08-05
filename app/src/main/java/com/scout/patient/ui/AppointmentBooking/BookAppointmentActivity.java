@@ -144,9 +144,11 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
             textInputPatientName.getEditText().setText(modelIntent.getBookAppointmentData().getPatientName());
             textInputDisease.getEditText().setText(modelIntent.getBookAppointmentData().getDisease());
             textInputAge.getEditText().setText(modelIntent.getBookAppointmentData().getAge());
-            textViewSelectDate.setText(modelIntent.getBookAppointmentData().getAppointmentDate());
-        }else
+            if (modelIntent.getBookAppointmentData().getAppointmentDate()!=null)
+                textViewSelectDate.setText(modelIntent.getBookAppointmentData().getAppointmentDate());
+        }else {
             textInputPatientName.getEditText().setText(SharedPref.getLoginUserData(this).getName());
+        }
 
         if(modelIntent!=null && modelIntent.getDoctorProfileInfo()!=null){
             cardDoctorInfo.setVisibility(View.VISIBLE);
@@ -157,7 +159,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
             textInputDoctorName.setText(modelIntent.getDoctorProfileInfo().getName());
             textSpecialisation.setText(modelIntent.getDoctorProfileInfo().getDepartment());
             textPhoneNo.setText(modelIntent.getDoctorProfileInfo().getPhone_no());
-            if (modelIntent.isIntentFromHospital())
+            if (modelIntent.isIntentFromHospital()!=null && modelIntent.isIntentFromHospital())
                 spinner.setSelection(2);
             else spinner.setSelection(1);
         }else {
@@ -229,6 +231,11 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
 
         if (age.isEmpty()) {
             textInputAge.setError("Age is Mandatory");
+            textInputAge.requestFocus();
+            return false;
+        }
+        else if (Integer.parseInt(age)>120) {
+            textInputAge.setHelperText("Please Provide Valid Age.");
             textInputAge.requestFocus();
             return false;
         } else textInputAge.setError(null);

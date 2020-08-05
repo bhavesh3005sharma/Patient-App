@@ -117,7 +117,6 @@ public class BookAppointmentPresenter implements Contract.Presenter {
     public long getThresholdLimit(String time, String checkUpTime) {
         int timeDifference = getTimeDifference(time);
         int avgCheckupTime = Integer.valueOf(checkUpTime);
-        Log.d("getThresholdLimit",timeDifference+"*"+avgCheckupTime+"*"+timeDifference/avgCheckupTime);
         return (long) timeDifference/avgCheckupTime;
     }
 

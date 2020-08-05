@@ -3,6 +3,7 @@ package com.scout.patient.ui.Appointments;
 import android.content.Context;
 
 import com.scout.patient.Models.ModelAppointment;
+import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Models.ModelRequestId;
 
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ public class Contract {
         void onError(String message);
 
         void addDataToList(ArrayList<ModelAppointment> appointmentArrayList, int newStartingIndex);
+
+        void updateDoctorDetails(ModelDoctorInfo doctorInfo, ModelAppointment position);
     }
     interface  Presenter{
 
@@ -25,6 +28,10 @@ public class Contract {
         void onSuccessIdsList(ArrayList<ModelRequestId> appointmentIdsList);
 
         void onSuccessAppointmentsList(ArrayList<ModelAppointment> appointmentArrayList, int newStartingIndex);
+
+        void getDoctorProfileData(String id, ModelAppointment position);
+
+        void onSuccessDoctorDetails(ModelDoctorInfo body, ModelAppointment position);
     }
 
     interface Model{
@@ -32,5 +39,7 @@ public class Contract {
         void getAppointmentsIdsList(Context context);
 
         void getAppointmentsList(ArrayList<ModelRequestId> appointmentsIdsList, int startingIndex);
+
+        void getDoctorProfileData(String id, ModelAppointment position);
     }
 }

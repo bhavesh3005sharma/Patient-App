@@ -41,6 +41,10 @@
                     android:id="@+id/completed"
                     android:title="@string/completed"
                     app:showAsAction="never" />
+                <item
+                    android:id="@+id/not_attempted"
+                    android:title="@string/not_attempted"
+                    app:showAsAction="never" />
             </group>
         </menu>
     </item>

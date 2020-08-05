@@ -1,11 +1,12 @@
 package com.scout.patient.ui.DoctorsActivity;
 
-import com.google.android.gms.common.api.Api;
 import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Models.ModelRequestId;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
 import com.scout.patient.Retrofit.ApiService;
+
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
