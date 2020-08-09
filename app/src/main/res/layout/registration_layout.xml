@@ -33,6 +33,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,6 +54,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,6 +75,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="phone"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,7 +87,7 @@
         android:hint="@string/loginPassword"
         app:errorTextColor="@android:color/holo_red_light"
         app:errorIconTint="@android:color/holo_red_light"
-        app:passwordToggleEnabled="true"
+        app:passwordToggleEnabled="false"
         app:startIconDrawable="@drawable/ic_lock"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +97,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,6 +118,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,6 +139,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -154,6 +160,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 

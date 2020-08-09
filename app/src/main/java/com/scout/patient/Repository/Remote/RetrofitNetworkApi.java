@@ -23,6 +23,12 @@ public interface RetrofitNetworkApi {
     @POST("Patient/incoming_webhook/registerPatient")
     Call<ResponseBody> registerPatient(@Body ModelPatientInfo patientInfo);
 
+    @POST("Patient/incoming_webhook/updateProfileData")
+    Call<ResponseBody> updateProfileData(@Body ModelPatientInfo patientInfo);
+
+    @GET("Patient/incoming_webhook/updateProfilePic")
+    Call<ResponseBody> updateProfilePic(@Query("id") String  id, @Query("url") String url);
+
     @GET("Doctor/incoming_webhook/getAllDoctors")
     Call<ArrayList<ModelDoctorInfo>> getDoctorsList();
 

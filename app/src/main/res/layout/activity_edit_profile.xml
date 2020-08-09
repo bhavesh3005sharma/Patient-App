@@ -5,12 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Profile.ProfileActivity">
+    tools:context=".ui.EditProfile.EditProfileActivity">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
@@ -36,13 +32,13 @@
                     app:civ_border_color="#707173"
                     app:civ_border_width="1dp"
                     app:civ_shadow="true"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:civ_shadow_color="#707173"
                     app:civ_shadow_radius="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <EditText
                     android:id="@+id/textViewName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -51,19 +47,10 @@
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:inputType="textPersonName"
                     app:layout_constraintEnd_toStartOf="@+id/profileImage"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/profileImage" />
-
-                <ImageView
-                    android:id="@+id/editProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="@+id/textViewName"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewName"
-                    app:srcCompat="@drawable/ic_edit" />
 
                 <TextView
                     android:id="@+id/textInfoAccount"
@@ -73,8 +60,8 @@
                     android:text="@string/account_information"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toStartOf="@+id/editProfile"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/textViewName"
                     app:layout_constraintStart_toStartOf="@+id/textViewName"
                     app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
@@ -86,7 +73,7 @@
                     android:background="@drawable/background_account"
                     android:orientation="vertical"
                     android:padding="10dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textInfoAccount">
@@ -97,95 +84,12 @@
                         android:text="@string/address"
                         android:textSize="16sp" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:padding="5dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="@string/email"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:padding="5dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="@string/phoneNo"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/contactNo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:padding="5dp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textInfoMedical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/medical_information"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="@+id/account_details"
-                    app:layout_constraintStart_toStartOf="@+id/account_details"
-                    app:layout_constraintTop_toBottomOf="@+id/account_details" />
-
-                <LinearLayout
-                    android:id="@+id/medical_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/background_account"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textInfoMedical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/medical_history"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/medical_history"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:padding="5dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="@string/blood_group"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/blood_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:inputType="textPostalAddress"
                         android:padding="5dp" />
 
                     <TextView
@@ -200,7 +104,89 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:background="@drawable/pending_backgrounded"
+                        android:drawableEnd="@drawable/ic_calender"
+                        android:text="@string/dob"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:text="@string/phoneNo"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/contactNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:inputType="phone"
                         android:padding="5dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textInfoMedical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/medical_information"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/account_details"
+                    app:layout_constraintStart_toStartOf="@+id/account_details"
+                    app:layout_constraintTop_toBottomOf="@+id/account_details" />
+
+                <LinearLayout
+                    android:id="@+id/medical_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/background_account"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInfoMedical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/medical_history"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/medical_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:inputType="textMultiLine"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:text="@string/blood_group"
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/blood_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/bloodGroups"
+                        android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:background="@drawable/black_border_background"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputDOB" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -209,11 +195,12 @@
                         android:text="@string/weight"
                         android:textSize="16sp" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/weight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:inputType="number"
                         android:padding="5dp" />
 
                 </LinearLayout>
@@ -222,6 +209,7 @@
                     android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -230,6 +218,4 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

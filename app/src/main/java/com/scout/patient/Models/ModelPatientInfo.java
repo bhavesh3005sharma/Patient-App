@@ -2,9 +2,10 @@ package com.scout.patient.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ModelPatientInfo {
+public class ModelPatientInfo implements Serializable {
     @SerializedName("_id")
     ModelRequestId patientId;
     @SerializedName("email")
@@ -13,6 +14,8 @@ public class ModelPatientInfo {
     String weight;
     @SerializedName("name")
     String name;
+    @SerializedName("url")
+    String url;
     @SerializedName("dob")
     String DOB;
     @SerializedName("phone_no")
@@ -35,6 +38,14 @@ public class ModelPatientInfo {
         this.address = address;
         this.bloodGroup = bloodGroup;
         MedicalHistory = medicalHistory;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public ArrayList<ModelRequestId> getAppointmentIdsList() { return AppointmentIdsList; }

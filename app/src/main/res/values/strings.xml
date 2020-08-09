@@ -33,7 +33,7 @@
     <string name="pref_for_user_data">Shared Preference For Loggedin User Data</string>
 
     <string name="startUp_name">Dr. Scout</string>
-    <string name="description">You can Select a Docyor whom you want to appoint or can just visit their profile</string>
+    <string name="description">You can Select a Doctor whom you want to appoint or can just visit their profile</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="appointment">Appointments</string>
@@ -42,7 +42,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-<!--     Appointment Status-->
+    <!--     Appointment Status-->
     <string name="pending">Pending</string>
     <string name="accepted">Accepted</string>
     <string name="rejected">Rejected</string>
@@ -88,4 +88,11 @@
     <string name="title_appointments">Your Appointments</string>
     <string name="filter_menu_title">FILTER</string>
     <string name="no_filter">No Filter</string>
+    <string name="account_information">Account Information</string>
+    <string name="medical_information">Medical Information</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="save_for_profile_pic">Save For Profile Pic</string>
 </resources>

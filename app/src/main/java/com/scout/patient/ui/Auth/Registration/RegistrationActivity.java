@@ -50,7 +50,6 @@ public class RegistrationActivity extends AppCompatActivity implements Contract.
     MaterialDatePicker datePicker;
     Unbinder unbinder;
     RegistrationPresenter presenter;
-    private static final String TAG = "RegistrationActivity";
 
     @Override
     protected void onDestroy() {
