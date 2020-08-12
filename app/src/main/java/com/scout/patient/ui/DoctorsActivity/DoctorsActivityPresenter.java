@@ -1,6 +1,6 @@
 package com.scout.patient.ui.DoctorsActivity;
 
-import com.scout.patient.Models.ModelDoctorInfo;
+import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.Models.ModelRequestId;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class DoctorsActivityPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void onSuccess(ArrayList<ModelDoctorInfo> data) {
+    public void onSuccess(ArrayList<ModelKeyData> data) {
         mainView.updateSuccessUi(data);
     }
 

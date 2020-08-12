@@ -1,6 +1,7 @@
 package com.scout.patient.ui.Hospital;
 
 import com.scout.patient.Models.ModelHospitalInfo;
+import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
 import com.scout.patient.Retrofit.ApiService;
 
@@ -21,9 +22,9 @@ public class Model implements Contract.Model {
     @Override
     public void loadHospitalsList() {
         networkApi = ApiService.getAPIService();
-        networkApi.getHospitalsList().enqueue(new Callback<ArrayList<ModelHospitalInfo>>() {
+        networkApi.getHospitalsList().enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
-            public void onResponse(Call<ArrayList<ModelHospitalInfo>> call, Response<ArrayList<ModelHospitalInfo>> response) {
+            public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
                 if (response.isSuccessful() || response.code()==200)
                     presenter.onSuccess(response.body());
                 else
@@ -31,7 +32,7 @@ public class Model implements Contract.Model {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<ModelHospitalInfo>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<ModelKeyData>> call, Throwable t) {
                 presenter.onError(t.getMessage());
             }
         });

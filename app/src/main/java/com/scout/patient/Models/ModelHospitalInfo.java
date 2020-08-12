@@ -10,6 +10,8 @@ public class ModelHospitalInfo {
     String name;
     @SerializedName("email")
     String email;
+    @SerializedName("url")
+    String url;
     @SerializedName("phone_no")
     String phone_no;
     @SerializedName("address")
@@ -27,6 +29,10 @@ public class ModelHospitalInfo {
 
     public void setHospitalDoctors(ArrayList<ModelRequestId> hospitalDoctors) {
         this.hospitalDoctors = hospitalDoctors;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public ModelRequestId getHospitalId() {

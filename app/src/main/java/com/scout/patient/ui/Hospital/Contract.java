@@ -1,6 +1,6 @@
 package com.scout.patient.ui.Hospital;
 
-import com.scout.patient.Models.ModelHospitalInfo;
+import com.scout.patient.Models.ModelKeyData;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ public class Contract {
 
         void setErrorUi(String message);
 
-        void updateSuccessUi(ArrayList<ModelHospitalInfo> data);
+        void updateSuccessUi(ArrayList<ModelKeyData> data);
     }
     interface  Presenter{
 
@@ -19,7 +19,7 @@ public class Contract {
 
         void onError(String message);
 
-        void onSuccess(ArrayList<ModelHospitalInfo> body);
+        void onSuccess(ArrayList<ModelKeyData> body);
     }
 
     interface  Model{

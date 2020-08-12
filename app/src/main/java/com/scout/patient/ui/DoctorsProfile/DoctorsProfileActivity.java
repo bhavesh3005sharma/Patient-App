@@ -11,10 +11,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Models.ModelIntent;
+import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
-import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
 
 import butterknife.BindView;

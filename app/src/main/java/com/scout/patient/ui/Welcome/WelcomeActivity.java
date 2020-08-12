@@ -22,6 +22,7 @@ import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 import com.scout.patient.ui.Hospital.HospitalActivity;
 import com.scout.patient.ui.Notification.NotificationActivity;
 import com.scout.patient.ui.Profile.ProfileActivity;
+import com.scout.patient.ui.SearchActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,7 +98,7 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
                 startActivity(new Intent(this, NotificationActivity.class));
                 break;
             case R.id.menu_profile:
-                startActivity(new Intent(this, ProfileActivity.class));
+                startActivity(new Intent(this, SearchActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

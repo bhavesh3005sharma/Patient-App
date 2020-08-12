@@ -10,6 +10,8 @@ public class ModelDoctorInfo implements Serializable {
     ModelRequestId doctorId;
     @SerializedName("name")
     String name;
+    @SerializedName("url")
+    String url;
     @SerializedName("hospital_name")
     String hospitalName;
     @SerializedName("email")
@@ -68,6 +70,10 @@ public class ModelDoctorInfo implements Serializable {
         AvailabilityType = availabilityType;
         DoctorAvailability = doctorAvailability;
         DoctorAvailabilityTime = doctorAvailabilityTime;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public String getHospitalStringId() {

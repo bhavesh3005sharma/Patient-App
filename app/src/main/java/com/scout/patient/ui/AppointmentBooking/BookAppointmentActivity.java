@@ -38,7 +38,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     @BindView(R.id.textInputPatientName) TextInputLayout textInputPatientName;
     @BindView(R.id.cardDoctorInfo) CardView cardDoctorInfo;
     @BindView(R.id.text_doctor_name) TextView textInputDoctorName;
-    @BindView(R.id.text_hospital_name) TextView textInputHospitalName;
+    @BindView(R.id.text_name) TextView textInputHospitalName;
     @BindView(R.id.text_specialization) TextView textSpecialisation;
     @BindView(R.id.textPhoneNo) TextView textPhoneNo;
     @BindView(R.id.selectionSpinner) Spinner spinner;

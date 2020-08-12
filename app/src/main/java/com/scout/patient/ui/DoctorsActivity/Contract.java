@@ -1,9 +1,6 @@
 package com.scout.patient.ui.DoctorsActivity;
 
-import android.content.Context;
-import android.widget.ProgressBar;
-
-import com.scout.patient.Models.ModelDoctorInfo;
+import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.Models.ModelRequestId;
 
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ public class Contract {
 
         void setErrorUi(String message);
 
-        void updateSuccessUi(ArrayList<ModelDoctorInfo> data);
+        void updateSuccessUi(ArrayList<ModelKeyData> data);
     }
     interface  Presenter{
 
@@ -23,7 +20,7 @@ public class Contract {
 
         void onError(String message);
 
-        void onSuccess(ArrayList<ModelDoctorInfo> body);
+        void onSuccess(ArrayList<ModelKeyData> body);
 
         void loadDoctorsList(ArrayList<ModelRequestId> listOfDoctors);
     }

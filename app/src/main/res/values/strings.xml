@@ -95,4 +95,9 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="save_for_profile_pic">Save For Profile Pic</string>
+    <string name="our_doctors">OUR DOCTORS</string>
+    <string name="our_departments">OUR DEPARTMENTS</string>
+    <string name="year_establishment">"Eastablished in year "</string>
+    <string name="pref_for_hospitals_list">SharedPreference For Hospitals List</string>
+    <string name="pref_for_doctors_list">SharedPreference For Doctors List</string>
 </resources>

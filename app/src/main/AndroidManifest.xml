@@ -9,10 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.EditProfile.EditProfileActivity"></activity>
+        <activity android:name=".ui.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.SplashScreen"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.HospitalProfile.HospitalProfileActivity" />
+        <activity android:name=".ui.EditProfile.EditProfileActivity" />
         <activity
-            android:name=".ui.Hospital.HospitalActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.Hospital.HospitalActivity"/>
         <activity
             android:name=".ui.Auth.ForgotPasswordActivity"
             android:screenOrientation="portrait"
@@ -28,9 +38,7 @@
             android:configChanges="keyboard|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.DoctorsActivity.DoctorsActivity"
-            android:label="@string/specialists"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.DoctorsActivity.DoctorsActivity"/>
         <activity
             android:name=".ui.Welcome.WelcomeActivity"
             android:screenOrientation="portrait"

@@ -1,6 +1,7 @@
 package com.scout.patient.ui.Hospital;
 
-import com.scout.patient.Models.ModelHospitalInfo;
+import com.scout.patient.Models.ModelKeyData;
+
 import java.util.ArrayList;
 
 public class HospitalsPresenter implements Contract.Presenter {
@@ -23,7 +24,7 @@ public class HospitalsPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void onSuccess(ArrayList<ModelHospitalInfo> data) {
+    public void onSuccess(ArrayList<ModelKeyData> data) {
         mainView.updateSuccessUi(data);
     }
 }

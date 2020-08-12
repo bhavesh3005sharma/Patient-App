@@ -27,6 +27,7 @@ import com.scout.patient.Models.ModelAppointment;
 import com.scout.patient.Models.ModelBookAppointment;
 import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Models.ModelIntent;
+import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
