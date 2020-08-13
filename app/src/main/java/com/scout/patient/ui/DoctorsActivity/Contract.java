@@ -16,19 +16,19 @@ public class Contract {
     }
     interface  Presenter{
 
-        void loadDoctorsList();
+        void loadDoctorsList(String startingValue, int noOfItems);
 
         void onError(String message);
 
         void onSuccess(ArrayList<ModelKeyData> body);
 
-        void loadDoctorsList(ArrayList<ModelRequestId> listOfDoctors);
+        void loadDoctorsList(ArrayList<ModelRequestId> listOfDoctors, int startingIndex);
     }
 
     interface  Model{
 
-        void getDoctorsList();
+        void getDoctorsList(String statingValue, int noOfItems);
 
-        void getDoctorsList(ArrayList<ModelRequestId> listOfDoctorsIds);
+        void getDoctorsList(ArrayList<ModelRequestId> listOfDoctorsIds, int startingIndex);
     }
 }

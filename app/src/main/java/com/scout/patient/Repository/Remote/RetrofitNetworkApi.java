@@ -33,7 +33,7 @@ public interface RetrofitNetworkApi {
     Call<ResponseBody> updateProfilePic(@Query("id") String  id, @Query("url") String url);
 
     @GET("Doctor/incoming_webhook/getAllDoctors")
-    Call<ArrayList<ModelKeyData>> getDoctorsList();
+    Call<ArrayList<ModelKeyData>> getDoctorsList(@Query("startValue") String startValue, @Query("noOfItems") int noOfItems);
 
     @GET("Doctor/incoming_webhook/getDoctorInfo")
     Call<ModelDoctorInfo> getDoctorInfo(@Query("email") String email, @Query("doctor_id") String id);
@@ -45,7 +45,7 @@ public interface RetrofitNetworkApi {
     Call<ModelDoctorInfo> getUnavailableDates(@Query("doctor_id") String id);
 
     @GET("Hospital/incoming_webhook/getAllHospitals")
-    Call<ArrayList<ModelKeyData>> getHospitalsList(@Query("startValue") String startValue, @Query("noOfItems") int noOfItmes);
+    Call<ArrayList<ModelKeyData>> getHospitalsList(@Query("startValue") String startValue, @Query("noOfItems") int noOfItems);
 
     @GET("Patient/incoming_webhook/getAppointmentsIdsList")
     Call<ModelPatientInfo> getAppointmentsIdsList(@Query("patient_id") String patientId);

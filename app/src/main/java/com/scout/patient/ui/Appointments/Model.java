@@ -48,7 +48,6 @@ public class Model implements Contract.Model {
 
     @Override
     public void getAppointmentsList(ArrayList<ModelRequestId> appointmentsIdsList, int startingIndex) {
-        Log.d("getAppointmentsList","Size - "+appointmentsIdsList.size()+ " Index - "+startingIndex);
         networkApi = ApiService.getAPIService();
         ArrayList<ModelAppointment> appointmentArrayList = new ArrayList<>();
         final int[] maxIndex = {10 + startingIndex};
@@ -58,7 +57,6 @@ public class Model implements Contract.Model {
         if(appointmentsIdsList.size()==0)
             presenter.onError("");
 
-        Log.d("getAppointmentsList","maxIndex - "+maxIndex[0]);
         for(int i = startingIndex; i< maxIndex[0]; i++){
             int finalI = i;
             networkApi.getAppointmentsDetails(appointmentsIdsList.get(i).getId()).enqueue(new Callback<ModelAppointment>() {
@@ -66,7 +64,6 @@ public class Model implements Contract.Model {
                 public void onResponse(Call<ModelAppointment> call, Response<ModelAppointment> response) {
                     if(response.isSuccessful() && response.code()==200){
                         appointmentArrayList.add(response.body());
-                        Log.d("getAppointmentsList","Response(finalI) - "+finalI);
 
                         if(appointmentArrayList.size() == maxIndex[0] - startingIndex){
                             int newStartingIndex;
@@ -78,7 +75,6 @@ public class Model implements Contract.Model {
                         }
                     }
                     else {
-                        Log.d("getAppointmentsList","Error(finalI) - "+finalI);
                         presenter.onError(response.errorBody().toString());
                     }
                 }
@@ -86,7 +82,6 @@ public class Model implements Contract.Model {
                 @Override
                 public void onFailure(Call<ModelAppointment> call, Throwable t) {
                     presenter.onError(t.getMessage());
-                    Log.d("getAppointmentsList","Fail(finalI) - "+finalI);
                 }
             });
         }

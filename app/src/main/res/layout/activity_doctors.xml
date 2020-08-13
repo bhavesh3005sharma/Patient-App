@@ -7,10 +7,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/shimmerLayout"
+        layout="@layout/shimmer_layout_details"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 <!--    <com.google.android.material.appbar.AppBarLayout-->
@@ -84,6 +89,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal|bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

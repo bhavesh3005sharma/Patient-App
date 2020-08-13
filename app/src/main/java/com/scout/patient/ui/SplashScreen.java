@@ -5,10 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
-import com.scout.patient.Models.ModelKeyData;
-import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
@@ -44,7 +41,7 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void loadSearchData() {
-        ApiService.getAPIService().getHospitalsList("",-1).enqueue(new Callback<ArrayList<ModelKeyData>>() {
+        ApiService.getAPIService().getHospitalsList(null,-1).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
                 if (response.isSuccessful() && response.code()==200 && response.body()!=null){
@@ -58,7 +55,7 @@ public class SplashScreen extends AppCompatActivity {
             }
         });
 
-        ApiService.getAPIService().getDoctorsList().enqueue(new Callback<ArrayList<ModelKeyData>>() {
+        ApiService.getAPIService().getDoctorsList(null, -1).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
                 if (response.isSuccessful() && response.code()==200 && response.body()!=null){

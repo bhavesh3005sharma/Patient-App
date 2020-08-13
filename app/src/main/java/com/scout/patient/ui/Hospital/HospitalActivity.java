@@ -60,12 +60,14 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
         unbinder = ButterKnife.bind(this);
+        presenter = new HospitalsPresenter(HospitalActivity.this);
 
         modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
         if (modelIntent==null)
             modelIntent = new ModelIntent();
-        presenter = new HospitalsPresenter(HospitalActivity.this);
+
         initUi();
+        isLoading = true;
         presenter.getHospitalsList(null,1);
     }
 
@@ -107,7 +109,6 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
 
     private void loadMoreData() {
         if ( startingValue != null && !isLoading) {
-            Log.d("getAppointmentsList","loading Data..");
             isLoading = true;
             isScrolling = false;
             HelperClass.showProgressbar(progressBar);

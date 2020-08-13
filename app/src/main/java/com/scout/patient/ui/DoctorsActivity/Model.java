@@ -21,9 +21,9 @@ public class Model implements Contract.Model {
     }
 
     @Override
-    public void getDoctorsList() {
+    public void getDoctorsList(String startingValue, int noOfItems) {
         networkApi = ApiService.getAPIService();
-        networkApi.getDoctorsList().enqueue(new Callback<ArrayList<ModelKeyData>>() {
+        networkApi.getDoctorsList(startingValue,noOfItems).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
                 if (response.isSuccessful() && response.body()!=null){
@@ -40,33 +40,34 @@ public class Model implements Contract.Model {
     }
 
     @Override
-    public void getDoctorsList(ArrayList<ModelRequestId> listOfDoctorsIds) {
-        ArrayList<ModelKeyData> doctorInfoArrayList = new ArrayList<>();
-        final Boolean[] isError = {false};
+    public void getDoctorsList(ArrayList<ModelRequestId> listOfDoctorsIds, int startingIndex) {
         networkApi = ApiService.getAPIService();
+        ArrayList<ModelKeyData> doctorInfoArrayList = new ArrayList<>();
 
-        if (listOfDoctorsIds==null || listOfDoctorsIds.isEmpty())
-            presenter.onSuccess(new ArrayList<>());
-        else
-            for (ModelRequestId id : listOfDoctorsIds){
-            networkApi.getShortDoctorInfo(null,id.getId()).enqueue(new Callback<ModelKeyData>() {
-                @Override
-                public void onResponse(Call<ModelKeyData> call, Response<ModelKeyData> response) {
-                    if (response.isSuccessful() && response.code() == 200)
-                        doctorInfoArrayList.add(response.body());
+        if (listOfDoctorsIds==null || listOfDoctorsIds.isEmpty() ||  startingIndex>=listOfDoctorsIds.size())
+            presenter.onSuccess(doctorInfoArrayList);
+        else {
+            final int[] maxIndex = {1 + startingIndex};
+            if (listOfDoctorsIds.size() < maxIndex[0])
+                maxIndex[0] = listOfDoctorsIds.size();
 
-                    if (doctorInfoArrayList.size()==listOfDoctorsIds.size())
-                        presenter.onSuccess(doctorInfoArrayList);
-                }
+            for (int i = startingIndex; i < maxIndex[0]; i++) {
+                    networkApi.getShortDoctorInfo(null,listOfDoctorsIds.get(i).getId()).enqueue(new Callback<ModelKeyData>() {
+                        @Override
+                        public void onResponse(Call<ModelKeyData> call, Response<ModelKeyData> response) {
+                            if (response.isSuccessful() && response.code() == 200)
+                                doctorInfoArrayList.add(response.body());
 
-                @Override
-                public void onFailure(Call<ModelKeyData> call, Throwable t) {
-                    if (!isError[0]) {
-                        presenter.onError(t.getMessage());
-                        isError[0] = true;
-                    }
-                }
-            });
+                            if (doctorInfoArrayList.size()==maxIndex[0]-startingIndex)
+                                presenter.onSuccess(doctorInfoArrayList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ModelKeyData> call, Throwable t) {
+                            presenter.onError(t.getMessage());
+                        }
+                    });
+            }
         }
     }
 }

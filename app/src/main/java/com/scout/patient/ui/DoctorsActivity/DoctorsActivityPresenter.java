@@ -15,8 +15,8 @@ public class DoctorsActivityPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void loadDoctorsList() {
-        model.getDoctorsList();
+    public void loadDoctorsList(String startingValue, int noOfItems) {
+        model.getDoctorsList(startingValue,noOfItems);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DoctorsActivityPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void loadDoctorsList(ArrayList<ModelRequestId> listOfDoctorsIds) {
-        model.getDoctorsList(listOfDoctorsIds);
+    public void loadDoctorsList(ArrayList<ModelRequestId> listOfDoctorsIds, int startingIndex) {
+        model.getDoctorsList(listOfDoctorsIds,startingIndex);
     }
 }
