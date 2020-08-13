@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.AppointmentBooking.BookAppointmentActivity;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +43,7 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
     ModelDoctorInfo doctorInfo;
     DoctorsProfilePresenter presenter;
     ModelIntent modelIntent;
+    String doctorId;
 
     @Override
     protected void onDestroy() {
@@ -55,13 +58,13 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
         unbinder = ButterKnife.bind(this);
 
         presenter = new DoctorsProfilePresenter(DoctorsProfileActivity.this);
-        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
-        doctorInfo = modelIntent.getDoctorProfileInfo();
-
-        setToolbar(doctorInfo.getName());
+        doctorId = getIntent().getStringExtra("doctorId");
+        setToolbar(getIntent().getStringExtra("doctorName"));
+        presenter.getDoctorDetails(doctorId);
+//        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
+//        doctorInfo = modelIntent.getDoctorProfileInfo();
 
         buttonBookAppointment.setOnClickListener(this);
-        setProfileData(doctorInfo);
     }
 
     @Override
@@ -88,19 +91,33 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
         getSupportActionBar().setTitle(title);
     }
 
-    private void setProfileData(ModelDoctorInfo doctorInfo) {
-        textName.setText(doctorInfo.getName());
-        textSpecialisation.setText(doctorInfo.getDepartment());
-        textCareerHistory.setText(doctorInfo.getCareerHistory());
-        textLearningHistory.setText(doctorInfo.getLearningHistory());
-        textEmail.setText(doctorInfo.getEmail());
-        textPhoneNo.setText(doctorInfo.getPhone_no());
-        textAddress.setText(doctorInfo.getAddress());
+    @Override
+    public void updateUi(ModelDoctorInfo doctorInfo) {
+        if (textName!=null) {
+            textName.setText(doctorInfo.getName());
+            textSpecialisation.setText(doctorInfo.getDepartment());
+            textCareerHistory.setText(doctorInfo.getCareerHistory());
+            textLearningHistory.setText(doctorInfo.getLearningHistory());
+            textEmail.setText(doctorInfo.getEmail());
+            textPhoneNo.setText(doctorInfo.getPhone_no());
+            textAddress.setText(doctorInfo.getAddress());
 
-        textDoctorAvailability.setText(presenter.getAvailabilityType(doctorInfo.getAvailabilityType(),doctorInfo.getDoctorAvailability(),this));
-        textDoctorAvailabilityTime.setText(presenter.getAvailabilityTime(doctorInfo.getAvgCheckupTime(),doctorInfo.getDoctorAvailabilityTime(),this));
+            if (doctorInfo.getUrl() != null && !doctorInfo.getUrl().isEmpty())
+                Picasso.get().load(Uri.parse(doctorInfo.getUrl())).placeholder(R.color.placeholder_bg).into(profileImg);
+            else
+                profileImg.setImageResource(R.drawable.doctor_icon);
 
+            textDoctorAvailability.setText(presenter.getAvailabilityType(doctorInfo.getAvailabilityType(), doctorInfo.getDoctorAvailability(), this));
+            textDoctorAvailabilityTime.setText(presenter.getAvailabilityTime(doctorInfo.getAvgCheckupTime(), doctorInfo.getDoctorAvailabilityTime(), this));
+
+            HelperClass.hideProgressbar(progressBar);
+            profileLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onError(String s) {
         HelperClass.hideProgressbar(progressBar);
-        profileLayout.setVisibility(View.VISIBLE);
+        HelperClass.toast(this,s);
     }
 }

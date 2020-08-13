@@ -1,5 +1,6 @@
 package com.scout.patient.ui.DoctorsProfile;
 
+import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.R;
 import com.scout.patient.ui.DoctorsProfile.Contract;
 
@@ -7,9 +8,11 @@ import java.util.ArrayList;
 
 public class DoctorsProfilePresenter implements Contract.Presenter {
     Contract.View mainView;
+    Contract.Model model;
 
     public DoctorsProfilePresenter(Contract.View mainView) {
         this.mainView = mainView;
+        this.model = new Model(DoctorsProfilePresenter.this);
     }
 
     @Override
@@ -37,5 +40,20 @@ public class DoctorsProfilePresenter implements Contract.Presenter {
                 availabilityTime += ", ";
         }
         return availabilityTime;
+    }
+
+    @Override
+    public void getDoctorDetails(String doctorId) {
+        model.getDoctorDetails(doctorId);
+    }
+
+    @Override
+    public void onSuccess(ModelDoctorInfo doctorInfo) {
+        mainView.updateUi(doctorInfo);
+    }
+
+    @Override
+    public void onError(String s) {
+        mainView.onError(s);
     }
 }

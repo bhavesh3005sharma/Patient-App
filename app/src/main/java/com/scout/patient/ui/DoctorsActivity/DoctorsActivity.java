@@ -88,10 +88,11 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     @Override
     public void holderClick(int position) {
         Intent intent = new Intent(this, DoctorsProfileActivity.class);
+        intent.putExtra("doctorId",list.get(position).getId().getId());
+        intent.putExtra("doctorName",list.get(position).getName());
 //        if (modelIntent==null)
 //            modelIntent = new ModelIntent();
         //modelIntent.setDoctorProfileInfo(list.get(position));
-        intent.putExtra("id",list.get(position).getId().getId());
         startActivity(intent);
 //        if (modelIntent.getBookAppointmentData()!=null)
 //            finish();

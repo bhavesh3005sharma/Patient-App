@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class HospitalProfileActivity extends AppCompatActivity implements Contract.View{
+public class HospitalProfileActivity extends AppCompatActivity implements Contract.View,SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.textViewHospitalName)
     TextView textViewHospitalName;
     @BindView(R.id.year_establishment)
@@ -50,6 +50,7 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
     HospitalProfilePresenter presenter;
     ModelHospitalInfo hospitalInfo;
     String hospitalId;
+    Boolean isLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,9 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
 
         hospitalId = getIntent().getStringExtra("hospitalId");
         setUpToolbar(getIntent().getStringExtra("hospitalName"));
+        isLoading = true;
         presenter.getHospitalDetails(hospitalId);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void setUpToolbar(String hospitalName) {
@@ -92,11 +95,23 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
             buttonDoctors.setVisibility(View.VISIBLE);
         }
         progressBar.setVisibility(View.GONE);
+        isLoading = false;
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onError(String message) {
         HelperClass.hideProgressbar(progressBar);
         HelperClass.toast(this,message);
+        isLoading = false;
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        if (!isLoading){
+            presenter.getHospitalDetails(hospitalId);
+            isLoading = true;
+        }
     }
 }

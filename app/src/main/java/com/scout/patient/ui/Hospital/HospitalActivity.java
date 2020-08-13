@@ -21,6 +21,8 @@ import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
+import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
+import com.scout.patient.ui.HospitalProfile.HospitalProfileActivity;
 
 import java.util.ArrayList;
 
@@ -68,11 +70,12 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
 
     @Override
     public void holderClick(int position) {
-//        Intent intent = new Intent(this,DoctorsActivity.class);
+        Intent intent = new Intent(this, HospitalProfileActivity.class);
 //        modelIntent.setIntentFromHospital(true);
 //        modelIntent.setListOfDoctors(list.get(position).getHospitalDoctors());
-//        intent.putExtra("modelIntent",modelIntent);
-//        startActivity(intent);
+        intent.putExtra("hospitalId",list.get(position).getId().getId());
+        intent.putExtra("hospitalName",list.get(position).getName());
+        startActivity(intent);
     }
 
     @Override
