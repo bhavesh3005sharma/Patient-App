@@ -165,22 +165,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/details" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/buttonDepartments"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:background="#4CAF50"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="@string/our_departments"-->
-<!--                    android:textSize="15sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:visibility="visible"-->
-<!--                    android:padding="10dp"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/buttonDoctors"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/buttonDoctors"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/buttonDoctors" />-->
+                <TextView
+                    android:id="@+id/textViewDepartments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/our_departments"
+                    android:textSize="20sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/details"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonDoctors" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewDepartments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewDepartments" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

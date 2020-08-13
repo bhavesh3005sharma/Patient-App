@@ -2,8 +2,12 @@ package com.scout.patient.ui.HospitalProfile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -13,9 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.scout.patient.Adapters.DepartmentsAdapter;
+import com.scout.patient.Adapters.DoctorsAdapter;
 import com.scout.patient.Models.ModelHospitalInfo;
+import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
+import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -33,6 +41,10 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
     TextView textViewEmail;
     @BindView(R.id.contactNo)
     TextView textViewContactNo;
+    @BindView(R.id.textViewDepartments)
+    TextView textViewDepartments;
+    @BindView(R.id.recyclerViewDepartments)
+    RecyclerView recyclerView;
     @BindView(R.id.HospitalImage)
     ImageView HospitalImage;
     @BindView(R.id.buttonDoctors)
@@ -51,6 +63,7 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
     ModelHospitalInfo hospitalInfo;
     String hospitalId;
     Boolean isLoading;
+    DepartmentsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +77,18 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
         isLoading = true;
         presenter.getHospitalDetails(hospitalId);
         swipeRefreshLayout.setOnRefreshListener(this);
+
+        buttonDoctors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ModelIntent modelIntent = new ModelIntent();
+                modelIntent.setListOfDoctors(hospitalInfo.getHospitalDoctors());
+                modelIntent.setIntentFromHospital(true);
+                Intent intent = new Intent(HospitalProfileActivity.this, DoctorsActivity.class);
+                intent.putExtra("modelIntent",modelIntent);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setUpToolbar(String hospitalName) {
@@ -89,9 +114,16 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
             yearEstablishment.setText(getString(R.string.year_establishment)+hospitalInfo.getYear_of_establishment());
             if (hospitalInfo.getUrl()!=null)
                 Picasso.get().load(Uri.parse(hospitalInfo.getUrl())).placeholder(R.color.placeholder_bg).into(HospitalImage);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(HospitalProfileActivity.this,RecyclerView.VERTICAL,false));
+            recyclerView.hasFixedSize();
+            adapter = new DepartmentsAdapter(data.getDepartments(),HospitalProfileActivity.this);
+            recyclerView.setAdapter(adapter);
+
+            recyclerView.setVisibility(View.VISIBLE);
+            textViewDepartments.setVisibility(View.VISIBLE);
             cardViewImage.setVisibility(View.VISIBLE);
             contactDetails.setVisibility(View.VISIBLE);
-           // buttonDepartments.setVisibility(View.VISIBLE);
             buttonDoctors.setVisibility(View.VISIBLE);
         }
         progressBar.setVisibility(View.GONE);

@@ -41,7 +41,7 @@ public class Model implements Contract.Model {
 
     @Override
     public void getDoctorsList(ArrayList<ModelRequestId> listOfDoctorsIds) {
-        ArrayList<ModelDoctorInfo> doctorInfoArrayList = new ArrayList<>();
+        ArrayList<ModelKeyData> doctorInfoArrayList = new ArrayList<>();
         final Boolean[] isError = {false};
         networkApi = ApiService.getAPIService();
 
@@ -49,18 +49,18 @@ public class Model implements Contract.Model {
             presenter.onSuccess(new ArrayList<>());
         else
             for (ModelRequestId id : listOfDoctorsIds){
-            networkApi.getDoctorInfo(null,id.getId()).enqueue(new Callback<ModelDoctorInfo>() {
+            networkApi.getShortDoctorInfo(null,id.getId()).enqueue(new Callback<ModelKeyData>() {
                 @Override
-                public void onResponse(Call<ModelDoctorInfo> call, Response<ModelDoctorInfo> response) {
+                public void onResponse(Call<ModelKeyData> call, Response<ModelKeyData> response) {
                     if (response.isSuccessful() && response.code() == 200)
                         doctorInfoArrayList.add(response.body());
 
-                    //if (doctorInfoArrayList.size()==listOfDoctorsIds.size())
-                        //presenter.onSuccess(doctorInfoArrayList);
+                    if (doctorInfoArrayList.size()==listOfDoctorsIds.size())
+                        presenter.onSuccess(doctorInfoArrayList);
                 }
 
                 @Override
-                public void onFailure(Call<ModelDoctorInfo> call, Throwable t) {
+                public void onFailure(Call<ModelKeyData> call, Throwable t) {
                     if (!isError[0]) {
                         presenter.onError(t.getMessage());
                         isError[0] = true;

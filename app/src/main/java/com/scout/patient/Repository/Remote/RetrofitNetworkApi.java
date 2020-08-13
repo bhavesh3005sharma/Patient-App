@@ -38,6 +38,9 @@ public interface RetrofitNetworkApi {
     @GET("Doctor/incoming_webhook/getDoctorInfo")
     Call<ModelDoctorInfo> getDoctorInfo(@Query("email") String email, @Query("doctor_id") String id);
 
+    @GET("Doctor/incoming_webhook/getShortDoctorInfo")
+    Call<ModelKeyData> getShortDoctorInfo(@Query("email") String email, @Query("doctor_id") String id);
+
     @GET("Doctor/incoming_webhook/unavailableDates")
     Call<ModelDoctorInfo> getUnavailableDates(@Query("doctor_id") String id);
 
