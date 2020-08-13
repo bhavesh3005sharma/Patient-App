@@ -1,6 +1,5 @@
 package com.scout.patient.ui.Hospital;
 
-import com.scout.patient.Models.ModelHospitalInfo;
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
 import com.scout.patient.Retrofit.ApiService;
@@ -20,9 +19,9 @@ public class Model implements Contract.Model {
     }
 
     @Override
-    public void loadHospitalsList() {
+    public void loadHospitalsList(String startValue, int noOfItems) {
         networkApi = ApiService.getAPIService();
-        networkApi.getHospitalsList().enqueue(new Callback<ArrayList<ModelKeyData>>() {
+        networkApi.getHospitalsList(startValue,noOfItems).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
                 if (response.isSuccessful() || response.code()==200)

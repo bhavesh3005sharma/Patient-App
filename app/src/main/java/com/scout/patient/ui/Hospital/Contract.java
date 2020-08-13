@@ -15,7 +15,7 @@ public class Contract {
     }
     interface  Presenter{
 
-        void getHospitalsList();
+        void getHospitalsList(String o, int i);
 
         void onError(String message);
 
@@ -24,6 +24,6 @@ public class Contract {
 
     interface  Model{
 
-        void loadHospitalsList();
+        void loadHospitalsList(String startValue, int noOfItems);
     }
 }

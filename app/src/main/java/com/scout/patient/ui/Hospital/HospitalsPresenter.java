@@ -14,8 +14,8 @@ public class HospitalsPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void getHospitalsList() {
-        model.loadHospitalsList();
+    public void getHospitalsList(String startValue, int noOfItems) {
+        model.loadHospitalsList(startValue,noOfItems);
     }
 
     @Override

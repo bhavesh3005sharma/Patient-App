@@ -45,7 +45,7 @@ public interface RetrofitNetworkApi {
     Call<ModelDoctorInfo> getUnavailableDates(@Query("doctor_id") String id);
 
     @GET("Hospital/incoming_webhook/getAllHospitals")
-    Call<ArrayList<ModelKeyData>> getHospitalsList();
+    Call<ArrayList<ModelKeyData>> getHospitalsList(@Query("startValue") String startValue, @Query("noOfItems") int noOfItmes);
 
     @GET("Patient/incoming_webhook/getAppointmentsIdsList")
     Call<ModelPatientInfo> getAppointmentsIdsList(@Query("patient_id") String patientId);

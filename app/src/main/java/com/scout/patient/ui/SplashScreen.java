@@ -44,7 +44,7 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void loadSearchData() {
-        ApiService.getAPIService().getHospitalsList().enqueue(new Callback<ArrayList<ModelKeyData>>() {
+        ApiService.getAPIService().getHospitalsList("",-1).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
                 if (response.isSuccessful() && response.code()==200 && response.body()!=null){

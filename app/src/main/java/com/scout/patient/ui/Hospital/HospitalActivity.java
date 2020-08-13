@@ -9,11 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ProgressBar;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.scout.patient.Adapters.ChipsAdapter;
 import com.scout.patient.Adapters.HospitalsAdapter;
 import com.scout.patient.Models.ModelIntent;
@@ -30,15 +34,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class HospitalActivity extends AppCompatActivity implements Contract.View,HospitalsAdapter.interfaceClickListener, ChipsAdapter.interfaceClickListener {
+public class HospitalActivity extends AppCompatActivity implements Contract.View,HospitalsAdapter.interfaceClickListener{
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.shimmerLayout) ShimmerFrameLayout shimmerLayout;
 
     public static ArrayList<ModelKeyData> list = new ArrayList<ModelKeyData>();
     HospitalsAdapter adapter;
     Unbinder unbinder;
     HospitalsPresenter presenter;
     ModelIntent modelIntent;
+    Boolean isScrolling = false, isLoading = false;
+    int currentItems, totalItems, scrollOutItems;
+    String startingValue = null;
+    LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
     @Override
     protected void onDestroy() {
@@ -56,8 +65,17 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
         if (modelIntent==null)
             modelIntent = new ModelIntent();
         presenter = new HospitalsPresenter(HospitalActivity.this);
+        initUi();
+        presenter.getHospitalsList(null,1);
+    }
+
+    private void initUi() {
+        list.clear();
         initRecyclerView();
-        presenter.getHospitalsList();
+        shimmerLayout.setVisibility(View.VISIBLE);
+        shimmerLayout.startShimmer();
+        HelperClass.hideProgressbar(progressBar);
+        recyclerView.setVisibility(View.GONE);
     }
 
     private void initRecyclerView() {
@@ -66,6 +84,35 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
         adapter = new HospitalsAdapter(list,HospitalActivity.this);
         adapter.setUpOnClickListener(HospitalActivity.this);
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true;
+                    check_loadMoreData();
+                }
+            }
+        });
+    }
+
+    public void check_loadMoreData() {
+        currentItems = manager.getChildCount();
+        totalItems = manager.getItemCount();
+        scrollOutItems = manager.findFirstVisibleItemPosition();
+
+        if (isScrolling && ((currentItems + scrollOutItems == totalItems) || scrollOutItems == -1) )
+            loadMoreData();
+    }
+
+    private void loadMoreData() {
+        if ( startingValue != null && !isLoading) {
+            Log.d("getAppointmentsList","loading Data..");
+            isLoading = true;
+            isScrolling = false;
+            HelperClass.showProgressbar(progressBar);
+            presenter.getHospitalsList(startingValue,1);
+        }
     }
 
     @Override
@@ -85,16 +132,29 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
 
     @Override
     public void setErrorUi(String message) {
+        shimmerLayout.stopShimmer();
+        shimmerLayout.setVisibility(View.GONE);
         HelperClass.hideProgressbar(progressBar);
         HelperClass.toast(this,message);
+        isLoading = false;
     }
 
     @Override
     public void updateSuccessUi(ArrayList<ModelKeyData> data) {
-        if (progressBar!=null)
+        if (progressBar!=null) {
             HelperClass.hideProgressbar(progressBar);
-        list.clear();
-        list.addAll(data);
+            shimmerLayout.stopShimmer();
+            shimmerLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
+        if (data!=null && !data.isEmpty() && list!=null) {
+            list.addAll(data);
+            startingValue = data.get(data.size()-1).getId().getId();
+        }else
+            startingValue = null;
+
+        isLoading = false;
         notifyAdapter();
     }
 }
