@@ -9,20 +9,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.scout.patient.Adapters.DoctorsAdapter;
 import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
+import com.scout.patient.ui.SearchActivity;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -34,6 +44,12 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     ProgressBar progressBar;
     @BindView(R.id.shimmerLayout)
     ShimmerFrameLayout shimmerLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.textViewSearch)
+    TextView textViewSearch;
 
     public static ArrayList<ModelKeyData> list = new ArrayList<ModelKeyData>();
     DoctorsAdapter adapter;
@@ -63,6 +79,13 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
 
         initUi();
 
+        textViewSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DoctorsActivity.this, SearchActivity.class).putExtra("key",getString(R.string.only_doctors)));
+            }
+        });
+
         isLoading = true;
         if (modelIntent!=null && modelIntent.isIntentFromHospital()) {
             presenter.loadDoctorsList(modelIntent.getListOfDoctors(),0);
@@ -73,12 +96,27 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     }
 
     private void initUi() {
+        setToolbar();
         list.clear();
         initRecyclerView();
         shimmerLayout.setVisibility(View.VISIBLE);
         shimmerLayout.startShimmer();
         HelperClass.hideProgressbar(progressBar);
         recyclerView.setVisibility(View.GONE);
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        collapsingToolbarLayout.setTitle(getString(R.string.our_doctors));
+        collapsingToolbarLayout.setTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     private void initRecyclerView() {

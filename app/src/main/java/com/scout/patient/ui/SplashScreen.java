@@ -29,6 +29,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(new Intent(SplashScreen.this, WelcomeActivity.class));
+                finish();
             }
         },2000);
 
@@ -45,7 +46,12 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
                 if (response.isSuccessful() && response.code()==200 && response.body()!=null){
-                    SharedPref.saveAllHospitalsList(SplashScreen.this,response.body());
+                    ArrayList<ModelKeyData> list = new ArrayList<>();
+                    for (ModelKeyData modelKeyData : response.body()) {
+                        modelKeyData.setHospital(true);
+                        list.add(modelKeyData);
+                    }
+                    SharedPref.saveAllHospitalsList(SplashScreen.this,list);
                 }
             }
 
@@ -59,7 +65,12 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
                 if (response.isSuccessful() && response.code()==200 && response.body()!=null){
-                    SharedPref.saveAllDoctorsList(SplashScreen.this,response.body());
+                    ArrayList<ModelKeyData> list = new ArrayList<>();
+                    for (ModelKeyData modelKeyData : response.body()) {
+                        modelKeyData.setHospital(false);
+                        list.add(modelKeyData);
+                    }
+                    SharedPref.saveAllDoctorsList(SplashScreen.this,list);
                 }
             }
 

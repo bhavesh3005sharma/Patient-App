@@ -100,4 +100,10 @@
     <string name="year_establishment">"Eastablished in year "</string>
     <string name="pref_for_hospitals_list">SharedPreference For Hospitals List</string>
     <string name="pref_for_doctors_list">SharedPreference For Doctors List</string>
+    <string name="only_hospitals">ONLY_HOSPITALS</string>
+    <string name="only_doctors">ONLY_DOCTORS</string>
+    <string name="both">BOTH</string>
+    <string name="search_doctors_by_name">Search Doctors By Name</string>
+    <string name="hospital_activity_title">Check Our Hospitals</string>
+    <string name="search_hospitals_by_name">Search Hospitals By Name</string>
 </resources>

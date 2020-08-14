@@ -2,6 +2,7 @@ package com.scout.patient.ui.Hospital;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.scout.patient.Adapters.ChipsAdapter;
@@ -27,6 +29,7 @@ import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
 import com.scout.patient.ui.HospitalProfile.HospitalProfileActivity;
+import com.scout.patient.ui.SearchActivity;
 
 import java.util.ArrayList;
 
@@ -38,6 +41,8 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.shimmerLayout) ShimmerFrameLayout shimmerLayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.textViewSearch) TextView textViewSearch;
 
     public static ArrayList<ModelKeyData> list = new ArrayList<ModelKeyData>();
     HospitalsAdapter adapter;
@@ -66,18 +71,38 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
         if (modelIntent==null)
             modelIntent = new ModelIntent();
 
+        textViewSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HospitalActivity.this, SearchActivity.class).putExtra("key",getString(R.string.only_hospitals)));
+            }
+        });
+
         initUi();
         isLoading = true;
         presenter.getHospitalsList(null,1);
     }
 
     private void initUi() {
+        setToolbar();
         list.clear();
         initRecyclerView();
         shimmerLayout.setVisibility(View.VISIBLE);
         shimmerLayout.startShimmer();
         HelperClass.hideProgressbar(progressBar);
         recyclerView.setVisibility(View.GONE);
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     private void initRecyclerView() {

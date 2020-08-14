@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/search_bar"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search_white"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
+    <item
         android:id="@+id/menu_notification"
         android:title="@string/notifications"
         android:icon="@drawable/ic_notifications"

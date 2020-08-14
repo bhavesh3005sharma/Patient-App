@@ -1,6 +1,7 @@
 package com.scout.patient.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
@@ -13,25 +14,26 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
+import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
+import com.scout.patient.ui.HospitalProfile.HospitalProfileActivity;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder> implements Filterable {
     ArrayList<ModelKeyData> list;
     Context context;
+    String key;
 
-    public SearchAdapter(Context context) {
+    public SearchAdapter(Context context,String key) {
         list = new ArrayList<>();
         this.context = context;
+        this.key = key;
     }
 
     @NonNull
@@ -46,9 +48,30 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder
         ModelKeyData modelKeyData = list.get(position);
         holder.titleName.setText(modelKeyData.getName());
         if (modelKeyData.getImageUrl()!=null && !modelKeyData.getImageUrl().isEmpty())
-            Picasso.get().load(Uri.parse(modelKeyData.getImageUrl())).placeholder(R.color.colorPrimary).into(holder.profileImage);
-        else
-            holder.profileImage.setImageResource(R.drawable.hospital_icon);
+            Picasso.get().load(Uri.parse(modelKeyData.getImageUrl())).placeholder(R.color.placeholder_bg).into(holder.profileImage);
+        else {
+            if (modelKeyData.isHospital())
+                holder.profileImage.setImageResource(R.drawable.hospital_icon);
+            else
+                holder.profileImage.setImageResource(R.drawable.doctor_icon);
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (modelKeyData.isHospital()){
+                    Intent intent = new Intent(context, HospitalProfileActivity.class);
+                    intent.putExtra("hospitalId",list.get(position).getId().getId());
+                    intent.putExtra("hospitalName",list.get(position).getName());
+                    context.startActivity(intent);
+                }else {
+                    Intent intent = new Intent(context, DoctorsProfileActivity.class);
+                    intent.putExtra("doctorId", list.get(position).getId().getId());
+                    intent.putExtra("doctorName", list.get(position).getName());
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -61,24 +84,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                Log.d("Data",charSequence+"");
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
                     list.clear();
                 } else {
                     ArrayList<ModelKeyData> listFilterByQuery = new ArrayList<>();
-                    for (ModelKeyData row : SharedPref.getAllHospitalsList(context)) {
-
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
+                    if (key.equals(context.getString(R.string.only_hospitals)) || key.equals(context.getString(R.string.both)))
+                        for (ModelKeyData row : SharedPref.getAllHospitalsList(context)) {
                         if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
                             listFilterByQuery.add(row);
                         }
                     }
+                    if (key.equals(context.getString(R.string.only_doctors)) || key.equals(context.getString(R.string.both)))
+                        for (ModelKeyData row : SharedPref.getAllDoctorsList(context)) {
+                            if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                                listFilterByQuery.add(row);
+                            }
+                        }
                     list = listFilterByQuery;
                 }
 
-                Log.d("Data","Adapter  "+list.toString());
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = list;
                 return filterResults;
@@ -94,7 +119,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder
         };
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public static class viewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.profileImage)
         CircularImageView profileImage;
         @BindView(R.id.titleName)

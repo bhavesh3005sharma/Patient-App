@@ -98,7 +98,10 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
                 startActivity(new Intent(this, NotificationActivity.class));
                 break;
             case R.id.menu_profile:
-                startActivity(new Intent(this, SearchActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
+                break;
+            case R.id.search_bar:
+                startActivity(new Intent(this, SearchActivity.class).putExtra("key",getString(R.string.both)));
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -1,23 +1,19 @@
 package com.scout.patient.ui;
 
+import android.app.SearchManager;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.SearchManager;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.EditText;
-
 import com.scout.patient.Adapters.SearchAdapter;
 import com.scout.patient.R;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -30,6 +26,7 @@ public class SearchActivity extends AppCompatActivity {
 
     Unbinder unbinder;
     SearchAdapter adapter;
+    String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +34,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         unbinder = ButterKnife.bind(this);
         initToolbar("Search..");
+        key = getIntent().getStringExtra("key");
 
         initRecyclerView();
     }
@@ -44,7 +42,7 @@ public class SearchActivity extends AppCompatActivity {
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.hasFixedSize();
-        adapter = new SearchAdapter(this);
+        adapter = new SearchAdapter(this,key);
         recyclerView.setAdapter(adapter);
     }
 

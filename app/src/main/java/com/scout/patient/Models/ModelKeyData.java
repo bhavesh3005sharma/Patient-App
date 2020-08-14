@@ -9,6 +9,7 @@ public class ModelKeyData {
     String Name;
     @SerializedName("_id")
     ModelRequestId id;
+    boolean isHospital = false;
 
     public ModelKeyData(String imageUrl, String name, ModelRequestId id) {
         this.imageUrl = imageUrl;
@@ -26,5 +27,13 @@ public class ModelKeyData {
 
     public ModelRequestId getId() {
         return id;
+    }
+
+    public void setHospital(boolean hospital) {
+        isHospital = hospital;
+    }
+
+    public boolean isHospital() {
+        return isHospital;
     }
 }

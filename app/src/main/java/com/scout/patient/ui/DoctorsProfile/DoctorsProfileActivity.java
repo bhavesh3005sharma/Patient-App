@@ -94,7 +94,7 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
     @Override
     public void updateUi(ModelDoctorInfo doctorInfo) {
         if (textName!=null) {
-            textName.setText(doctorInfo.getName());
+            textName.setText(doctorInfo.getName()+" | "+doctorInfo.getHospitalName());
             textSpecialisation.setText(doctorInfo.getDepartment());
             textCareerHistory.setText(doctorInfo.getCareerHistory());
             textLearningHistory.setText(doctorInfo.getLearningHistory());
