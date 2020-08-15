@@ -22,6 +22,8 @@ import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
+import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
+import com.scout.patient.ui.HospitalProfile.HospitalProfileActivity;
 
 import java.util.ArrayList;
 
@@ -29,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SearchResultsActivity extends AppCompatActivity {
+public class SearchResultsActivity extends AppCompatActivity implements SearchResultsAdapter.interfaceClickListener{
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.progressBar)
@@ -60,6 +62,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         list.clear();
         list.addAll((ArrayList<ModelKeyData>)getIntent().getSerializableExtra("list"));
+        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
 
         setToolbar();
         initRecyclerView();
@@ -90,5 +93,29 @@ public class SearchResultsActivity extends AppCompatActivity {
         recyclerView.hasFixedSize();
         adapter = new SearchResultsAdapter(list,SearchResultsActivity.this);
         recyclerView.setAdapter(adapter);
+        adapter.setUpOnClickListener(SearchResultsActivity.this);
+    }
+
+    @Override
+    public void holderClick(ModelKeyData modelKeyData) {
+        if (modelKeyData.isHospital()){
+            Intent intent = new Intent(SearchResultsActivity.this, HospitalProfileActivity.class);
+            intent.putExtra("hospitalId",modelKeyData.getId().getId());
+            intent.putExtra("hospitalName",modelKeyData.getName());
+            modelIntent.setIntentFromHospital(true);
+            intent.putExtra("modelIntent",modelIntent);
+            startActivity(intent);
+            if (modelIntent.getBookAppointmentData()!=null)
+                finish();
+        }else {
+            Intent intent = new Intent(SearchResultsActivity.this, DoctorsProfileActivity.class);
+            intent.putExtra("doctorId", modelKeyData.getId().getId());
+            intent.putExtra("doctorName", modelKeyData.getName());
+            modelIntent.setIntentFromHospital(false);
+            intent.putExtra("modelIntent",modelIntent);
+            startActivity(intent);
+            if (modelIntent.getBookAppointmentData()!=null)
+                finish();
+        }
     }
 }

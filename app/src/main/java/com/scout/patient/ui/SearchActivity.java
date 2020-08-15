@@ -14,12 +14,17 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.scout.patient.Adapters.SearchAdapter;
+import com.scout.patient.Models.ModelIntent;
+import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
+import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
+import com.scout.patient.ui.HospitalProfile.HospitalProfileActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements SearchAdapter.interfaceClickListener{
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
@@ -28,6 +33,7 @@ public class SearchActivity extends AppCompatActivity {
     Unbinder unbinder;
     SearchAdapter adapter;
     String key;
+    ModelIntent modelIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,11 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         unbinder = ButterKnife.bind(this);
         initToolbar("Search..");
+
+        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
+        if (modelIntent==null) {
+            modelIntent = new ModelIntent();
+        }
         key = getIntent().getStringExtra("key");
 
         initRecyclerView();
@@ -45,6 +56,7 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.hasFixedSize();
         adapter = new SearchAdapter(this,key);
         recyclerView.setAdapter(adapter);
+        adapter.setUpOnClickListener(SearchActivity.this);
     }
 
     public void initToolbar(String title) {
@@ -82,7 +94,12 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                startActivity(new Intent(SearchActivity.this,SearchResultsActivity.class).putExtra("list",adapter.getFilteredList()));
+                Intent intent = new Intent(SearchActivity.this,SearchResultsActivity.class);
+                intent.putExtra("list",adapter.getFilteredList());
+                intent.putExtra("modelIntent",modelIntent);
+                startActivity(intent);
+                if (modelIntent.getBookAppointmentData()!=null)
+                    finish();
                 return true;
             }
 
@@ -94,5 +111,28 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void holderClick(ModelKeyData modelKeyData) {
+        if (modelKeyData.isHospital()){
+            Intent intent = new Intent(SearchActivity.this, HospitalProfileActivity.class);
+            intent.putExtra("hospitalId",modelKeyData.getId().getId());
+            intent.putExtra("hospitalName",modelKeyData.getName());
+            modelIntent.setIntentFromHospital(true);
+            intent.putExtra("modelIntent",modelIntent);
+            startActivity(intent);
+            if (modelIntent.getBookAppointmentData()!=null)
+                finish();
+        }else {
+            Intent intent = new Intent(SearchActivity.this, DoctorsProfileActivity.class);
+            intent.putExtra("doctorId", modelKeyData.getId().getId());
+            intent.putExtra("doctorName", modelKeyData.getName());
+            modelIntent.setIntentFromHospital(false);
+            intent.putExtra("modelIntent",modelIntent);
+            startActivity(intent);
+            if (modelIntent.getBookAppointmentData()!=null)
+                finish();
+        }
     }
 }

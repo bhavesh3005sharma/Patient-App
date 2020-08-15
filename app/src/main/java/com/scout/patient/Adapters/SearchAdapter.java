@@ -27,6 +27,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder
     ArrayList<ModelKeyData> list;
     Context context;
     String key;
+    interfaceClickListener mListener;
+
+    public void  setUpOnClickListener(interfaceClickListener mListener) {
+        this.mListener = mListener;
+    }
 
     public SearchAdapter(Context context,String key) {
         list = new ArrayList<>();
@@ -57,17 +62,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (modelKeyData.isHospital()){
-                    Intent intent = new Intent(context, HospitalProfileActivity.class);
-                    intent.putExtra("hospitalId",list.get(position).getId().getId());
-                    intent.putExtra("hospitalName",list.get(position).getName());
-                    context.startActivity(intent);
-                }else {
-                    Intent intent = new Intent(context, DoctorsProfileActivity.class);
-                    intent.putExtra("doctorId", list.get(position).getId().getId());
-                    intent.putExtra("doctorName", list.get(position).getName());
-                    context.startActivity(intent);
-                }
+                mListener.holderClick(modelKeyData);
             }
         });
     }
@@ -128,5 +123,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+
+    public interface interfaceClickListener{
+        void holderClick(ModelKeyData position);
     }
 }

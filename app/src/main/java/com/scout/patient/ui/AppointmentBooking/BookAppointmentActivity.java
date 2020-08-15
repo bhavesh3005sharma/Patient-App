@@ -72,6 +72,9 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
         if (modelIntent==null)
             modelIntent = new ModelIntent();
+        else
+            spinner.setEnabled(false);
+
         setUpUi();
         chipGroup.setOnCheckedChangeListener(this);
 

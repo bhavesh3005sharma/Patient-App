@@ -50,6 +50,8 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.textViewSearch)
     TextView textViewSearch;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
 
     public static ArrayList<ModelKeyData> list = new ArrayList<ModelKeyData>();
     DoctorsAdapter adapter;
@@ -76,22 +78,33 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         presenter = new DoctorsActivityPresenter(DoctorsActivity.this);
 
         modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
+        if (modelIntent==null) {
+            modelIntent = new ModelIntent();
+            modelIntent.setIntentFromHospital(false);
+        }
 
         initUi();
 
         textViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DoctorsActivity.this, SearchActivity.class).putExtra("key",getString(R.string.only_doctors)));
+                Intent intent = new Intent(DoctorsActivity.this, SearchActivity.class);
+                intent.putExtra("key",getString(R.string.only_doctors));
+                intent.putExtra("modelIntent",modelIntent);
+                startActivity(intent);
+                if (modelIntent.getBookAppointmentData()!=null)
+                    finish();
             }
         });
 
         isLoading = true;
         if (modelIntent!=null && modelIntent.isIntentFromHospital()) {
             presenter.loadDoctorsList(modelIntent.getListOfDoctors(),0);
+            toolbarTitle.setText(getString(R.string.doctor)+" | "+getIntent().getStringExtra("hospitalName"));
         }
         else {
             presenter.loadDoctorsList("", 2);
+            toolbarTitle.setText(getString(R.string.doctor_activity_title));
         }
     }
 
@@ -107,8 +120,6 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
 
     private void setToolbar() {
         setSupportActionBar(toolbar);
-        collapsingToolbarLayout.setTitle(getString(R.string.our_doctors));
-        collapsingToolbarLayout.setTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -206,11 +217,9 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         Intent intent = new Intent(this, DoctorsProfileActivity.class);
         intent.putExtra("doctorId",list.get(position).getId().getId());
         intent.putExtra("doctorName",list.get(position).getName());
-//        if (modelIntent==null)
-//            modelIntent = new ModelIntent();
-        //modelIntent.setDoctorProfileInfo(list.get(position));
+        intent.putExtra("modelIntent",modelIntent);
         startActivity(intent);
-//        if (modelIntent.getBookAppointmentData()!=null)
-//            finish();
+        if (modelIntent.getBookAppointmentData()!=null)
+            finish();
     }
 }

@@ -60,10 +60,9 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
         presenter = new DoctorsProfilePresenter(DoctorsProfileActivity.this);
         doctorId = getIntent().getStringExtra("doctorId");
         setToolbar(getIntent().getStringExtra("doctorName"));
-        presenter.getDoctorDetails(doctorId);
-//        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
-//        doctorInfo = modelIntent.getDoctorProfileInfo();
+        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
 
+        presenter.getDoctorDetails(doctorId);
         buttonBookAppointment.setOnClickListener(this);
     }
 
@@ -78,9 +77,11 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
         switch (v.getId()){
             case R.id.buttonBookAppointment :
                 Intent intent = new Intent(DoctorsProfileActivity.this, BookAppointmentActivity.class);
+                modelIntent.setDoctorProfileInfo(doctorInfo);
                 intent.putExtra("modelIntent",modelIntent);
                 startActivity(intent);
-                finish();
+                if (modelIntent.getBookAppointmentData()!=null)
+                    finish();
                 break;
         }
     }
@@ -93,7 +94,8 @@ public class DoctorsProfileActivity extends AppCompatActivity implements Contrac
 
     @Override
     public void updateUi(ModelDoctorInfo doctorInfo) {
-        if (textName!=null) {
+        if (textName!=null && doctorInfo!=null ) {
+            this.doctorInfo = doctorInfo;
             textName.setText(doctorInfo.getName()+" | "+doctorInfo.getHospitalName());
             textSpecialisation.setText(doctorInfo.getDepartment());
             textCareerHistory.setText(doctorInfo.getCareerHistory());

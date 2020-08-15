@@ -8,6 +8,7 @@ public class ModelIntent implements Serializable {
     private ModelDoctorInfo doctorProfileInfo;
     private ArrayList<ModelRequestId> listOfDoctors;
     private Boolean isIntentFromHospital;
+    private String id,name;
 
     public ModelBookAppointment getBookAppointmentData() {
         return bookAppointmentData;
@@ -31,6 +32,26 @@ public class ModelIntent implements Serializable {
 
     public void setListOfDoctors(ArrayList<ModelRequestId> listOfDoctors) {
         this.listOfDoctors = listOfDoctors;
+    }
+
+    public Boolean getIntentFromHospital() {
+        return isIntentFromHospital;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Boolean isIntentFromHospital() {

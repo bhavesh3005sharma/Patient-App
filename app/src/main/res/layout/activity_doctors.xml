@@ -65,6 +65,7 @@
                 app:titleTextColor="@android:color/secondary_text_light"
                 app:layout_collapseMode="pin">
                 <TextView
+                    android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/doctor_activity_title"

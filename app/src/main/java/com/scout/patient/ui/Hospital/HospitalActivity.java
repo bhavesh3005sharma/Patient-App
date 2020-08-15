@@ -68,13 +68,20 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
         presenter = new HospitalsPresenter(HospitalActivity.this);
 
         modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
-        if (modelIntent==null)
+        if (modelIntent==null) {
             modelIntent = new ModelIntent();
+            modelIntent.setIntentFromHospital(true);
+        }
 
         textViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HospitalActivity.this, SearchActivity.class).putExtra("key",getString(R.string.only_hospitals)));
+                Intent intent = new Intent(HospitalActivity.this, SearchActivity.class);
+                intent.putExtra("key",getString(R.string.only_hospitals));
+                intent.putExtra("modelIntent",modelIntent);
+                startActivity(intent);
+                if (modelIntent.getBookAppointmentData()!=null)
+                    finish();
             }
         });
 
@@ -144,11 +151,12 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
     @Override
     public void holderClick(int position) {
         Intent intent = new Intent(this, HospitalProfileActivity.class);
-//        modelIntent.setIntentFromHospital(true);
-//        modelIntent.setListOfDoctors(list.get(position).getHospitalDoctors());
         intent.putExtra("hospitalId",list.get(position).getId().getId());
         intent.putExtra("hospitalName",list.get(position).getName());
+        intent.putExtra("modelIntent",modelIntent);
         startActivity(intent);
+        if (modelIntent.getBookAppointmentData()!=null)
+            finish();
     }
 
     @Override

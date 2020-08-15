@@ -64,6 +64,7 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
     String hospitalId;
     Boolean isLoading;
     DepartmentsAdapter adapter;
+    ModelIntent modelIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
 
         hospitalId = getIntent().getStringExtra("hospitalId");
         setUpToolbar(getIntent().getStringExtra("hospitalName"));
+        modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
         isLoading = true;
         presenter.getHospitalDetails(hospitalId);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -81,12 +83,13 @@ public class HospitalProfileActivity extends AppCompatActivity implements Contra
         buttonDoctors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ModelIntent modelIntent = new ModelIntent();
                 modelIntent.setListOfDoctors(hospitalInfo.getHospitalDoctors());
-                modelIntent.setIntentFromHospital(true);
                 Intent intent = new Intent(HospitalProfileActivity.this, DoctorsActivity.class);
                 intent.putExtra("modelIntent",modelIntent);
+                intent.putExtra("hospitalName",getIntent().getStringExtra("hospitalName"));
                 startActivity(intent);
+                if (modelIntent.getBookAppointmentData()!=null)
+                    finish();
             }
         });
     }
