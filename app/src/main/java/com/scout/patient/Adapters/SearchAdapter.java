@@ -2,9 +2,7 @@ package com.scout.patient.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,17 +87,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder
                     list.clear();
                 } else {
                     ArrayList<ModelKeyData> listFilterByQuery = new ArrayList<>();
-                    if (key.equals(context.getString(R.string.only_hospitals)) || key.equals(context.getString(R.string.both)))
+                    if (SharedPref.getAllHospitalsList(context)!=null && (key.equals(context.getString(R.string.only_hospitals)) || key.equals(context.getString(R.string.both))))
                         for (ModelKeyData row : SharedPref.getAllHospitalsList(context)) {
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase()))
                             listFilterByQuery.add(row);
-                        }
                     }
-                    if (key.equals(context.getString(R.string.only_doctors)) || key.equals(context.getString(R.string.both)))
+                    if (SharedPref.getAllDoctorsList(context)!=null && (key.equals(context.getString(R.string.only_doctors)) || key.equals(context.getString(R.string.both))))
                         for (ModelKeyData row : SharedPref.getAllDoctorsList(context)) {
-                            if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                            if (row.getName().toLowerCase().contains(charString.toLowerCase()))
                                 listFilterByQuery.add(row);
-                            }
                         }
                     list = listFilterByQuery;
                 }
@@ -117,6 +113,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.viewHolder
                 }
             }
         };
+    }
+
+    public ArrayList<ModelKeyData> getFilteredList() {
+        return list;
     }
 
     public static class viewHolder extends RecyclerView.ViewHolder{

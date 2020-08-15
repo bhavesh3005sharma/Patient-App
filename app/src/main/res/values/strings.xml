@@ -106,4 +106,6 @@
     <string name="search_doctors_by_name">Search Doctors By Name</string>
     <string name="hospital_activity_title">Check Our Hospitals</string>
     <string name="search_hospitals_by_name">Search Hospitals By Name</string>
+    <string name="search_results_activity_title">Your Search Results..</string>
+    <string name="search_doctors_hospitals_by_name">Search Hospitals or Doctors By Name</string>
 </resources>

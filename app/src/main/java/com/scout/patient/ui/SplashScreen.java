@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
@@ -45,6 +46,7 @@ public class SplashScreen extends AppCompatActivity {
         ApiService.getAPIService().getHospitalsList(null,-1).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
+                Log.d("Response","getHospitalsList - "+response.body());
                 if (response.isSuccessful() && response.code()==200 && response.body()!=null){
                     ArrayList<ModelKeyData> list = new ArrayList<>();
                     for (ModelKeyData modelKeyData : response.body()) {
@@ -64,7 +66,8 @@ public class SplashScreen extends AppCompatActivity {
         ApiService.getAPIService().getDoctorsList(null, -1).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
-                if (response.isSuccessful() && response.code()==200 && response.body()!=null){
+                Log.d("Response","getDoctorsList - "+response.body());
+                if (response.isSuccessful() && response.code()==200 && response.body()!=null && !response.body().isEmpty()){
                     ArrayList<ModelKeyData> list = new ArrayList<>();
                     for (ModelKeyData modelKeyData : response.body()) {
                         modelKeyData.setHospital(false);

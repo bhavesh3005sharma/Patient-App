@@ -158,10 +158,12 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
 
     @Override
     public void setErrorUi(String message) {
-        shimmerLayout.stopShimmer();
-        shimmerLayout.setVisibility(View.GONE);
-        HelperClass.hideProgressbar(progressBar);
-        HelperClass.toast(this,message);
+        if (shimmerLayout!=null) {
+            shimmerLayout.stopShimmer();
+            shimmerLayout.setVisibility(View.GONE);
+            HelperClass.hideProgressbar(progressBar);
+            HelperClass.toast(this, message);
+        }
         isLoading = false;
     }
 

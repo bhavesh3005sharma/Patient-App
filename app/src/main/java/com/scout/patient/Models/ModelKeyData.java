@@ -2,7 +2,9 @@ package com.scout.patient.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ModelKeyData {
+import java.io.Serializable;
+
+public class ModelKeyData implements Serializable {
     @SerializedName("url")
     String imageUrl;
     @SerializedName("name")

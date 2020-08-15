@@ -9,9 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SearchActivity"
+        <activity android:name=".ui.SearchResultsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.SplashScreen"
+        <activity
+            android:name=".ui.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +27,7 @@
         <activity android:name=".ui.EditProfile.EditProfileActivity" />
         <activity
             android:name=".ui.Hospital.HospitalActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.Auth.ForgotPasswordActivity"
             android:screenOrientation="portrait"
@@ -40,7 +44,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.DoctorsActivity.DoctorsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.Welcome.WelcomeActivity"
             android:screenOrientation="portrait"

@@ -1,6 +1,7 @@
 package com.scout.patient.ui;
 
 import android.app.SearchManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -81,7 +82,8 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                startActivity(new Intent(SearchActivity.this,SearchResultsActivity.class).putExtra("list",adapter.getFilteredList()));
+                return true;
             }
 
             @Override
