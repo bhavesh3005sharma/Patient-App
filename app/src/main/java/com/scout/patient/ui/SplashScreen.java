@@ -3,6 +3,7 @@ package com.scout.patient.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.util.Log;
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
+import com.scout.patient.Repository.Room.DataBaseManager;
 import com.scout.patient.Retrofit.ApiService;
 import com.scout.patient.ui.Welcome.WelcomeActivity;
 
@@ -20,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SplashScreen extends AppCompatActivity {
+    DataBaseManager dataBaseManager = new DataBaseManager(SplashScreen.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +49,10 @@ public class SplashScreen extends AppCompatActivity {
         ApiService.getAPIService().getHospitalsList(null,-1).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
-                Log.d("Response","getHospitalsList - "+response.body());
                 if (response.isSuccessful() && response.code()==200 && response.body()!=null){
-                    ArrayList<ModelKeyData> list = new ArrayList<>();
-                    for (ModelKeyData modelKeyData : response.body()) {
-                        modelKeyData.setHospital(true);
-                        list.add(modelKeyData);
-                    }
-                    SharedPref.saveAllHospitalsList(SplashScreen.this,list);
+                    dataBaseManager.clearHospitalsList();
+                    for (ModelKeyData modelKeyData : response.body())
+                        dataBaseManager.addData(modelKeyData.getId().getId(), modelKeyData.getName(), modelKeyData.getImageUrl(), "1");
                 }
             }
 
@@ -66,14 +65,10 @@ public class SplashScreen extends AppCompatActivity {
         ApiService.getAPIService().getDoctorsList(null, -1).enqueue(new Callback<ArrayList<ModelKeyData>>() {
             @Override
             public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
-                Log.d("Response","getDoctorsList - "+response.body());
                 if (response.isSuccessful() && response.code()==200 && response.body()!=null && !response.body().isEmpty()){
-                    ArrayList<ModelKeyData> list = new ArrayList<>();
-                    for (ModelKeyData modelKeyData : response.body()) {
-                        modelKeyData.setHospital(false);
-                        list.add(modelKeyData);
-                    }
-                    SharedPref.saveAllDoctorsList(SplashScreen.this,list);
+                    dataBaseManager.clearDoctorsList();
+                    for (ModelKeyData modelKeyData : response.body())
+                        dataBaseManager.addData(modelKeyData.getId().getId(),modelKeyData.getName(),modelKeyData.getImageUrl(),"2");
                 }
             }
 

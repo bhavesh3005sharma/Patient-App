@@ -1,11 +1,5 @@
 package com.scout.patient.ui.EditProfile;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.Observer;
-
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -27,7 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -36,10 +33,7 @@ import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
 import com.scout.patient.Utilities.HelperClass;
 import com.squareup.picasso.Picasso;
-
 import java.io.ByteArrayOutputStream;
-import java.util.Calendar;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

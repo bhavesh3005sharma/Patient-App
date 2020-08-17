@@ -15,7 +15,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageViewBack"
             android:layout_width="120dp"
             android:layout_height="120dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +32,7 @@
             android:paddingHorizontal="10dp"
             android:background="@color/placeholder_bg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageViewBack"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:paddingHorizontal="10dp"
             android:textColor="@android:color/secondary_text_light"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageViewBack"
             app:layout_constraintTop_toBottomOf="@+id/text_date"/>
 
         <TextView
@@ -55,7 +55,7 @@
             android:background="@color/placeholder_bg"
             android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/text_disease"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageViewBack"
             app:layout_constraintTop_toTopOf="@+id/text_disease" />
 
         <TextView

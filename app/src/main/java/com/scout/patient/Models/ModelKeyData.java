@@ -12,11 +12,23 @@ public class ModelKeyData implements Serializable {
     @SerializedName("_id")
     ModelRequestId id;
     boolean isHospital = false;
+    String strId;
 
-    public ModelKeyData(String imageUrl, String name, ModelRequestId id) {
+    public ModelKeyData(String name, String imageUrl,  String id, boolean isHospital) {
         this.imageUrl = imageUrl;
-        Name = name;
-        this.id = id;
+        this.Name = name;
+        this.strId = id;
+        this.isHospital = isHospital;
+    }
+
+    public ModelKeyData(String name, String imageUrl,  String id) {
+        this.imageUrl = imageUrl;
+        this.Name = name;
+        this.strId = id;
+    }
+
+    public String getStrId() {
+        return strId;
     }
 
     public String getImageUrl() {

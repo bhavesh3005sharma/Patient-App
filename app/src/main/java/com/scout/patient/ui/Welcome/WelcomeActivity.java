@@ -22,7 +22,7 @@ import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 import com.scout.patient.ui.Hospital.HospitalActivity;
 import com.scout.patient.ui.Notification.NotificationActivity;
 import com.scout.patient.ui.Profile.ProfileActivity;
-import com.scout.patient.ui.SearchActivity;
+import com.scout.patient.ui.Search.SearchActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

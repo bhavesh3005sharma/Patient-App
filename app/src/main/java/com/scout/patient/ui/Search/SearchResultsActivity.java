@@ -1,27 +1,21 @@
-package com.scout.patient.ui;
+package com.scout.patient.ui.Search;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.scout.patient.Adapters.DoctorsAdapter;
-import com.scout.patient.Adapters.SearchAdapter;
 import com.scout.patient.Adapters.SearchResultsAdapter;
 import com.scout.patient.Models.ModelIntent;
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.R;
-import com.scout.patient.ui.DoctorsActivity.DoctorsActivity;
 import com.scout.patient.ui.DoctorsProfile.DoctorsProfileActivity;
 import com.scout.patient.ui.HospitalProfile.HospitalProfileActivity;
 
@@ -70,6 +64,7 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SearchResultsActivity.this, SearchActivity.class).putExtra("key",getString(R.string.only_doctors)));
+                finish();
             }
         });
     }
@@ -98,24 +93,24 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
 
     @Override
     public void holderClick(ModelKeyData modelKeyData) {
-        if (modelKeyData.isHospital()){
-            Intent intent = new Intent(SearchResultsActivity.this, HospitalProfileActivity.class);
-            intent.putExtra("hospitalId",modelKeyData.getId().getId());
-            intent.putExtra("hospitalName",modelKeyData.getName());
-            modelIntent.setIntentFromHospital(true);
-            intent.putExtra("modelIntent",modelIntent);
-            startActivity(intent);
-            if (modelIntent.getBookAppointmentData()!=null)
+        if (modelKeyData.getStrId()!=null) {
+            if (modelKeyData.isHospital()) {
+                Intent intent = new Intent(SearchResultsActivity.this, HospitalProfileActivity.class);
+                intent.putExtra("hospitalId", modelKeyData.getStrId());
+                intent.putExtra("hospitalName", modelKeyData.getName());
+                modelIntent.setIntentFromHospital(true);
+                intent.putExtra("modelIntent", modelIntent);
+                startActivity(intent);
                 finish();
-        }else {
-            Intent intent = new Intent(SearchResultsActivity.this, DoctorsProfileActivity.class);
-            intent.putExtra("doctorId", modelKeyData.getId().getId());
-            intent.putExtra("doctorName", modelKeyData.getName());
-            modelIntent.setIntentFromHospital(false);
-            intent.putExtra("modelIntent",modelIntent);
-            startActivity(intent);
-            if (modelIntent.getBookAppointmentData()!=null)
+            } else {
+                Intent intent = new Intent(SearchResultsActivity.this, DoctorsProfileActivity.class);
+                intent.putExtra("doctorId", modelKeyData.getStrId());
+                intent.putExtra("doctorName", modelKeyData.getName());
+                modelIntent.setIntentFromHospital(false);
+                intent.putExtra("modelIntent", modelIntent);
+                startActivity(intent);
                 finish();
+            }
         }
     }
 }
