@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="20dp"
             android:text="@string/consultation_with"
             android:textColor="@android:color/white"
             android:textSize="25sp"
@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textViewStatus"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewAppointmentId" />
 
         <TextView
             android:id="@+id/textViewStatus"
@@ -184,5 +184,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewSerialNo" />
+
+        <TextView
+            android:id="@+id/textViewAppointmentId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="AppointmentId :\n 1QEFDFRG1wqfafewSAEEWF"
+            android:textSize="18sp"
+            android:textColor="@android:color/primary_text_dark_nodisable"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

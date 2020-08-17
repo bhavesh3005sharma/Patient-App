@@ -256,6 +256,7 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
+        TextView textViewAppointmentId = view.findViewById(R.id.textViewAppointmentId);
         TextView doctorHospitalName = view.findViewById(R.id.textViewDoctorHospitalName);
         TextView patientName = view.findViewById(R.id.textViewName);
         TextView textViewDate = view.findViewById(R.id.textViewDate);
@@ -266,6 +267,7 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         TextView textViewStatus = view.findViewById(R.id.textViewStatus);
         TextView buttonBookAppointment = view.findViewById(R.id.buttonBookAppointment);
 
+        textViewAppointmentId.setText("AppointmentId : "+appointment.getAppointmentId().getId());
         doctorHospitalName.setText(appointment.getDoctorName()+"\n("+appointment.getHospitalName()+")");
         patientName.setText(appointment.getPatientName());
         textViewDate.setText(appointment.getAppointmentDate());
