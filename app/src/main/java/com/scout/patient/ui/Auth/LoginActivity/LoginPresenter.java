@@ -1,11 +1,16 @@
 package com.scout.patient.ui.Auth.LoginActivity;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ProgressBar;
 
+import com.google.gson.internal.$Gson$Preconditions;
+import com.scout.patient.Retrofit.ApiService;
 import com.scout.patient.Utilities.HelperClass;
 import com.scout.patient.Models.ModelPatientInfo;
 import com.scout.patient.Repository.Prefs.SharedPref;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,5 +44,22 @@ public class LoginPresenter implements Contract.Presenter {
                 HelperClass.toast(context,t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void saveFcmToken(String email, String token) {
+        ApiService.getAPIService().updateFCMToken(email,token)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful() && response.code()==200)
+                            Log.d("Token","Saved Successfully\n"+token);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
     }
 }

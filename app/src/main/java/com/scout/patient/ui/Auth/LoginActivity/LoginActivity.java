@@ -2,6 +2,7 @@ package com.scout.patient.ui.Auth.LoginActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
 import com.scout.patient.Utilities.HelperClass;
@@ -79,8 +82,8 @@ public class LoginActivity extends AppCompatActivity implements Contract.View , 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnLogin :
-               String email = textInputEmail.getEditText().getText().toString();
-               String password = textInputPassword.getEditText().getText().toString();
+               String email = textInputEmail.getEditText().getText().toString().trim();
+               String password = textInputPassword.getEditText().getText().toString().trim();
 
                 if (email.isEmpty()){
                     textInputEmail.setError("Email is Required");
@@ -117,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements Contract.View , 
                 if(task.isSuccessful()){
                     if(mAuth.getCurrentUser().isEmailVerified()){
                         call = networkApi.getPatientInfo(email,null);
+                        generateFcmToken(email);
                         presenter.getPatientInfo(LoginActivity.this,progressBar,call,password);
                     }
                     else{
@@ -129,6 +133,22 @@ public class LoginActivity extends AppCompatActivity implements Contract.View , 
                 }
             }
         });
+    }
+
+    private void generateFcmToken(String email) {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Task : ", "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        String token = task.getResult().getToken();
+                        Log.d("InstanceId(Token) : ",token);
+                        presenter.saveFcmToken(email,token);
+                    }
+                });
     }
 
     @Override

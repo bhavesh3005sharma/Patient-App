@@ -99,7 +99,11 @@ public class RegistrationActivity extends AppCompatActivity implements Contract.
                 String dob = textInputDOB.getText().toString();
                 String previousDisease = textInputMedicalHistory.getEditText().getText().toString();
                 String weight = textInputWeight.getEditText().getText().toString();
-                String bloodGrp = bloodGrpSpinner.getSelectedItem().toString();
+                String bloodGrp;
+                if (bloodGrpSpinner.getSelectedItemPosition()==0)
+                    bloodGrp = "Not Submitted";
+                else
+                    bloodGrp = bloodGrpSpinner.getSelectedItem().toString();
 
                 if (email.isEmpty()){
                     textInputEmailRegister.setError("Email is Required");

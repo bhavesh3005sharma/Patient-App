@@ -134,7 +134,11 @@ public class EditProfileActivity extends AppCompatActivity implements Contract.V
                 String dob = textDob.getText().toString();
                 String previousDisease = textMedicalHistory.getText().toString();
                 String weight = textWeight.getText().toString();
-                String bloodGrp = textBloodGroup.getSelectedItem().toString();
+                String bloodGrp;
+                if (textBloodGroup.getSelectedItemPosition()==0)
+                    bloodGrp = "Not Submitted";
+                else
+                    bloodGrp = textBloodGroup.getSelectedItem().toString();
 
                 if (name.isEmpty()){
                     textName.setError("Name is Required");

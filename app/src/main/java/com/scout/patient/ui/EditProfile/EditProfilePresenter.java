@@ -33,23 +33,23 @@ public class EditProfilePresenter implements Contract.Presenter {
     public int getBloodGrpPosition(String bloodGroup) {
         switch (bloodGroup){
             case "A+" :
-                return 0;
-            case "A-" :
                 return 1;
-            case "B+" :
+            case "A-" :
                 return 2;
-            case "B-" :
+            case "B+" :
                 return 3;
-            case "O+" :
+            case "B-" :
                 return 4;
-            case "O-" :
+            case "O+" :
                 return 5;
-            case "AB+" :
+            case "O-" :
                 return 6;
-            case "AB-" :
+            case "AB+" :
                 return 7;
+            case "AB-" :
+                return 8;
         }
-        return -1;
+        return 0;
     }
 
     @Override

@@ -16,5 +16,7 @@ public class Contract {
     interface Presenter {
 
         void getPatientInfo(Context context, ProgressBar progressBar, Call<ModelPatientInfo> call, String password);
+
+        void saveFcmToken(String trim, String token);
     }
 }

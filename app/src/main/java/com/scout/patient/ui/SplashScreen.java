@@ -13,6 +13,7 @@ import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
 import com.scout.patient.Repository.Room.DataBaseManager;
 import com.scout.patient.Retrofit.ApiService;
+import com.scout.patient.ui.Auth.LoginActivity.LoginActivity;
 import com.scout.patient.ui.Welcome.WelcomeActivity;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreen.this, WelcomeActivity.class));
+                startActivity(new Intent(SplashScreen.this, LoginActivity.class));
                 finish();
             }
         },2000);
