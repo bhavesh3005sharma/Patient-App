@@ -11,6 +11,8 @@ public class Contract {
     interface View {
 
         void openHomeActivity();
+
+        void signOut();
     }
 
     interface Presenter {

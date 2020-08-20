@@ -81,6 +81,11 @@ dependencies {
 
     //Firebase Auth & Storage Dependency & Cloud Messaging
     implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.google.firebase:firebase-messaging:20.2.4'
+
+    // Dots Loading Animations
+    implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
+
 }

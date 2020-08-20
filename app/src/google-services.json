@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "481818034767-bqu5qcso5d6vjuadasbdsngdvcu0hbhk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scout.patient",
+            "certificate_hash": "4ce262964dc66d8217674f5d1ab30b0c9ad8f596"
+          }
+        },
+        {
           "client_id": "481818034767-12ub5lu77tkt4eekubnith91fdo0flts.apps.googleusercontent.com",
           "client_type": 3
         }

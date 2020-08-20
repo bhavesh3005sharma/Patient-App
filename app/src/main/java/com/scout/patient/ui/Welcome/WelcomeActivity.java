@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +48,7 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
 
     Unbinder unbinder;
     WelcomeActivityPresenter presenter;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onDestroy() {
@@ -64,6 +68,8 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
         card_doctor.setOnClickListener(this);
         card_appointment.setOnClickListener(this);
         card_ambulance.setOnClickListener(this);
+
+        initGoogleSignIn();
     }
 
     @Override
@@ -95,7 +101,13 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
         switch (item.getItemId()){
             case R.id.logout:
                 SharedPref.deleteLoginUserData(this);
+
+                // Firebase sign out
                 FirebaseAuth.getInstance().signOut();
+
+                // Google sign out
+                mGoogleSignInClient.signOut();
+
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
@@ -110,5 +122,17 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initGoogleSignIn() {
+        // [START config_signIn]
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        // [END config_signIn]
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 }

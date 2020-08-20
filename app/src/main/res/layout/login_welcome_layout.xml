@@ -34,6 +34,7 @@
         android:hint="@string/email"
         app:errorTextColor="@android:color/holo_red_light"
         app:errorIconTint="@android:color/holo_red_light"
+        app:boxStrokeErrorColor="@android:color/holo_red_light"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +43,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,6 +54,7 @@
         android:layout_margin="20dp"
         app:errorTextColor="@android:color/holo_red_light"
         app:errorIconTint="@android:color/holo_red_light"
+        app:boxStrokeErrorColor="@android:color/holo_red_light"
         android:hint="@string/loginPassword"
         app:passwordToggleEnabled="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -62,8 +65,27 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.agrawalsuneet.dotsloader.loaders.TashieLoader
+        android:id="@+id/tashieLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tashieloader_animDelay="100"
+        app:tashieloader_animDur="500"
+        app:tashieloader_dotsColor="@android:color/holo_red_light"
+        app:tashieloader_dotsDist="5dp"
+        app:tashieloader_dotsRadius="7dp"
+        app:tashieloader_interpolator="@android:anim/accelerate_interpolator"
+        app:tashieloader_noOfDots="6"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/btnLogin"
@@ -110,6 +132,7 @@
             app:srcCompat="@mipmap/facebook" />
 
         <ImageView
+            android:id="@+id/google_signIn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"

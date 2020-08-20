@@ -34,7 +34,15 @@ public class LoginPresenter implements Contract.Presenter {
                         ModelPatientInfo patientInfo = response.body();
                         SharedPref.saveLoginUserData(context,patientInfo);
                         mainView.openHomeActivity();
+                        Log.d("ResponseData",response.body().getName());
                     }
+                    else {
+                        HelperClass.toast(context, "User Data Not Found\n May be user Not Registered Yet");
+                        mainView.signOut();
+                    }
+                }else {
+                    HelperClass.toast(context, response.errorBody().toString());
+                    mainView.signOut();
                 }
             }
 
@@ -42,6 +50,7 @@ public class LoginPresenter implements Contract.Presenter {
             public void onFailure(Call<ModelPatientInfo> call, Throwable t) {
                 HelperClass.hideProgressbar(progressBar);
                 HelperClass.toast(context,t.getMessage());
+                mainView.signOut();
             }
         });
     }
