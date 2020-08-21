@@ -88,4 +88,7 @@ dependencies {
     // Dots Loading Animations
     implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
 
+    //Facebook Login SDK (not Integrated yet)
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+
 }

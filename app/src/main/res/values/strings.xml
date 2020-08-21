@@ -5,7 +5,7 @@
     <string name="welcome_text">Welcome to Dr. Scout</string>
     <string name="loginInputIdHint">Email or Phone No</string>
     <string name="loginPassword">Password</string>
-    <string name="patient_login">Login As A Patient</string>
+    <string name="patient_login">Login Your Account</string>
     <string name="login_using">OR Login Using</string>
     <string name="text_registration">Don\'t have Account?</string>
     <string name="signUp">SignUp</string>

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
     RecyclerView recyclerView;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.image_no_data)
+    ImageView imageNoData;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.collapsingToolbar)
@@ -55,11 +58,13 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
         unbinder = ButterKnife.bind(this);
 
         list.clear();
+        if (getIntent().getSerializableExtra("list")!=null)
         list.addAll((ArrayList<ModelKeyData>)getIntent().getSerializableExtra("list"));
         modelIntent = (ModelIntent) getIntent().getSerializableExtra("modelIntent");
 
         setToolbar();
-        initRecyclerView();
+        checkForDataAndDecide();
+
         textViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +72,17 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
                 finish();
             }
         });
+    }
+
+    private void checkForDataAndDecide() {
+        if (list.isEmpty()){
+            imageNoData.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else {
+            imageNoData.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            initRecyclerView();
+        }
     }
 
     private void setToolbar() {

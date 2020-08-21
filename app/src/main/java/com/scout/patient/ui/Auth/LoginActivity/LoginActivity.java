@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements Contract.View , 
     @BindView(R.id.btnLogin) Button btnLogin;
     @BindView(R.id.btnRegistration) Button btnRegistration;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @BindView(R.id.google_signIn) ImageView googleSignIn;
+    @BindView(R.id.google_signIn) SignInButton googleSignIn;
     @BindView(R.id.tashieLoader) TashieLoader tashieLoader;
 
     private static final String TAG = "LoginActivity";
