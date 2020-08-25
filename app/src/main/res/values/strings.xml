@@ -109,4 +109,10 @@
     <string name="search_results_activity_title">Your Search Results..</string>
     <string name="search_doctors_hospitals_by_name">Search Hospitals or Doctors By Name</string>
     <string name="clean_suggestion_history">Clean Suggestion History</string>
+
+    <string name="text_enter_password_again">For Security Reasons You have to Entered Your Password Again.</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="new_password">New Password</string>
+    <string name="enter_your_new_password">Enter Your New Password</string>
+    <string name="change_password">Change Password</string>
 </resources>

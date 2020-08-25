@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -44,6 +45,8 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
     TextView textViewSearch;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.noData)
+    ImageView noData;
 
     public static ArrayList<ModelKeyData> list = new ArrayList<ModelKeyData>();
     DoctorsAdapter adapter;
@@ -95,7 +98,7 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
             toolbarTitle.setText(getString(R.string.doctor)+" | "+getIntent().getStringExtra("hospitalName"));
         }
         else {
-            presenter.loadDoctorsList("", 2);
+            presenter.loadDoctorsList("", 8);
             toolbarTitle.setText(getString(R.string.doctor_activity_title));
         }
     }
@@ -104,6 +107,7 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
         setToolbar();
         list.clear();
         initRecyclerView();
+        noData.setVisibility(View.GONE);
         shimmerLayout.setVisibility(View.VISIBLE);
         shimmerLayout.startShimmer();
         HelperClass.hideProgressbar(progressBar);
@@ -186,6 +190,10 @@ public class DoctorsActivity extends AppCompatActivity implements Contract.View,
             shimmerLayout.stopShimmer();
             shimmerLayout.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+
+            if ((data==null || data.size()==0 )&& list.isEmpty())
+                noData.setVisibility(View.VISIBLE);
+            else noData.setVisibility(View.GONE);
         }
 
         if (data!=null && !data.isEmpty() && list!=null) {

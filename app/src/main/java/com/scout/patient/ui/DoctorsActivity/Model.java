@@ -47,7 +47,7 @@ public class Model implements Contract.Model {
         if (listOfDoctorsIds==null || listOfDoctorsIds.isEmpty() ||  startingIndex>=listOfDoctorsIds.size())
             presenter.onSuccess(doctorInfoArrayList);
         else {
-            final int[] maxIndex = {1 + startingIndex};
+            final int[] maxIndex = {8 + startingIndex};
             if (listOfDoctorsIds.size() < maxIndex[0])
                 maxIndex[0] = listOfDoctorsIds.size();
 

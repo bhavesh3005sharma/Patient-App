@@ -15,6 +15,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/noData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:src="@drawable/no_data"/>
             <include
                 android:id="@+id/shimmerLayout"
                 layout="@layout/shimmer_layout_details"

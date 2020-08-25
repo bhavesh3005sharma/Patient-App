@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
     @BindView(R.id.shimmerLayout) ShimmerFrameLayout shimmerLayout;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.textViewSearch) TextView textViewSearch;
+    @BindView(R.id.noData) ImageView noData;
 
     public static ArrayList<ModelKeyData> list = new ArrayList<ModelKeyData>();
     HospitalsAdapter adapter;
@@ -78,12 +80,13 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
 
         initUi();
         isLoading = true;
-        presenter.getHospitalsList(null,1);
+        presenter.getHospitalsList(null,8);
     }
 
     private void initUi() {
         setToolbar();
         list.clear();
+        noData.setVisibility(View.GONE);
         initRecyclerView();
         shimmerLayout.setVisibility(View.VISIBLE);
         shimmerLayout.startShimmer();
@@ -168,18 +171,23 @@ public class HospitalActivity extends AppCompatActivity implements Contract.View
 
     @Override
     public void updateSuccessUi(ArrayList<ModelKeyData> data) {
-        if (progressBar!=null) {
-            HelperClass.hideProgressbar(progressBar);
-            shimmerLayout.stopShimmer();
-            shimmerLayout.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
 
         if (data!=null && !data.isEmpty() && list!=null) {
             list.addAll(data);
             startingValue = data.get(data.size()-1).getId().getId();
         }else
             startingValue = null;
+
+        if (progressBar!=null) {
+            HelperClass.hideProgressbar(progressBar);
+            shimmerLayout.stopShimmer();
+            shimmerLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+
+            if ((data==null || data.size()==0 )&& list.isEmpty())
+                noData.setVisibility(View.VISIBLE);
+            else noData.setVisibility(View.GONE);
+        }
 
         isLoading = false;
         notifyAdapter();

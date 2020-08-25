@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.util.Log;
@@ -45,10 +46,11 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
     CardView card_appointment;
     @BindView(R.id.card_appointment)
     CardView card_ambulance;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     Unbinder unbinder;
     WelcomeActivityPresenter presenter;
-    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onDestroy() {
@@ -61,15 +63,13 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         unbinder = ButterKnife.bind(this);
-        getSupportActionBar().setTitle(getString(R.string.startUp_name));
+        setSupportActionBar(toolbar);
 
         presenter = new WelcomeActivityPresenter(WelcomeActivity.this);
         card_hospital.setOnClickListener(this);
         card_doctor.setOnClickListener(this);
         card_appointment.setOnClickListener(this);
         card_ambulance.setOnClickListener(this);
-
-        initGoogleSignIn();
     }
 
     @Override
@@ -99,18 +99,6 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.logout:
-                SharedPref.deleteLoginUserData(this);
-
-                // Firebase sign out
-                FirebaseAuth.getInstance().signOut();
-
-                // Google sign out
-                mGoogleSignInClient.signOut();
-
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-                break;
             case R.id.menu_notification:
                 startActivity(new Intent(this, NotificationActivity.class));
                 break;
@@ -122,17 +110,5 @@ public class WelcomeActivity extends AppCompatActivity implements Contract.View,
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initGoogleSignIn() {
-        // [START config_signIn]
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        // [END config_signIn]
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 }
