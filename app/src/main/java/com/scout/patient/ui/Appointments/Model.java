@@ -58,7 +58,6 @@ public class Model implements Contract.Model {
             presenter.onError("");
 
         for(int i = startingIndex; i< maxIndex[0]; i++){
-            int finalI = i;
             networkApi.getAppointmentsDetails(appointmentsIdsList.get(i).getId()).enqueue(new Callback<ModelAppointment>() {
                 @Override
                 public void onResponse(Call<ModelAppointment> call, Response<ModelAppointment> response) {

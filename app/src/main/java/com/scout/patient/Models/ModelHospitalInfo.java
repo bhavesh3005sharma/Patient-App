@@ -8,6 +8,8 @@ public class ModelHospitalInfo {
     ModelRequestId hospitalId;
     @SerializedName("name")
     String name;
+    @SerializedName("schedule")
+    String schedule;
     @SerializedName("email")
     String email;
     @SerializedName("url")
@@ -30,6 +32,8 @@ public class ModelHospitalInfo {
     public void setHospitalDoctors(ArrayList<ModelRequestId> hospitalDoctors) {
         this.hospitalDoctors = hospitalDoctors;
     }
+
+    public String getSchedule() { return schedule; }
 
     public String getUrl() {
         return url;

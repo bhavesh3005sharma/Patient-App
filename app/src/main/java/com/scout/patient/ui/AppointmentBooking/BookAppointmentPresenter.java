@@ -41,7 +41,8 @@ public class BookAppointmentPresenter implements Contract.Presenter {
         if (doctorProfileInfo.getAvailabilityType().equals("Monthly")) {
             Calendar calendar = Calendar.getInstance();
             int numberOfMonths = 0;
-            while (numberOfMonths!=3) {
+
+            while (numberOfMonths!=2) {
                 calendar.roll(Calendar.MONTH,1);
                 for (String day : doctorProfileInfo.getDoctorAvailability()) {
                     if (day.length() == 1)
@@ -65,7 +66,22 @@ public class BookAppointmentPresenter implements Contract.Presenter {
 
         if (doctorProfileInfo.getAvailabilityType().equals("Weekly")) {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH,2);
+
+            String takeAppointments = doctorProfileInfo.getSchedule();
+            if (takeAppointments==null)
+                takeAppointments = "Monthly";
+            switch (takeAppointments) {
+                case "Weekly":
+                    calendar.add(Calendar.WEEK_OF_MONTH, 1);
+                    break;
+                case "Daily":
+                    calendar.add(Calendar.DAY_OF_YEAR, 1);
+                    break;
+                default:
+                    calendar.add(Calendar.MONTH, 1);
+                    break;
+            }
+
             Date endDate = calendar.getTime();
             calendar = Calendar.getInstance();
             int check = calendar.getTime().compareTo(endDate);

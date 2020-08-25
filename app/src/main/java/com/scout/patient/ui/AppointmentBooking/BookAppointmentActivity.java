@@ -52,6 +52,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
 
     Unbinder unbinder;
     int check=0;
+    Boolean isOpeningDatePicker = false;
     BookAppointmentPresenter presenter;
     ModelIntent modelIntent;
     String selectedTime = null;
@@ -131,6 +132,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
     }
 
     public void openDatePicker(){
+        isOpeningDatePicker = true;
         Calendar now = Calendar.getInstance();
          datePickerDialog = DatePickerDialog.newInstance(
                 BookAppointmentActivity.this,
@@ -214,7 +216,10 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
                 break;
 
             case R.id.textViewSelectDate :
-                openDatePicker();
+                if (isOpeningDatePicker)
+                    HelperClass.toast(BookAppointmentActivity.this,"Please Wait We Checking For Available Dates..");
+                else
+                    openDatePicker();;
                 break;
         }
     }
@@ -256,6 +261,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         if (monthOfYear.length()==1)
             monthOfYear = "0"+ month;
         String date = dayOfMonth+"-"+monthOfYear+"-"+year;
+        Log.d("Date Set",date);
         textViewSelectDate.setText(date);
 
         setTime(date);
@@ -316,12 +322,26 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         datePickerDialog.setSelectableDays(availabilityDates);
         datePickerDialog.setDisabledDays(unAvailabilityDates);
         datePickerDialog.setMinDate(now);
-        now.add(Calendar.MONTH,2);
+
+        String schedule = modelIntent.getDoctorProfileInfo().getSchedule();
+        if (schedule==null)
+            schedule = getString(R.string.monthly);
+        switch (schedule) {
+            case "Weekly":
+                now.add(Calendar.WEEK_OF_MONTH, 1);
+                break;
+            case "Daily":
+                now.add(Calendar.DAY_OF_YEAR, 1);
+                break;
+            default:
+                now.add(Calendar.MONTH, 1);
+        }
         datePickerDialog.setMaxDate(now);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             datePickerDialog.setAccentColor(getColor(R.color.colorPrimary));
         }
+
         datePickerDialog.setOkColor(Color.WHITE);
         datePickerDialog.setCancelColor(Color.WHITE);
         datePickerDialog.show(getSupportFragmentManager(),"DATE_PICKER");
@@ -329,6 +349,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
 
         partiallyUnavailableDates.clear();
         partiallyUnavailableDates.addAll(partiallyUnavailableDatesList);
+        isOpeningDatePicker = false;
     }
 
     @Override
