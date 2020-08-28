@@ -8,6 +8,8 @@ public class Contract {
     interface View {
 
         void showToast(String s);
+
+        void setUploadProgress(int progress);
     }
 
     interface Presenter {
@@ -19,6 +21,8 @@ public class Contract {
         void showToast(String s);
 
         void saveProfilePic(EditProfileActivity editProfileActivity, Uri imageUri, String s);
+
+        void getProgress();
     }
     
     interface Model {

@@ -1,27 +1,24 @@
 package com.scout.patient.ui.EditProfile;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnPausedListener;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.scout.patient.Models.ModelPatientInfo;
-import com.scout.patient.Repository.Prefs.SharedPref;
 
 public class EditProfilePresenter implements Contract.Presenter {
     Contract.View view;
     Contract.Model model;
-    private StorageTask mUploadTask;
+    private StorageTask<UploadTask.TaskSnapshot> mUploadTask;
     StorageReference mStorageRef;
 
     public EditProfilePresenter(Contract.View view) {
@@ -67,6 +64,7 @@ public class EditProfilePresenter implements Contract.Presenter {
         if (mUploadTask != null && mUploadTask.isInProgress())
             view.showToast("Profile Update is in Progress");
         else {
+            view.showToast("Profile Upload Started");
             mStorageRef = FirebaseStorage.getInstance().getReference(FirebaseAuth.getInstance().getUid()+"/Hospital ProfilePic");
             StorageReference fileReference = mStorageRef.child(fileName);
 
@@ -91,5 +89,22 @@ public class EditProfilePresenter implements Contract.Presenter {
                         }
                     });
         }
+    }
+
+    @Override
+    public void getProgress() {
+        mUploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = 100.0 * (taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                System.out.println("Upload is " + progress + "% done");
+                view.setUploadProgress((int) progress);
+            }
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                System.out.println("Upload is paused");
+            }
+        });
     }
 }

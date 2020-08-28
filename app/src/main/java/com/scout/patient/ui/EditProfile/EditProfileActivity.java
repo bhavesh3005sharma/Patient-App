@@ -1,11 +1,15 @@
 package com.scout.patient.ui.EditProfile;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +29,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -32,8 +39,12 @@ import com.scout.patient.Models.ModelPatientInfo;
 import com.scout.patient.R;
 import com.scout.patient.Repository.Prefs.SharedPref;
 import com.scout.patient.Utilities.HelperClass;
+import com.scout.patient.ui.Notification.NotificationActivity;
+import com.scout.patient.ui.Profile.ProfileActivity;
 import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -73,6 +84,10 @@ public class EditProfileActivity extends AppCompatActivity implements Contract.V
     TextView gallery,camera,cancel;
     AlertDialog alertDialog;
     Uri imageUri;
+    NotificationCompat.Builder notificationBuilder;
+    private static final String CHANNEL_ID = "notification_liveTask";
+    private static final String CHANNEL_NAME = "CURRENT TASKS";
+    private static final String CHANNEL_DESCRIPTION = "Notifications for your tasks in progress";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +181,11 @@ public class EditProfileActivity extends AppCompatActivity implements Contract.V
     public void showToast(String s) {
         HelperClass.hideProgressbar(progressBar);
         HelperClass.toast(this,s);
+    }
+
+    @Override
+    public void setUploadProgress(int progress) {
+        notificationBuilder.setProgress(100,progress,true);
     }
 
     @Override
@@ -281,8 +301,8 @@ public class EditProfileActivity extends AppCompatActivity implements Contract.V
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HelperClass.showProgressbar(progressBar);
                 presenter.saveProfilePic(EditProfileActivity.this,imageUri,"ProfilePic." + getFileExtension(imageUri));
+                showProgressInNotification();
                 alertDialog.dismiss();
             }
         });
@@ -292,6 +312,41 @@ public class EditProfileActivity extends AppCompatActivity implements Contract.V
                 alertDialog.dismiss();
             }
         });
+    }
+
+    private void showProgressInNotification() {
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, ProfileActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription(CHANNEL_DESCRIPTION);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setOngoing(true)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("Profile Pic Uploading")
+                        .setProgress(100,0,false)
+                        .setAutoCancel(false)
+                        .setSound(defaultSoundUri)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setContentIntent(contentIntent);
+
+        NotificationManagerCompat notificationManagerCompat =
+                NotificationManagerCompat.from(this);
+
+        // Since android Oreo notification channel is needed.
+
+        notificationManagerCompat.notify((int) Calendar.getInstance().getTimeInMillis(), notificationBuilder.build());
+        presenter.getProgress();
     }
 
     private void openAlertDialogue() {

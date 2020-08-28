@@ -26,6 +26,8 @@ public class ModelPatientInfo implements Serializable {
     String bloodGroup;
     @SerializedName("medical_history")
     String MedicalHistory;
+    @SerializedName("fcm_token")
+    String fcmToken;
     @SerializedName("appointment_list")
     ArrayList<ModelRequestId> AppointmentIdsList;
 
@@ -38,6 +40,14 @@ public class ModelPatientInfo implements Serializable {
         this.address = address;
         this.bloodGroup = bloodGroup;
         MedicalHistory = medicalHistory;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
+
+    public void setAppointmentIdsList(ArrayList<ModelRequestId> appointmentIdsList) {
+        AppointmentIdsList = appointmentIdsList;
     }
 
     public void setUrl(String url) {

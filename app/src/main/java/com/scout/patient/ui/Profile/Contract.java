@@ -16,10 +16,16 @@ public class Contract {
         void onError(String toString);
 
         void onSuccess(ModelPatientInfo body);
+
+        void deleteFcmToken(String email, String token);
+
+        void sendPasswordUpdateNotification(String email);
     }
 
     interface  Model{
 
         void getUserData(String id);
+
+        void sendPasswordUpdateNotification(String email);
     }
 }

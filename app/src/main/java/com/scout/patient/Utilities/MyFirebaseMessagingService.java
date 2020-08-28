@@ -18,6 +18,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.scout.patient.R;
 import com.scout.patient.ui.Notification.NotificationActivity;
 
+import java.util.Calendar;
 import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -69,7 +70,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Since android Oreo notification channel is needed.
 
-        notificationManagerCompat.notify(1, notificationBuilder.build());
+        notificationManagerCompat.notify((int) Calendar.getInstance().getTimeInMillis(), notificationBuilder.build());
         Log.d(TAG,"sendNotification = run");
     }
 }

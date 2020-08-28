@@ -3,6 +3,7 @@ package com.scout.patient.ui.Profile;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +31,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.scout.patient.Models.ModelPatientInfo;
 import com.scout.patient.R;
@@ -153,11 +156,30 @@ public class ProfileActivity extends AppCompatActivity implements Contract.View,
                 initGoogleSignIn();
                 mGoogleSignInClient.signOut();
 
+
+                generateFcmToken(patientInfo.getEmail());
+
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void generateFcmToken(String email) {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Task : ", "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        String token = task.getResult().getToken();
+                        Log.d("InstanceId(Token) : ",token);
+                        presenter.deleteFcmToken(email,token);
+                    }
+                });
     }
 
     private void initGoogleSignIn() {
@@ -228,6 +250,7 @@ public class ProfileActivity extends AppCompatActivity implements Contract.View,
                             trailingCircularDotsLoader.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 HelperClass.toast(ProfileActivity.this, "Password Updated Successfully");
+                                presenter.sendPasswordUpdateNotification(patientInfo.getEmail());
                                 alertDialog.dismiss();
                             }else {
                                 HelperClass.toast(ProfileActivity.this, task.getException().getMessage());

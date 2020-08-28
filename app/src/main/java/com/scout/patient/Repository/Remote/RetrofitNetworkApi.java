@@ -20,8 +20,14 @@ public interface RetrofitNetworkApi {
     @GET("Patient/incoming_webhook/getPatientInfo")
     Call<ModelPatientInfo> getPatientInfo(@Query("email") String  email, @Query("patient_id") String id);
 
-    @GET("Patient/incoming_webhook/updateFCMToken")
-    Call<ResponseBody> updateFCMToken(@Query("email") String  email, @Query("fcm_token") String token);
+    @GET("Patient/incoming_webhook/AddFCMToken")
+    Call<ResponseBody> AddFCMToken(@Query("email") String  email, @Query("fcm_token") String token);
+
+    @GET("FCM/incoming_webhook/DeletePatientFcmToken")
+    Call<ResponseBody> DeleteFcmToken(@Query("email") String  email, @Query("fcm_token") String token);
+
+    @GET("FCM/incoming_webhook/sendPatientPasswordUpdateNotification")
+    Call<ResponseBody> sendPasswordUpdateNotification(@Query("email") String  email);
 
     @POST("Patient/incoming_webhook/registerPatient")
     Call<ResponseBody> registerPatient(@Body ModelPatientInfo patientInfo);

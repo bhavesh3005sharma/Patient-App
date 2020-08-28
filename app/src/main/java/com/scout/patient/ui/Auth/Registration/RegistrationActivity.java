@@ -2,6 +2,7 @@ package com.scout.patient.ui.Auth.Registration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.scout.patient.R;
 import com.scout.patient.Retrofit.*;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
@@ -134,7 +137,7 @@ public class RegistrationActivity extends AppCompatActivity implements Contract.
                 }else textInputPhoneNo.setError(null);
 
                 ModelPatientInfo patientInfo = new ModelPatientInfo(email,weight,name,dob,phoneNo,address,bloodGrp,previousDisease);
-                registerUser(email,password,patientInfo);
+                generateFcmToken(email,password,patientInfo);
 
                 break;
             case R.id.btnLogin :
@@ -171,6 +174,25 @@ public class RegistrationActivity extends AppCompatActivity implements Contract.
                             HelperClass.hideProgressbar(progressBar);
                             HelperClass.toast(RegistrationActivity.this,task.getException().getMessage());
                         }
+                    }
+                });
+    }
+
+    private void generateFcmToken(String email, String password, ModelPatientInfo patientInfo) {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Task : ", "getInstanceId failed", task.getException());
+                            HelperClass.toast(RegistrationActivity.this,"Token Cannot be Generated");
+                            registerUser(email,password,patientInfo);
+                            return;
+                        }
+                        String token = task.getResult().getToken();
+                        Log.d("InstanceId(Token) : ",token);
+                        patientInfo.setFcmToken(token);
+                        registerUser(email,password,patientInfo);
                     }
                 });
     }

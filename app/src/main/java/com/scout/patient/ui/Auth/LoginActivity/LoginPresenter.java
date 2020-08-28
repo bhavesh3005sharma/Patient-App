@@ -57,7 +57,7 @@ public class LoginPresenter implements Contract.Presenter {
 
     @Override
     public void saveFcmToken(String email, String token) {
-        ApiService.getAPIService().updateFCMToken(email,token)
+        ApiService.getAPIService().AddFCMToken(email,token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
