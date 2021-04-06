@@ -1,6 +1,5 @@
 package com.scout.patient.ui.DoctorsActivity;
 
-import com.scout.patient.Models.ModelDoctorInfo;
 import com.scout.patient.Models.ModelKeyData;
 import com.scout.patient.Models.ModelRequestId;
 import com.scout.patient.Repository.Remote.RetrofitNetworkApi;
@@ -13,8 +12,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Model implements Contract.Model {
-    Contract.Presenter presenter;
-    RetrofitNetworkApi networkApi;
+    private Contract.Presenter presenter;
+    private RetrofitNetworkApi networkApi;
+    Call<ArrayList<ModelKeyData>> callGetDoctorsList;
 
     public Model(Contract.Presenter presenter) {
         this.presenter = presenter;
@@ -23,20 +23,23 @@ public class Model implements Contract.Model {
     @Override
     public void getDoctorsList(String startingValue, int noOfItems) {
         networkApi = ApiService.getAPIService();
-        networkApi.getDoctorsList(startingValue,noOfItems).enqueue(new Callback<ArrayList<ModelKeyData>>() {
-            @Override
-            public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
-                if (response.isSuccessful() && response.body()!=null){
-                    presenter.onSuccess(response.body());
-                }else
-                    presenter.onError(response.errorBody().toString());
-            }
+        if (callGetDoctorsList == null || callGetDoctorsList.isExecuted()) {
+            callGetDoctorsList = networkApi.getDoctorsList(startingValue,noOfItems);
+            callGetDoctorsList.enqueue(new Callback<ArrayList<ModelKeyData>>() {
+                @Override
+                public void onResponse(Call<ArrayList<ModelKeyData>> call, Response<ArrayList<ModelKeyData>> response) {
+                    if (response.isSuccessful() && response.body()!=null){
+                        presenter.onSuccess(response.body());
+                    }else
+                        presenter.onError(response.errorBody().toString());
+                }
 
-            @Override
-            public void onFailure(Call<ArrayList<ModelKeyData>> call, Throwable t) {
-                presenter.onError(t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<ArrayList<ModelKeyData>> call, Throwable t) {
+                    presenter.onError(t.getMessage());
+                }
+            });
+        }
     }
 
     @Override

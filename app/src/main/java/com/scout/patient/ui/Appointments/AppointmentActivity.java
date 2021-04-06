@@ -1,19 +1,30 @@
 package com.scout.patient.ui.Appointments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -255,6 +266,9 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        alertDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        alertDialog.getWindow().setBackgroundDrawable(null);
+        alertDialog.getWindow().setGravity(Gravity.BOTTOM);
 
         TextView textViewAppointmentId = view.findViewById(R.id.textViewAppointmentId);
         TextView doctorHospitalName = view.findViewById(R.id.textViewDoctorHospitalName);
@@ -267,12 +281,23 @@ public class AppointmentActivity extends AppCompatActivity implements Contract.V
         TextView textViewStatus = view.findViewById(R.id.textViewStatus);
         TextView buttonBookAppointment = view.findViewById(R.id.buttonBookAppointment);
 
-        textViewAppointmentId.setText("AppointmentId : "+appointment.getAppointmentId().getId());
+        textViewAppointmentId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("clicked","copied");
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Appointment Id", appointment.getAppointmentId().getId());
+                clipboard.setPrimaryClip(clip);
+                HelperClass.toast(AppointmentActivity.this,"Appointment Id Copied to Clipboard");
+            }
+        });
+
+        //textViewAppointmentId.setText("AppointmentId : "+appointment.getAppointmentId().getId());
         doctorHospitalName.setText(appointment.getDoctorName()+"\n("+appointment.getHospitalName()+")");
         patientName.setText(appointment.getPatientName());
         textViewDate.setText(appointment.getAppointmentDate());
         textViewTime.setText(appointment.getAppointmentTime());
-        textViewAge.setText(appointment.getAge());
+        textViewAge.setText(appointment.getAge()+" years");
         textViewDisease.setText(appointment.getDisease());
         if(appointment.getSerialNumber()!=null && !appointment.getSerialNumber().equals("")){
             textViewSerialNo.setText(getString(R.string.your_serial_number)+" "+appointment.getSerialNumber());

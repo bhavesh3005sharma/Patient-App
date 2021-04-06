@@ -64,7 +64,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_hospital"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:alpha=".8"
@@ -91,7 +91,7 @@
                         android:layout_alignParentBottom="true"
                         android:gravity="center"
                         android:text="@string/hospital"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                         android:textColor="@android:color/black" />
                 </RelativeLayout>
 
@@ -100,7 +100,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_doctor"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:alpha=".8"
@@ -127,7 +127,7 @@
                         android:layout_alignParentBottom="true"
                         android:gravity="center"
                         android:text="@string/doctor"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                         android:textColor="@android:color/black" />
                 </RelativeLayout>
 
@@ -151,7 +151,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_book_appointment"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:alpha=".8"
@@ -181,7 +181,7 @@
                         android:layout_alignParentBottom="true"
                         android:gravity="center"
                         android:text="@string/book_appointment"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                         android:textColor="@android:color/black" />
                 </RelativeLayout>
 
@@ -190,7 +190,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_appointment"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:alpha=".8"
@@ -217,7 +217,7 @@
                         android:layout_alignParentBottom="true"
                         android:gravity="center"
                         android:text="@string/appointment"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                         android:textColor="@android:color/black" />
                 </RelativeLayout>
 

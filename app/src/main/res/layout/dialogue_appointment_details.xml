@@ -9,18 +9,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#3F51B5"
+        android:background="@color/colorPrimaryDark"
         android:paddingBottom="50dp">
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:text="@string/consultation_with"
             android:textColor="@android:color/white"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textViewStatus"
             app:layout_constraintHorizontal_bias="0.5"
@@ -39,10 +39,8 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/textView7"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintTop_toTopOf="@+id/textView7"/>
 
         <TextView
             android:id="@+id/textViewDoctorHospitalName"
@@ -62,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:text="Bhavesh Sharma"
+            android:text="N/A"
             android:textColor="@android:color/primary_text_dark_nodisable"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +89,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Bhavesh Sharma"
+            android:text="N/A"
             android:textColor="@android:color/primary_text_dark_nodisable"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/textViewName"
@@ -111,7 +109,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Bhavesh Sharma"
+            android:text="N/A"
             android:textColor="@android:color/primary_text_dark_nodisable"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/textViewDate"
@@ -122,7 +120,7 @@
             android:id="@+id/imageView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_clock"
+            android:src="@drawable/ic_age"
             app:layout_constraintStart_toStartOf="@+id/imageView4"
             app:layout_constraintTop_toTopOf="@+id/textViewAge" />
 
@@ -131,7 +129,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Bhavesh Sharma"
+            android:text="N/A"
             android:textColor="@android:color/primary_text_dark_nodisable"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/textViewTime"
@@ -151,7 +149,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Bhavesh Sharma"
+            android:text="N/A"
             android:textColor="@android:color/primary_text_dark_nodisable"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/textViewAge"
@@ -179,21 +177,50 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="@string/book_another_appointment"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/holo_orange_dark"
             android:visibility="gone"
+            android:backgroundTint="@color/mdtp_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewSerialNo" />
 
         <TextView
             android:id="@+id/textViewAppointmentId"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="AppointmentId :\n 1QEFDFRG1wqfafewSAEEWF"
+            android:layout_margin="20dp"
+            android:drawableEnd="@drawable/ic_copy"
+            android:text="@string/copy_appointmentid_to_clipboard"
+            android:textColor="#D2F3F5F2"
             android:textSize="18sp"
-            android:textColor="@android:color/primary_text_dark_nodisable"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Appointment Details"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:gravity="center"
+            android:layout_margin="20dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:gravity="center"
+            android:layout_margin="20dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView13" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

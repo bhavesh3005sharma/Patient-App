@@ -261,7 +261,6 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
         if (monthOfYear.length()==1)
             monthOfYear = "0"+ month;
         String date = dayOfMonth+"-"+monthOfYear+"-"+year;
-        Log.d("Date Set",date);
         textViewSelectDate.setText(date);
 
         setTime(date);
@@ -342,8 +341,8 @@ public class BookAppointmentActivity extends AppCompatActivity implements View.O
             datePickerDialog.setAccentColor(getColor(R.color.colorPrimary));
         }
 
-        datePickerDialog.setOkColor(Color.WHITE);
-        datePickerDialog.setCancelColor(Color.WHITE);
+        datePickerDialog.setOkColor(Color.BLUE);
+        datePickerDialog.setCancelColor(Color.BLUE);
         datePickerDialog.show(getSupportFragmentManager(),"DATE_PICKER");
         HelperClass.hideProgressbar(progressBar);
 
